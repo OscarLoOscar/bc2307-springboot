@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Order {
   private long id;
+  private long customerId;
   private List<Item> items;
 }
