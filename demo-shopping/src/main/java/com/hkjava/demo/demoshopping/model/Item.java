@@ -18,11 +18,14 @@ public class Item extends Good {
     super(price, description);
     this.quantity = quantity;
   }
-  
+
   public static void main(String[] args) {
-    Item item = new Item(30.5, "ABC", 3); // 
+    Item item = new Item(30.5, "ABC", 3); //
     System.out.println(item);
-    Item item2 = new Item(99.9, "XYZ", 11); // 
+    Item item2 = new Item(99.9, "XYZ", 11); //
     System.out.println(item2);
+    // Items(super=Goods(itemId=1, description=ABC, price=30.5), quantity=3)
+    // Items(super=Goods(itemId=2, description=XYZ, price=99.9), quantity=1)
+
   }
 }

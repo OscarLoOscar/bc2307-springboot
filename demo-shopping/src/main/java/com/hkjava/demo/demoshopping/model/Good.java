@@ -13,6 +13,10 @@ public class Good {
   private double price;
   private String description;
   private static int counter = 0;
+  // 奇怪
+  // public Goods() {
+  // this.itemId = ++counter;
+  // }
 
   public Good(double price, String description) {
     this.id = ++counter;

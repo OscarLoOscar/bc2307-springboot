@@ -56,11 +56,11 @@ public class CustomerController implements CustomerOperation {
 
   // not finish , "message": "Required path variable 'customerId' is not present.",
   @Override
-  public Customer update(String customerId, Customer customer) {
+  public Customer update(String customerId, Customer newCustomer) {
     if (!customerId.isBlank()) {
       try {
         long id = Integer.valueOf(customerId);
-        customerService.update(id);
+        return customerService.update(id, newCustomer);
       } catch (NumberFormatException e) {
         return null;
       }
@@ -73,7 +73,7 @@ public class CustomerController implements CustomerOperation {
     if (!id.isBlank()) {
       try {
         long customerId = Integer.valueOf(id);
-        return customerService.patchEmail(customerId, email);//<- missing return keyword 
+        return customerService.patchEmail(customerId, email);// <- missing return keyword
       } catch (NumberFormatException e) {
         return null;
       }

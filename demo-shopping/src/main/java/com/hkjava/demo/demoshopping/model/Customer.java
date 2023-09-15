@@ -15,6 +15,7 @@ public class Customer {
 
   private static int counter = 0;
 
+  // when putmapping , will still show id++
   public Customer(String name, String email, LocalDate dob) {
     this.id = ++counter;
     this.name = name;
@@ -29,7 +30,7 @@ public class Customer {
     this.email = builder.email;
     this.dob = builder.dob;
     this.orders = new ArrayList<>();
-  } 
+  }
 
   public void add(Order order) {
     orders.add(order);
@@ -68,20 +69,20 @@ public class Customer {
       return new Customer(this);
     }
 
-    public static void main(String[] args) {
-      Customer customer = Customer.builder() //
-        .name("John")
-        .email("john@gmail.com")
-        .dob(LocalDate.of(2000, 10, 1))
-        .build();
-      System.out.println(customer);
-      Customer customer2 = Customer.builder() //
-        .name("John")
-        .email("john@gmail.com")
-        .dob(LocalDate.of(2000, 10, 1))
-        .build();
-      System.out.println(customer2);
-    }
+    // public static void main(String[] args) {
+    // Customer customer = Customer.builder() //
+    // .name("John")
+    // .email("john@gmail.com")
+    // .dob(LocalDate.of(2000, 10, 1))
+    // .build();
+    // System.out.println(customer);
+    // Customer customer2 = Customer.builder() //
+    // .name("John")
+    // .email("john@gmail.com")
+    // .dob(LocalDate.of(2000, 10, 1))
+    // .build();
+    // System.out.println(customer2);
+    // }
 
   }
 

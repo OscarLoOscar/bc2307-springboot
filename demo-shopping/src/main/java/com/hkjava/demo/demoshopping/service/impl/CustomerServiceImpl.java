@@ -17,7 +17,7 @@ public class CustomerServiceImpl implements CustomerService {
         .email(email)//
         .dob(dob)//
         .build();
-    CustomerDatabase.add(customer);
+    CustomerDatabase.add(customer);// save in ram , not in mysql , restart service will forget all the data
     return customer;
   }
 
@@ -42,10 +42,9 @@ public class CustomerServiceImpl implements CustomerService {
 
 
   @Override
-  public Customer update(long customerId) {
+  public Customer update(long customerId, Customer newCustomer) {
     Optional<Customer> customerToUpdate = CustomerDatabase.find((customerId));
-
-    return CustomerDatabase.update(customerId, null); // <-"Cannot invoke \"com.hkjava.demo.demoshopping.model.Customer.getDob()\" because \"<parameter1>\" is null",
+    return CustomerDatabase.update(customerId, newCustomer); // <-"Cannot invoke \"com.hkjava.demo.demoshopping.model.Customer.getDob()\" because \"<parameter1>\" is null",
   }
 
   // gpt code

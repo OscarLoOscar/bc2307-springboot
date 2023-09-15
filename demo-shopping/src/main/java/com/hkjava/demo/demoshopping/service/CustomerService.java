@@ -12,7 +12,7 @@ public interface CustomerService {
 
   Optional<Customer> find(long customerId);
 
-  Customer update(long customerId);
+  Customer update(long customerId,Customer newCustomer);
 
   Customer patchEmail(long customerId, String email);
 

@@ -34,9 +34,10 @@ public class CustomerDatabase {
   public static Customer update(long id, Customer newcustomer) {
     if (!find(id).isPresent())
       return null;
-    customers.stream()//
+    CustomerDatabase.customers.stream()//
         .filter(e -> e.getId() == id)//
         .forEach(e -> {
+          e.setId(id);
           e.setDob(newcustomer.getDob());
           e.setEmail(newcustomer.getEmail());
           e.setName(newcustomer.getName());
