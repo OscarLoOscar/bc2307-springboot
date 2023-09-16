@@ -1,6 +1,7 @@
 package com.hkjava.demo.demoshopping.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import com.hkjava.demo.demoshopping.model.Customer;
 
@@ -20,4 +21,5 @@ public interface CustomerService {
 
   void remove(long customerId);
 
+  List<Customer> findAll();
 }

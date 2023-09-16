@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lombok.Data;
 
-@Data
+@Data// 冇final，冇nonNull，唔需要@NoArgsConstructor
 public class Customer {
   private long id;
   private String name;

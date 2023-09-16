@@ -1,6 +1,7 @@
 package com.hkjava.demo.demoshopping.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,6 +15,8 @@ import com.hkjava.demo.demoshopping.model.Customer;
 public interface CustomerOperation {
 
         // "/customer"-> we call it endpoint ，一定唔unique ->可重覆使用
+        @GetMapping(value = "/customers") // noun, No verb
+        List<Customer> findAll();
 
         @PostMapping(value = "/customer") // noun, No verb
         Customer create(@RequestParam(value = "name") String name, //

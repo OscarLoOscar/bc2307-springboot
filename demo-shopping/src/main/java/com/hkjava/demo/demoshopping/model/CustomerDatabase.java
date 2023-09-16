@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class CustomerDatabase {
+public class CustomerDatabase {// 唔會new objectf，一次過比埋 implemtation
   public static List<Customer> customers = new ArrayList<>();
 
   public static void add(Customer customer) {
     customers.add(customer);
+  }
+
+  public static List<Customer> findAll() {
+    return customers;
   }
 
   public static Optional<Customer> find(long id) {
@@ -37,7 +41,7 @@ public class CustomerDatabase {
     CustomerDatabase.customers.stream()//
         .filter(e -> e.getId() == id)//
         .forEach(e -> {
-          e.setId(id);
+          // e.setId(id);
           e.setDob(newcustomer.getDob());
           e.setEmail(newcustomer.getEmail());
           e.setName(newcustomer.getName());

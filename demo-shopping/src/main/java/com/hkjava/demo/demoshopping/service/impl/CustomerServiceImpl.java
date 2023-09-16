@@ -1,6 +1,7 @@
 package com.hkjava.demo.demoshopping.service.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 import com.hkjava.demo.demoshopping.model.Customer;
@@ -21,6 +22,11 @@ public class CustomerServiceImpl implements CustomerService {
     return customer;
   }
 
+  @Override
+  public Customer createCustomer(Customer customer) {
+    CustomerDatabase.add(customer);
+    return customer;
+  }
 
   @Override
   public Optional<Customer> find(long customerId) {
@@ -33,12 +39,6 @@ public class CustomerServiceImpl implements CustomerService {
     CustomerDatabase.remove(customerId);
   }
 
-
-  @Override
-  public Customer createCustomer(Customer customer) {
-    CustomerDatabase.add(customer);
-    return customer;
-  }
 
 
   @Override
@@ -57,6 +57,11 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   public Customer patchName(long customerId, String name) {
     return CustomerDatabase.patchName(customerId, name);
+  }
+
+  @Override
+  public List<Customer> findAll() {
+    return CustomerDatabase.findAll();
   }
 
 }

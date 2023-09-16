@@ -1,6 +1,7 @@
 package com.hkjava.demo.demoshopping.controller.impl;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,11 @@ public class CustomerController implements CustomerOperation {
   @Override
   public Customer create(String name, String email, LocalDate dob) {
     return customerService.create(name, email, dob);
+  }
+
+  @Override
+  public Customer createCustomer(Customer customer) {
+    return customerService.createCustomer(customer);
   }
 
   @Override
@@ -49,10 +55,6 @@ public class CustomerController implements CustomerOperation {
     return null;
   }
 
-  @Override
-  public Customer createCustomer(Customer customer) {
-    return customerService.createCustomer(customer);
-  }
 
   // not finish , "message": "Required path variable 'customerId' is not present.",
   @Override
@@ -92,6 +94,11 @@ public class CustomerController implements CustomerOperation {
       }
     }
     return null;
+  }
+
+  @Override
+  public List<Customer> findAll() {
+    return customerService.findAll();
   }
 
 }
