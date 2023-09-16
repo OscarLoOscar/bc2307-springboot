@@ -31,21 +31,37 @@ public class UserController implements UserOperation {
     try {
       int userId = Integer.parseInt(id);
       User user = userService.findUser(userId);
+      // success case
+      if (user != null) {
+        ApiResponse<User> checked = ApiResponse.<User>builder()//
+            .ok()//
+            .data(user)//
+            .build();
+        return ResponseEntity.ok(checked);
+      } else {
+        // handle no userId
+        ApiResponse<User> idNotFound = ApiResponse.<User>builder()//
+            .error(BusinessException.of(//
+                BizCode.USER_NOT_FOUND.getCode(), //
+                BizCode.USER_NOT_FOUND.getMessage() + id))//
+            .build();
+        return ResponseEntity.badRequest().body(idNotFound);
 
-      ApiResponse<User> response = ApiResponse.<User>builder()//
-          .ok()//
-          .data(user)//
-          .build();
-      return ResponseEntity.ok(response);
+      }
+      // ApiResponse<User> response = ApiResponse.<User>builder()//
+      // .ok()//
+      // .data(user)//
+      // .build();
+      // return ResponseEntity.ok(response);
 
     } catch (NumberFormatException e) {
-      String errorMessage = "Please input a valid number.";
-      ApiResponse<User> output = ApiResponse.<User>builder()//
+      // handle isLetter
+      ApiResponse<User> inValidInput = ApiResponse.<User>builder()//
           .error(BusinessException.of(//
-              BizCode.RESOURCE_NOT_FOUND.getCode(), //
-              errorMessage))//
+              BizCode.INVALID_INPUT.getCode(), //
+              BizCode.INVALID_INPUT.getMessage() + id))//
           .build();
-      return ResponseEntity.badRequest().body(output);
+      return ResponseEntity.badRequest().body(inValidInput);
     }
 
   }
