@@ -4,8 +4,8 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import com.vtxlab.demo.demoresttemplate.infra.ApiResponse;
 import com.vtxlab.demo.demoresttemplate.model.Post;
-import infra.ApiResponse;
 
 public interface PostOperation {
   @GetMapping(value = "/user/{id}/posts")

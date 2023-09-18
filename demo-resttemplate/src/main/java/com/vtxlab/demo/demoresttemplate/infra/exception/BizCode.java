@@ -1,4 +1,4 @@
-package infra.exception;
+package com.vtxlab.demo.demoresttemplate.infra.exception;
 
 import lombok.Getter;
 

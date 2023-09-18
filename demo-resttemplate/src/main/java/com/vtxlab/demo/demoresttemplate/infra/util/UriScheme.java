@@ -1,4 +1,4 @@
-package infra.util;
+package com.vtxlab.demo.demoresttemplate.infra.util;
 
 import lombok.Getter;
 

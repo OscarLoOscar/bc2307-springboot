@@ -10,17 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.vtxlab.demo.demoresttemplate.controller.impl.PostOperation;
+import com.vtxlab.demo.demoresttemplate.infra.ApiResponse;
+import com.vtxlab.demo.demoresttemplate.infra.exception.BizCode;
+import com.vtxlab.demo.demoresttemplate.infra.exception.BusinessException;
 import com.vtxlab.demo.demoresttemplate.model.Post;
 import com.vtxlab.demo.demoresttemplate.model.User;
 import com.vtxlab.demo.demoresttemplate.services.PostService;
-import infra.ApiResponse;
-import infra.exception.BizCode;
-import infra.exception.BusinessException;
+import com.vtxlab.demo.demoresttemplate.services.UserService;
 
 @RestController
 @RequestMapping(value = "/api/v1")
 public class PostController implements PostOperation {
-
 
   @Autowired
   PostService postService;
@@ -28,17 +28,22 @@ public class PostController implements PostOperation {
   @Override
   public ResponseEntity<ApiResponse<List<Post>>> getAllPostByUserId(
       String userId) {
-    try {
-      Optional<Integer> optionUserId = parseUserId(userId);
+    int conventPostId = Integer.parseInt(userId);
+    List<Post> post = postService.getAllPostByUserId(conventPostId);
 
-      if (optionUserId.isPresent()) {
-        int userIdValue = optionUserId.get();
-        List<Post> posts = postService.getAllPostByUserId(userIdValue);
-        ApiResponse<List<Post>> post = ApiResponse.<List<Post>>builder()//
+    try {
+      // Optional<User> optionUserId = parseUserId(userId);
+
+      // int userIdValue = optionUserId.get().getId();
+
+      if (post != null) {
+        // int userIdValue = optionUserId.get();
+      //  List<Post> posts = postService.getAllPostByUserId(conventPostId);
+        ApiResponse<List<Post>> successPost = ApiResponse.<List<Post>>builder()//
             .ok()//
-            .data(posts)//
+            .data(post)//
             .build();
-        return ResponseEntity.ok(post);
+        return ResponseEntity.ok(successPost);
       } else {
         // handle invalid user id
         ApiResponse<List<Post>> idNotFound = ApiResponse.<List<Post>>builder()//
@@ -109,26 +114,27 @@ public class PostController implements PostOperation {
   }
 
 
-  private Optional<Integer> parseUserId(String userId) {
-    try {
-      int userIdValue = Integer.parseInt(userId);
-      return Optional.of(userIdValue);
-    } catch (NumberFormatException e) {
-      // handle invalid user id
-      return Optional.empty();
-    }
-  }
+  // private Optional<User> parseUserId(String userId) {
+  //   try {
+  //     int userIdValue = Integer.parseInt(userId);
+  //     User user = userService.findUser(userIdValue);
+  //     return Optional.of(user);
+  //   } catch (NumberFormatException e) {
+  //     // handle invalid user id
+  //     return Optional.empty();
+  //   }
+  // }
 
-  private Optional<Post> parsePostId(String postId) {
-    try {
-      int postIdValue = Integer.parseInt(postId);
-      Post post = postService.getAPostBypostId(postIdValue);
-      return Optional.of(post);
-    } catch (NumberFormatException e) {
-      // handle invalid post id
-      return Optional.ofNullable(null);
-    }
-  }
+  // private Optional<Post> parsePostId(String postId) {
+  //   try {
+  //     int postIdValue = Integer.parseInt(postId);
+  //     Post post = postService.getAPostBypostId(postIdValue);
+  //     return Optional.of(post);
+  //   } catch (NumberFormatException e) {
+  //     // handle invalid post id
+  //     return Optional.ofNullable(null);
+  //   }
+  // }
 
 
 }

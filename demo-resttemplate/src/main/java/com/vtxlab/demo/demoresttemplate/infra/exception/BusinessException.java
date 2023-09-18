@@ -1,4 +1,4 @@
-package infra.exception;
+package com.vtxlab.demo.demoresttemplate.infra.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,14 +9,19 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@AllArgsConstructor
-@NoArgsConstructor
+// @AllArgsConstructor
+// @NoArgsConstructor
 public class BusinessException extends Exception {
   private int code;
 
   public BusinessException(int code, String message) {
     super(message);
     this.code = code;
+  }
+
+  public BusinessException(BizCode code) {
+    super(code.getMessage());
+    this.code = code.getCode();
   }
 
   public BusinessException(int code, String message, Throwable cause) {

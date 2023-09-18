@@ -11,6 +11,7 @@ import com.vtxlab.demo.demoresttemplate.services.CommentService;
 @RestController
 @RequestMapping(value = "/api/v1")
 public class CommentController implements CommentOperation {
+
   @Autowired
   CommentService commentService;
 

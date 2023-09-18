@@ -1,7 +1,8 @@
-package infra;
+package com.vtxlab.demo.demoresttemplate.infra;
 
-import infra.exception.BizCode;
-import infra.exception.BusinessException;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.vtxlab.demo.demoresttemplate.infra.exception.BizCode;
+import com.vtxlab.demo.demoresttemplate.infra.exception.BusinessException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ApiResponse<T> {
   boolean success;
+
+  //@JsonProperty(value = "status")//將code 改名成status
   int code;
   String message;
   T data;
@@ -47,12 +50,13 @@ public class ApiResponse<T> {
       return this;
     }
 
-    public Builder<T> bizCode(BizCode bCode) {
+    public Builder<T> status(BizCode bCode) {
       this.success = bCode.isSuccess();
       this.code = bCode.getCode();
       this.message = bCode.getMessage();
       return this;
     }
+
 
     private Builder<T> success(boolean success) {
       this.success = success;

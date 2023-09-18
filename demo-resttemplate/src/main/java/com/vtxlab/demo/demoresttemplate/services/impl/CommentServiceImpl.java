@@ -11,3 +11,4 @@ public interface CommentServiceImpl {
   Comment getACommentByCommentId(int commentId);
 
 }
+

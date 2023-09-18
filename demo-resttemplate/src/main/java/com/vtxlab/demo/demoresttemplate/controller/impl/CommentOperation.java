@@ -10,9 +10,9 @@ public interface CommentOperation {
   List<Comment> getAllComment();
 
   @GetMapping(value = "/post/{id}/comments")
-  List<Comment> getAllCommentByPostId(@PathVariable(name = "id") int postId);
+  List<Comment> getAllCommentByPostId(@PathVariable(value =  "id") int postId);
 
   @GetMapping(value = "/comment/{id}")
-  Comment getACommentByCommentId(@PathVariable(name = "id") int commentId);
+  Comment getACommentByCommentId(@PathVariable(value = "id") int commentId);
 
 }

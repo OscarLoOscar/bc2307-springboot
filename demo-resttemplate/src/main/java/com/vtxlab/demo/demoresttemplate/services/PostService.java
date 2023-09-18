@@ -8,10 +8,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.vtxlab.demo.demoresttemplate.infra.util.UriScheme;
 import com.vtxlab.demo.demoresttemplate.model.Post;
-import com.vtxlab.demo.demoresttemplate.model.User;
 import com.vtxlab.demo.demoresttemplate.services.impl.PostServiceImpl;
-import infra.util.UriScheme;
 
 @Service
 public class PostService implements PostServiceImpl {
@@ -40,8 +39,8 @@ public class PostService implements PostServiceImpl {
     return this.getAllPost().stream()//
         .filter(e -> e.getUserId() == userId)//
         .collect(Collectors.toList());//
-        // .findAny()//
-        // .orElse(null);
+    // .findAny()
+    // .orElse(null);
   }
 
   @Override

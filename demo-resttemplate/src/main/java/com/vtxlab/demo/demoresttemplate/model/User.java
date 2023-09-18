@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor // Jackson
 @Builder
 public class User {
   private int id;
@@ -27,6 +27,7 @@ public class User {
     private String catchPhrase;
     private String bs;
   }
+
   @Getter
   @AllArgsConstructor
   @NoArgsConstructor
@@ -41,6 +42,12 @@ public class User {
     @AllArgsConstructor
     @NoArgsConstructor
     public class Geo {
+      // 出入同一個class： List<User>搵唔到對方個value，所以output null，，default 唔會死
+      // Object -> User , Serialize -> cant find name : x
+      // DTO ->拆兩個class
+      // 一個問人拎野，一個pass 野出返去
+      // 唔應該因為JsonPlaceHolder 改名 , Consumer 要跟住改
+      // 所以分離
       private String lat;
       private String lng;
     }
