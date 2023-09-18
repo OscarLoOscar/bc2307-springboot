@@ -81,9 +81,8 @@ public class PostController implements PostOperation {
     int conventPostId = Integer.parseInt(postId);
     Post posts = postService.getAPostBypostId(conventPostId);
     try {
-
-      // if (!Optional.of(posts).isPresent()) {
       if (posts != null) {
+        // if (posts != null) {
         ApiResponse<Post> post = ApiResponse.<Post>builder()//
             .ok()//
             .data(posts)//

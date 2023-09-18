@@ -75,6 +75,8 @@ public class ApiResponse<T> {
     }
 
     public ApiResponse<T> build() {
+      if (this.code == 0 || this.message == null)
+        throw new RuntimeException();
       return new ApiResponse<>(this);
     }
   }
