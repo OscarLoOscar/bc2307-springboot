@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Post {
-  Long userId;
-  Long id;
+  int userId;
+  int id;
   String title;
   String body;
 }
