@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.vtxlab.demo.demoresttemplate.model.User;
 import com.vtxlab.demo.demoresttemplate.services.impl.UserServiceImpl;
+import infra.util.UriScheme;
 
 @Service
 public class UserService implements UserServiceImpl {
@@ -25,14 +26,16 @@ public class UserService implements UserServiceImpl {
   @Override
   public List<User> findAllUsers() {
     String url = UriComponentsBuilder.newInstance()//
-        .scheme("https")//
+        .scheme(UriScheme.HTTPS.name())//
         .host(userDomaine)//
         .path(userEndpoint)//
         .toUriString();
-   // System.out.println("url : " + url);
+    // System.out.println("url : " + url);
     User[] users = restTemplate.getForObject(url, User[].class);
     return Arrays.asList(users);
   }
+
+  // restTemplate 用getter only,唔洗深究
 
   @Override
   public User findUser(int id) {

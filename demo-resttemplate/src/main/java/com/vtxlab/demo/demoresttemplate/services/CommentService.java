@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.vtxlab.demo.demoresttemplate.model.Comment;
 import com.vtxlab.demo.demoresttemplate.services.impl.CommentServiceImpl;
+import infra.util.UriScheme;
 
 @Service
 public class CommentService implements CommentServiceImpl {
@@ -26,7 +27,7 @@ public class CommentService implements CommentServiceImpl {
   @Override
   public List<Comment> getAllComment() {
     String url = UriComponentsBuilder.newInstance()//
-        .scheme("https")//
+        .scheme(UriScheme.HTTPS.name())//
         .host(commentDpomain)//
         .path(commentEndpoint)//
         .toUriString();

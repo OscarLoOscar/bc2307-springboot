@@ -7,12 +7,12 @@ import com.vtxlab.demo.demoresttemplate.model.Post;
 
 public interface PostOperation {
   @GetMapping(value = "/user/{id}/posts")
-  List<Post> getAllPostByUserId(@PathVariable(value = "id") int userId);
+  List<Post> getAllPostByUserId(@PathVariable(value = "id") String userId);
 
   @GetMapping(value = "/posts")
   List<Post> getAllPost();
 
   @GetMapping(value = "/post/{id}")
-  Post getAPostBypostId(@PathVariable(value = "id") int postId);
+  Post getAPostBypostId(@PathVariable(value = "id") String postId);
 
 }

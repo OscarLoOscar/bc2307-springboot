@@ -1,6 +1,5 @@
 package infra.exception;
 
-import org.springframework.web.servlet.FlashMap;
 import lombok.Getter;
 
 @Getter
@@ -11,7 +10,7 @@ public enum BizCode {
   RESOURCE_NOT_FOUND(40002, false, "Resource Not Found"), //
   REST_CLIENT_EXCEPTION(40003, false, "RestTemplate Api Call Fail"), //
   RESOURCE_ACCESS_EXCEPTION(40004, false, "Resource Access Exception"), //
-  INVALID_INPUT(40005, false, "not a invalid number : "), //
+  INVALID_INPUT(40005, false, "Not a invalid number : "), //
   USER_NOT_FOUND(40006, false, "User Not Found : "), //
   DEFAULT(99999, false, "Unknown")//
   ;

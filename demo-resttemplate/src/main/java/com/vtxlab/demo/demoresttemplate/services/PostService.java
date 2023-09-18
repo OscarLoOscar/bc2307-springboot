@@ -11,6 +11,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.vtxlab.demo.demoresttemplate.model.Post;
 import com.vtxlab.demo.demoresttemplate.model.User;
 import com.vtxlab.demo.demoresttemplate.services.impl.PostServiceImpl;
+import infra.util.UriScheme;
 
 @Service
 public class PostService implements PostServiceImpl {
@@ -26,7 +27,7 @@ public class PostService implements PostServiceImpl {
   @Override
   public List<Post> getAllPost() {
     String url = UriComponentsBuilder.newInstance()//
-        .scheme("https")//
+        .scheme(UriScheme.HTTPS.name())//
         .host(postDomain)//
         .path(postEndpoint)//
         .toUriString();
