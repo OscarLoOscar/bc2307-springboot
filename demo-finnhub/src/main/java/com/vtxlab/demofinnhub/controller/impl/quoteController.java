@@ -19,11 +19,11 @@ public class quoteController implements quoteOperation {
   quoteService QuoteService;
 
   @Override
-  public ResponseEntity<ApiResponse<List<quoteReqDto>>> getCompanyPrice(String symbol) {
-    List<quoteReqDto> convent = QuoteService.getCompanyPrice(symbol);
+  public ResponseEntity<ApiResponse<quoteReqDto>> getCompanyPrice(String symbol) {
+    quoteReqDto convent = QuoteService.getCompanyPrice(symbol);
 
-    ApiResponse<List<quoteReqDto>> response =
-        ApiResponse.<List<quoteReqDto>>builder()//
+    ApiResponse<quoteReqDto> response =
+        ApiResponse.<quoteReqDto>builder()//
             .ok()//
             .data(convent)//
             .build();

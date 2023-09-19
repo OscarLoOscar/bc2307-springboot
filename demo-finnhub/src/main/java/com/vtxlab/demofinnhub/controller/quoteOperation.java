@@ -10,7 +10,7 @@ import com.vtxlab.demofinnhub.model.quoteReqDto;
 
 public interface quoteOperation {
   @GetMapping(value = "/price")
-  ResponseEntity<ApiResponse<List<quoteReqDto>>> getCompanyPrice(
+  ResponseEntity<ApiResponse<quoteReqDto>> getCompanyPrice(
       @RequestParam(value = "symbol") String symbol);
 
 }

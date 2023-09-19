@@ -5,6 +5,6 @@ import com.vtxlab.demofinnhub.model.CompanyRequestDto;
 import com.vtxlab.demofinnhub.model.quoteReqDto;
 
 public interface quoteServiceImpl {
-    List<quoteReqDto> getCompanyPrice(String symbol);
+    quoteReqDto getCompanyPrice(String symbol);
 
 }

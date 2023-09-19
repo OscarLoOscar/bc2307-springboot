@@ -10,7 +10,7 @@ import com.vtxlab.demofinnhub.model.CompanyRequestDto;
 
 public interface companyOperation {
   @GetMapping(value = "/company")
-  ResponseEntity<ApiResponse<List<CompanyRequestDto>>> getCompanyData(
+  ResponseEntity<ApiResponse<CompanyRequestDto>> getCompanyData(
       @RequestParam(name = "symbol") String symbol);
 
 

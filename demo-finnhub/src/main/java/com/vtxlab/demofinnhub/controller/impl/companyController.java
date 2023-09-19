@@ -40,13 +40,13 @@ public class companyController implements companyOperation {
   // }
 
   @Override
-  public ResponseEntity<ApiResponse<List<CompanyRequestDto>>> getCompanyData(
+  public ResponseEntity<ApiResponse<CompanyRequestDto>> getCompanyData(
       String symbol) {
 
-    List<CompanyRequestDto> convent = companyService.getCompanyData(symbol);
+    CompanyRequestDto convent = companyService.getCompanyData(symbol);
 
-    ApiResponse<List<CompanyRequestDto>> response =
-        ApiResponse.<List<CompanyRequestDto>>builder()//
+    ApiResponse<CompanyRequestDto> response =
+        ApiResponse.<CompanyRequestDto>builder()//
             .ok()//
             .data(convent)//
             .build();

@@ -38,40 +38,47 @@ public class finnhubUriBuilderConfig {
     // queryParams.add("symbol", symbol);
     queryParams.add("token", token);
     // checking
-    String url = UriComponentsBuilder.newInstance()//
-        .scheme(UriScheme.HTTPS.name())//
-        .host(domain)//
-        .path(endpoint) //
-        .path(profilePathSegment) //
-        .path(profilePathSegment2) //
-        // .queryParam("symbol", symbol) //
-        // .queryParam("token", token) //
-        .queryParams(queryParams)//
-        .toUriString();
-    System.out.println("url : " + url);
+    // String url = UriComponentsBuilder.newInstance()//
+    // .scheme(UriScheme.HTTPS.name())//
+    // .host(domain)//
+    // .path(endpoint) //
+    // .path(profilePathSegment) //
+    // .path(profilePathSegment2) //
+    // // .queryParam("symbol", symbol) //
+    // // .queryParam("token", token) //
+    // .queryParams(queryParams)//
+    // .build()
+    // .toUriString();
+    // System.out.println("Config url : " + url);
     // HTTPS://finnhub.io/api/v1/stock/profile2?symbol=AAPL&token=cju3it9r01qr958213c0cju3it9r01qr958213cg
 
     // check 2
     UriComponentsBuilder test = ApiUtil.uriBuilder(UriScheme.HTTPS, domain,
         endpoint, queryParams, profilePathSegment, profilePathSegment2);
     // https://finnhub.io/%2Fstock/%2Fprofile2/AAPL/cju3it9r01qr958213c0cju3it9r01qr958213cg/api/v1
-    System.out.println("test profile: " + test.toUriString());
-    return ApiUtil.uriBuilder(UriScheme.HTTPS, domain, endpoint, queryParams,
-        profilePathSegment, profilePathSegment2);
+    return UriComponentsBuilder.newInstance()//
+        .scheme(UriScheme.HTTPS.name())//
+        .host(domain)//
+        .path(endpoint)//
+        .pathSegment(profilePathSegment) // add slashes automatically
+        .pathSegment(profilePathSegment2).queryParams(queryParams);
   }
 
   @Bean
   UriComponentsBuilder quoteUriConfig(String symbol) {
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-  //  queryParams.add("symbol", symbol);
+    // queryParams.add("symbol", symbol);
     queryParams.add("token", token);
-    UriComponentsBuilder test = ApiUtil.uriBuilder(UriScheme.HTTPS, domain,
-        endpoint, queryParams, quotePathSegment);
-    System.out.println("test quote : " + test.toUriString());
+    // UriComponentsBuilder test = ApiUtil.uriBuilder(UriScheme.HTTPS, domain,
+    // endpoint, queryParams, quotePathSegment);
 
-    return ApiUtil.uriBuilder(UriScheme.HTTPS, domain, endpoint, queryParams,
-        quotePathSegment);
-
+    return UriComponentsBuilder.newInstance()//
+        .scheme(UriScheme.HTTPS.name())//
+        .host(domain)//
+        .path(endpoint)//
+        .pathSegment(quotePathSegment)//
+        .queryParams(queryParams)//
+    ;
   }
 
 }

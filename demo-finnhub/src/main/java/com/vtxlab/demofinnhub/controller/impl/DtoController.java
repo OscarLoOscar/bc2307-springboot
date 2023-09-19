@@ -26,12 +26,11 @@ public class DtoController implements DtoOperation {
 
   @Override
   public ResponseEntity<ApiResponse<totalRespSto>> getStock(String symbol) {
-    CompanyRequestDto conventCompany =
-        CompanyService.getCompanyData(symbol).get(0);
+    CompanyRequestDto conventCompany = CompanyService.getCompanyData(symbol);
 
-    quoteReqDto conventQuote = QuoteService.getCompanyPrice(symbol).get(0);
+    quoteReqDto conventQuote = QuoteService.getCompanyPrice(symbol);
     totalRespSto output = Mapper.map(conventCompany, conventQuote);
-
+   // System.out.println("DTO : " + output);
     ApiResponse<totalRespSto> response = ApiResponse.<totalRespSto>builder()//
         .ok()//
         .data(output)//

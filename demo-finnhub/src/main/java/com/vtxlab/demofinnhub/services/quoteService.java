@@ -22,18 +22,18 @@ public class quoteService implements quoteServiceImpl {
   UriComponentsBuilder quoteUriConfig;
 
   private quoteReqDto getPrice(String symbol) {
-    UriComponentsBuilder builder = quoteUriConfig;
-    builder.queryParam("symbol", symbol);
-    log.info("quote uri : "+ builder.toUriString());
-    return restTemplate.getForObject(builder.toUriString(),
+    // UriComponentsBuilder builder = quoteUriConfig;
+    // quoteUriConfig.queryParam( symbol);
+    log.info("service quote uri : "
+        + quoteUriConfig.queryParam("symbol", symbol).toUriString());
+    return restTemplate.getForObject(quoteUriConfig.toUriString(),
         quoteReqDto.class);// dont use array [] , ,since the json is open at {}
   }
 
 
   @Override
-  public List<quoteReqDto> getCompanyPrice(String symbol) {
-
+  public quoteReqDto getCompanyPrice(String symbol) {
     quoteReqDto QuoteReqDto = getPrice(symbol);//
-    return Arrays.asList(QuoteReqDto);
+    return QuoteReqDto;
   }
 }

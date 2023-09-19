@@ -7,6 +7,6 @@ import com.vtxlab.demofinnhub.infra.exception.BusinessException;
 import com.vtxlab.demofinnhub.model.CompanyRequestDto;
 
 public interface companyServiceImpl {
-  List<CompanyRequestDto> getCompanyData(String symbol);
+  CompanyRequestDto getCompanyData(String symbol);
 
 }
