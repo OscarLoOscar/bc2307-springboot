@@ -27,7 +27,6 @@ public class companyMapper {
         return CompanyRespDto.builder()//
         .country(companyProfileRequestDto.getCountry())
         .currency(companyProfileRequestDto.getCurrency())//
-        .estimateCurrency(companyProfileRequestDto.getEstimateCurrency())//
         .exchange(companyProfileRequestDto.getExchange())//
         .finnhubIndustry(companyProfileRequestDto.getFinnhubIndustry())//
         .marketCapitalization(companyProfileRequestDto.getMarketCapitalization())//

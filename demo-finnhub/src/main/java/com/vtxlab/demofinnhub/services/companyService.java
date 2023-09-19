@@ -29,12 +29,12 @@ public class companyService implements companyServiceImpl {
 
 
   @Autowired
-  @Qualifier("finnhubUriConfig") // public class finnhubUriBuilderConfig
-  UriComponentsBuilder finnhubUriConfig;
+  @Qualifier("profileUriConfig") // public class finnhubUriBuilderConfig
+  UriComponentsBuilder profileUriConfig;
 
 
   private CompanyRequestDto getCompany() {
-    return restTemplate.getForObject(finnhubUriConfig.toUriString(),
+    return restTemplate.getForObject(profileUriConfig.toUriString(),
         CompanyRequestDto.class);//dont use array [] , ,since the json is open at {} 
   }
 
