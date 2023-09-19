@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.vtxlab.demofinnhub.controller.quoteOperation;
 import com.vtxlab.demofinnhub.infra.ApiResponse;
-import com.vtxlab.demofinnhub.model.CompanyRequestDto;
+import com.vtxlab.demofinnhub.model.CompanyReqDto;
 import com.vtxlab.demofinnhub.model.quoteReqDto;
 import com.vtxlab.demofinnhub.services.quoteService;
 

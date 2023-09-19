@@ -6,7 +6,7 @@ import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
-public class CompanyRequestDto {
+public class CompanyReqDto {
   private String country;
   private String currency;
   private String exchange;

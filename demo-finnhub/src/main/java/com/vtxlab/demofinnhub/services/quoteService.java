@@ -21,19 +21,19 @@ public class quoteService implements quoteServiceImpl {
   @Qualifier("quoteUriConfig") // public class finnhubUriBuilderConfig
   UriComponentsBuilder quoteUriConfig;
 
+  // 就算@bean左，每get一次queryParam都自動疊加，要用.cloneBuilder() copy 條link先再.queryParam()
   private quoteReqDto getPrice(String symbol) {
-    // UriComponentsBuilder builder = quoteUriConfig;
-    // quoteUriConfig.queryParam( symbol);
-    log.info("service quote uri : "
-        + quoteUriConfig.queryParam("symbol", symbol).toUriString());
-    return restTemplate.getForObject(quoteUriConfig.toUriString(),
-        quoteReqDto.class);// dont use array [] , ,since the json is open at {}
+    // quoteUriConfig.cloneBuilder().queryParam("symbol", symbol)
+    log.info("quote service quote uri : " + quoteUriConfig.cloneBuilder()
+        .queryParam("symbol", symbol).toUriString());
+    return restTemplate.getForObject(quoteUriConfig.cloneBuilder()
+        .queryParam("symbol", symbol).toUriString(), quoteReqDto.class);// dont use array [] , ,since the json is open at {}
   }
 
 
   @Override
   public quoteReqDto getCompanyPrice(String symbol) {
-    quoteReqDto QuoteReqDto = getPrice(symbol);//
-    return QuoteReqDto;
+
+    return getPrice(symbol);
   }
 }

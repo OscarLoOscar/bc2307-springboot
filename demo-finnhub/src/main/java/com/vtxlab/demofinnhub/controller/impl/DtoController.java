@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vtxlab.demofinnhub.controller.DtoOperation;
 import com.vtxlab.demofinnhub.infra.ApiResponse;
 import com.vtxlab.demofinnhub.mapper.Mapper;
-import com.vtxlab.demofinnhub.model.CompanyRequestDto;
+import com.vtxlab.demofinnhub.model.CompanyReqDto;
 import com.vtxlab.demofinnhub.model.quoteReqDto;
 import com.vtxlab.demofinnhub.model.Resp.totalRespSto;
 import com.vtxlab.demofinnhub.services.companyService;
@@ -26,9 +26,9 @@ public class DtoController implements DtoOperation {
 
   @Override
   public ResponseEntity<ApiResponse<totalRespSto>> getStock(String symbol) {
-    CompanyRequestDto conventCompany = CompanyService.getCompanyData(symbol);
-
+    CompanyReqDto conventCompany = CompanyService.getCompanyData(symbol);
     quoteReqDto conventQuote = QuoteService.getCompanyPrice(symbol);
+    
     totalRespSto output = Mapper.map(conventCompany, conventQuote);
    // System.out.println("DTO : " + output);
     ApiResponse<totalRespSto> response = ApiResponse.<totalRespSto>builder()//
