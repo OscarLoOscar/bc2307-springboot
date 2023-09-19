@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.vtxlab.demofinnhub.controller.CompanyOperation;
 import com.vtxlab.demofinnhub.infra.ApiResponse;
+import com.vtxlab.demofinnhub.infra.exception.BizCode;
+import com.vtxlab.demofinnhub.infra.exception.BusinessException;
 import com.vtxlab.demofinnhub.infra.exception.FinnhubException;
+import com.vtxlab.demofinnhub.infra.exception.invalidInputException;
 import com.vtxlab.demofinnhub.model.CompanyReqDto;
 import com.vtxlab.demofinnhub.services.CompanyService;
 
@@ -35,9 +38,11 @@ public class CompanyController implements CompanyOperation {
 
   @Override
   public ResponseEntity<ApiResponse<CompanyReqDto>> getCompanyData(
-      String symbol) throws FinnhubException {
-    // if (symbol.isBlank())
-    //   throw new IllegalArgumentException("Symbol cannot blank");
+      String symbol) throws FinnhubException, invalidInputException, invalidInputException {
+    if (symbol.isBlank())
+      throw new IllegalArgumentException("Symbol cannot blank");
+    else if (symbol.chars().allMatch(Character::isDigit))
+      throw new invalidInputException(BizCode.INVALID_INPUT);
 
     CompanyReqDto convent = companyService.getCompanyData(symbol);
 

@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.vtxlab.demofinnhub.controller.DtoOperation;
 import com.vtxlab.demofinnhub.infra.ApiResponse;
+import com.vtxlab.demofinnhub.infra.exception.BizCode;
+import com.vtxlab.demofinnhub.infra.exception.BusinessException;
 import com.vtxlab.demofinnhub.infra.exception.FinnhubException;
+import com.vtxlab.demofinnhub.infra.exception.invalidInputException;
 import com.vtxlab.demofinnhub.mapper.Mapper;
 import com.vtxlab.demofinnhub.model.CompanyReqDto;
 import com.vtxlab.demofinnhub.model.QuoteReqDto;
@@ -27,9 +30,11 @@ public class DtoController implements DtoOperation {
 
   @Override
   public ResponseEntity<ApiResponse<totalRespSto>> getStock(String symbol)
-      throws FinnhubException {
+      throws FinnhubException, invalidInputException, invalidInputException {
     if (symbol.isBlank())
       throw new IllegalArgumentException("Symbol cannot blank");
+    else if (symbol.chars().allMatch(Character::isDigit))
+      throw new invalidInputException(BizCode.INVALID_INPUT);
     CompanyReqDto conventCompany = CompanyService.getCompanyData(symbol);
     QuoteReqDto conventQuote = quoteService.getCompanyPrice(symbol);
 

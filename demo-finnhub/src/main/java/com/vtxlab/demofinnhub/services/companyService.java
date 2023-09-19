@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.vtxlab.demofinnhub.infra.exception.FinnhubException;
+import com.vtxlab.demofinnhub.infra.exception.invalidInputException;
 import com.vtxlab.demofinnhub.model.CompanyReqDto;
 import com.vtxlab.demofinnhub.services.impl.CompanyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class CompanyService implements CompanyServiceImpl {
   UriComponentsBuilder profileUriConfig;
 
 
-  private CompanyReqDto getCompany(String symbol) throws FinnhubException{
+  private CompanyReqDto getCompany(String symbol) throws FinnhubException, invalidInputException{
     log.info("company service uri String : " + profileUriConfig.cloneBuilder()
         .queryParam("symbol", symbol).toUriString());
     return restTemplate.getForObject(profileUriConfig.cloneBuilder()
@@ -32,7 +33,7 @@ public class CompanyService implements CompanyServiceImpl {
   }
 
   @Override
-  public CompanyReqDto getCompanyData(String symbol) throws FinnhubException{
+  public CompanyReqDto getCompanyData(String symbol) throws FinnhubException, invalidInputException{
     return getCompany(symbol);
   }
 
