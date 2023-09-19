@@ -34,8 +34,10 @@ public class companyService implements companyServiceImpl {
 
 
   private CompanyRequestDto getCompany(String symbol) {
-    log.info("uri String : " + profileUriConfig.toUriString());
-    return restTemplate.getForObject(profileUriConfig.toUriString(),
+    UriComponentsBuilder builder = profileUriConfig; // Get the base builder
+    builder.queryParam("symbol", symbol);
+    log.info("uri String : " + builder.toUriString());
+    return restTemplate.getForObject(builder.toUriString(),
         CompanyRequestDto.class);// dont use array [] , ,since the json is open at {}
   }
 

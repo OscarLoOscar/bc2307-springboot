@@ -20,7 +20,7 @@ public class quoteController implements quoteOperation {
 
   @Override
   public ResponseEntity<ApiResponse<List<quoteReqDto>>> getCompanyPrice(String symbol) {
-    List<quoteReqDto> convent = QuoteService.getCompanyPrice(String symbol);
+    List<quoteReqDto> convent = QuoteService.getCompanyPrice(symbol);
 
     ApiResponse<List<quoteReqDto>> response =
         ApiResponse.<List<quoteReqDto>>builder()//

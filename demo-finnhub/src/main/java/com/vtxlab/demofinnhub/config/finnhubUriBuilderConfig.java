@@ -33,9 +33,9 @@ public class finnhubUriBuilderConfig {
   private String token;
 
   @Bean
-  UriComponentsBuilder profileUriConfig(String symbol) {
+  UriComponentsBuilder profileUriConfig() {
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-    queryParams.add("symbol", symbol);
+    // queryParams.add("symbol", symbol);
     queryParams.add("token", token);
     // checking
     String url = UriComponentsBuilder.newInstance()//
@@ -44,8 +44,9 @@ public class finnhubUriBuilderConfig {
         .path(endpoint) //
         .path(profilePathSegment) //
         .path(profilePathSegment2) //
-        .queryParam("symbol", symbol) //
-        .queryParam("token", token) //
+        // .queryParam("symbol", symbol) //
+        // .queryParam("token", token) //
+        .queryParams(queryParams)//
         .toUriString();
     System.out.println("url : " + url);
     // HTTPS://finnhub.io/api/v1/stock/profile2?symbol=AAPL&token=cju3it9r01qr958213c0cju3it9r01qr958213cg
