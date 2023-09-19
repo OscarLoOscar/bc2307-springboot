@@ -1,13 +1,13 @@
 package com.vtxlab.demofinnhub.mapper;
 
 import com.vtxlab.demofinnhub.model.CompanyReqDto;
-import com.vtxlab.demofinnhub.model.quoteReqDto;
+import com.vtxlab.demofinnhub.model.QuoteReqDto;
 import com.vtxlab.demofinnhub.model.Resp.totalRespSto;
 import com.vtxlab.demofinnhub.model.Resp.totalRespSto.CompanyProfile;
 
 public class Mapper {
   public static totalRespSto map(CompanyReqDto CompanyReqDto,
-      quoteReqDto quote) {
+      QuoteReqDto quote) {
     return totalRespSto.builder()//
         .companyProfile(//
             totalRespSto.CompanyProfile.builder()//

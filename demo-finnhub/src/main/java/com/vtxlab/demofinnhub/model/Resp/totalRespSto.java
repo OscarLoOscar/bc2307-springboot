@@ -3,7 +3,7 @@ package com.vtxlab.demofinnhub.model.Resp;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vtxlab.demofinnhub.model.CompanyReqDto;
-import com.vtxlab.demofinnhub.model.quoteReqDto;
+import com.vtxlab.demofinnhub.model.QuoteReqDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

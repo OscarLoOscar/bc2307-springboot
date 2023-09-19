@@ -5,25 +5,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.vtxlab.demofinnhub.controller.quoteOperation;
+import com.vtxlab.demofinnhub.controller.QuoteOperation;
 import com.vtxlab.demofinnhub.infra.ApiResponse;
+import com.vtxlab.demofinnhub.infra.exception.FinnhubException;
 import com.vtxlab.demofinnhub.model.CompanyReqDto;
-import com.vtxlab.demofinnhub.model.quoteReqDto;
-import com.vtxlab.demofinnhub.services.quoteService;
+import com.vtxlab.demofinnhub.model.QuoteReqDto;
+import com.vtxlab.demofinnhub.services.QuoteService;
 
 @RestController
 @RequestMapping(value = "/api/v1")
-public class quoteController implements quoteOperation {
+public class QuoteController implements QuoteOperation {
 
   @Autowired
-  quoteService QuoteService;
+  QuoteService QuoteService;
 
   @Override
-  public ResponseEntity<ApiResponse<quoteReqDto>> getCompanyPrice(String symbol) {
-    quoteReqDto convent = QuoteService.getCompanyPrice(symbol);
+  public ResponseEntity<ApiResponse<QuoteReqDto>> getCompanyPrice(String symbol) throws FinnhubException{
+    QuoteReqDto convent = QuoteService.getCompanyPrice(symbol);
 
-    ApiResponse<quoteReqDto> response =
-        ApiResponse.<quoteReqDto>builder()//
+    ApiResponse<QuoteReqDto> response =
+        ApiResponse.<QuoteReqDto>builder()//
             .ok()//
             .data(convent)//
             .build();

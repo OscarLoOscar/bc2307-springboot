@@ -1,10 +1,12 @@
 package com.vtxlab.demofinnhub.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class CompanyReqDto {
   private String country;

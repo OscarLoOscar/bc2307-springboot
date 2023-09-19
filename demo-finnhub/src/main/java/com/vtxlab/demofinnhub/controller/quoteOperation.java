@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.vtxlab.demofinnhub.infra.ApiResponse;
-import com.vtxlab.demofinnhub.model.quoteReqDto;
+import com.vtxlab.demofinnhub.infra.exception.FinnhubException;
+import com.vtxlab.demofinnhub.model.QuoteReqDto;
 
-public interface quoteOperation {
+public interface QuoteOperation {
   @GetMapping(value = "/price")
-  ResponseEntity<ApiResponse<quoteReqDto>> getCompanyPrice(
-      @RequestParam(value = "symbol") String symbol);
+  ResponseEntity<ApiResponse<QuoteReqDto>> getCompanyPrice(
+      @RequestParam(value = "symbol") String symbol) throws FinnhubException;
 
 }

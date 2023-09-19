@@ -7,30 +7,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.vtxlab.demofinnhub.controller.DtoOperation;
 import com.vtxlab.demofinnhub.infra.ApiResponse;
+import com.vtxlab.demofinnhub.infra.exception.FinnhubException;
 import com.vtxlab.demofinnhub.mapper.Mapper;
 import com.vtxlab.demofinnhub.model.CompanyReqDto;
-import com.vtxlab.demofinnhub.model.quoteReqDto;
+import com.vtxlab.demofinnhub.model.QuoteReqDto;
 import com.vtxlab.demofinnhub.model.Resp.totalRespSto;
-import com.vtxlab.demofinnhub.services.companyService;
-import com.vtxlab.demofinnhub.services.quoteService;
+import com.vtxlab.demofinnhub.services.CompanyService;
+import com.vtxlab.demofinnhub.services.QuoteService;
 
 @RestController
 @RequestMapping(value = "/api/v1")
 public class DtoController implements DtoOperation {
 
   @Autowired
-  companyService CompanyService;
+  CompanyService CompanyService;
 
   @Autowired
-  quoteService QuoteService;
+  QuoteService quoteService;
 
   @Override
-  public ResponseEntity<ApiResponse<totalRespSto>> getStock(String symbol) {
+  public ResponseEntity<ApiResponse<totalRespSto>> getStock(String symbol)
+      throws FinnhubException {
     CompanyReqDto conventCompany = CompanyService.getCompanyData(symbol);
-    quoteReqDto conventQuote = QuoteService.getCompanyPrice(symbol);
-    
+    QuoteReqDto conventQuote = quoteService.getCompanyPrice(symbol);
+
     totalRespSto output = Mapper.map(conventCompany, conventQuote);
-   // System.out.println("DTO : " + output);
+    // System.out.println("DTO : " + output);
     ApiResponse<totalRespSto> response = ApiResponse.<totalRespSto>builder()//
         .ok()//
         .data(output)//

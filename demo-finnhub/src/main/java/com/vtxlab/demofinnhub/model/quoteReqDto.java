@@ -1,11 +1,13 @@
 package com.vtxlab.demofinnhub.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
-public class quoteReqDto {
+public class QuoteReqDto {
   public double c;
   public double d;
   public double dp;

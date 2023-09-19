@@ -8,7 +8,7 @@ import com.vtxlab.demofinnhub.infra.ApiResponse;
 @RestControllerAdvice // @ResponseBody + @ ControllerAdvice
 public class GlobalExceptionHandle {
 
-  @ExceptionHandler(value = JPHException.class) // 全局攔截，早過Controller get 野，有error先check，exception 存在優先check
+  @ExceptionHandler(value = FinnhubException.class) // 全局攔截，早過Controller get 野，有error先check，exception 存在優先check
   public ResponseEntity<ApiResponse<Void>> getUserExceptionHanlder() {
 
     ApiResponse<Void> response = ApiResponse.<Void>builder()//

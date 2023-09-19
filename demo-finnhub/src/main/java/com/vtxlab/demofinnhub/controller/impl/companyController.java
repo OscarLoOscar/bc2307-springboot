@@ -4,16 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.vtxlab.demofinnhub.controller.companyOperation;
+import com.vtxlab.demofinnhub.controller.CompanyOperation;
 import com.vtxlab.demofinnhub.infra.ApiResponse;
+import com.vtxlab.demofinnhub.infra.exception.FinnhubException;
 import com.vtxlab.demofinnhub.model.CompanyReqDto;
-import com.vtxlab.demofinnhub.services.companyService;
+import com.vtxlab.demofinnhub.services.CompanyService;
 
 @RestController
 @RequestMapping(value = "/api/v1")
-public class companyController implements companyOperation {
+public class CompanyController implements CompanyOperation {
   @Autowired
-  companyService companyService;
+  CompanyService companyService;
 
   // @Override
   // public ResponseEntity<ApiResponse<List<CompanyRespDto>>> getCompanyData2() {
@@ -34,7 +35,7 @@ public class companyController implements companyOperation {
 
   @Override
   public ResponseEntity<ApiResponse<CompanyReqDto>> getCompanyData(
-      String symbol) {
+      String symbol) throws FinnhubException{
 
     CompanyReqDto convent = companyService.getCompanyData(symbol);
 
