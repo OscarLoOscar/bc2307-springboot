@@ -1,18 +1,13 @@
 package com.vtxlab.demofinnhub.config;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.vtxlab.demofinnhub.infra.ApiResponse;
 import com.vtxlab.demofinnhub.infra.util.ApiUtil;
 import com.vtxlab.demofinnhub.infra.util.UriScheme;
-import com.vtxlab.demofinnhub.model.CompanyRequestDto;
 
 @Configuration
 public class finnhubUriBuilderConfig {
@@ -31,14 +26,14 @@ public class finnhubUriBuilderConfig {
   @Value(value = "${api.finnhub.profile.pathSegment2}")
   private String profilePathSegment2;
 
-  @Value(value = "${api.finnhub.symbol}")
-  private String symbol;
+  // @Value(value = "${api.finnhub.symbol}")
+  // private String symbol;
 
   @Value(value = "${api.finnhub.token}")
   private String token;
 
   @Bean
-  UriComponentsBuilder profileUriConfig() {
+  UriComponentsBuilder profileUriConfig(String symbol) {
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     queryParams.add("symbol", symbol);
     queryParams.add("token", token);
@@ -65,7 +60,7 @@ public class finnhubUriBuilderConfig {
   }
 
   @Bean
-  UriComponentsBuilder quoteUriConfig() {
+  UriComponentsBuilder quoteUriConfig(String symbol) {
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
     queryParams.add("symbol", symbol);
     queryParams.add("token", token);

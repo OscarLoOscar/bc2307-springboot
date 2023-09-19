@@ -12,6 +12,10 @@ public class AppConfig {
   @Bean
   RestTemplate restTemplate() {
     return new RestTemplate(); // lots if state
-    
+  }
+
+  @Bean
+  String String() {
+    return new String();
   }
 }

@@ -33,14 +33,15 @@ public class companyService implements companyServiceImpl {
   UriComponentsBuilder profileUriConfig;
 
 
-  private CompanyRequestDto getCompany() {
+  private CompanyRequestDto getCompany(String symbol) {
+    log.info("uri String : " + profileUriConfig.toUriString());
     return restTemplate.getForObject(profileUriConfig.toUriString(),
-        CompanyRequestDto.class);//dont use array [] , ,since the json is open at {} 
+        CompanyRequestDto.class);// dont use array [] , ,since the json is open at {}
   }
 
   @Override
-  public List<CompanyRequestDto> getCompanyData()   {
-    CompanyRequestDto companyRequestDtos = getCompany();
+  public List<CompanyRequestDto> getCompanyData(String symbol) {
+    CompanyRequestDto companyRequestDtos = getCompany(symbol);
     return Arrays.asList(companyRequestDtos);
   }
 
