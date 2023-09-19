@@ -2,13 +2,13 @@ server:
   port: 8085
 
 api:
-  finnhub:
+  finnhub:  
+    domain: 'finnhub.io'
+    endpoint: "/api/v1"
     profile:
-      domain: 'finnhub.io'
-      endpoint: "/api/v1"
       pathSegment: "stock"
       pathSegment2: "profile2"
     quote:
-      endpoint: "quote"    
+      pathSegment: "quote"    
     symbol: "AAPL"
     token:  "cju3it9r01qr958213c0cju3it9r01qr958213cg"

@@ -16,14 +16,14 @@ import com.vtxlab.demofinnhub.model.CompanyRequestDto;
 
 @Configuration
 public class finnhubUriBuilderConfig {
-  @Value(value = "${api.finnhub.profile.domain}")
-  private String profileDomain;
+  @Value(value = "${api.finnhub.domain}")
+  private String domain;
 
-  @Value(value = "${api.finnhub.profile.endpoint}")
-  private String profileEndpoint;
+  @Value(value = "${api.finnhub.endpoint}")
+  private String endpoint;
 
-  @Value(value = "${api.finnhub.quote.endpoint}")
-  private String quoteEndpoint;
+  @Value(value = "${api.finnhub.quote.pathSegment}")
+  private String quotePathSegment;
 
   @Value(value = "${api.finnhub.profile.pathSegment}")
   private String profilePathSegment;
@@ -45,8 +45,8 @@ public class finnhubUriBuilderConfig {
     // checking
     String url = UriComponentsBuilder.newInstance()//
         .scheme(UriScheme.HTTPS.name())//
-        .host(profileDomain)//
-        .path(profileEndpoint) //
+        .host(domain)//
+        .path(endpoint) //
         .path(profilePathSegment) //
         .path(profilePathSegment2) //
         .queryParam("symbol", symbol) //
@@ -56,12 +56,26 @@ public class finnhubUriBuilderConfig {
     // HTTPS://finnhub.io/api/v1/stock/profile2?symbol=AAPL&token=cju3it9r01qr958213c0cju3it9r01qr958213cg
 
     // check 2
-    UriComponentsBuilder test = ApiUtil.uriBuilder(UriScheme.HTTPS, profileDomain,
-        profileEndpoint, queryParams, profilePathSegment, profilePathSegment2);
+    UriComponentsBuilder test = ApiUtil.uriBuilder(UriScheme.HTTPS, domain,
+        endpoint, queryParams, profilePathSegment, profilePathSegment2);
     // https://finnhub.io/%2Fstock/%2Fprofile2/AAPL/cju3it9r01qr958213c0cju3it9r01qr958213cg/api/v1
-    System.out.println("test : " + test.toUriString());
-    return ApiUtil.uriBuilder(UriScheme.HTTPS, profileDomain, profileEndpoint, queryParams,
+    System.out.println("test profile: " + test.toUriString());
+    return ApiUtil.uriBuilder(UriScheme.HTTPS, domain, endpoint, queryParams,
         profilePathSegment, profilePathSegment2);
+  }
+
+  @Bean
+  UriComponentsBuilder quoteUriConfig() {
+    MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+    queryParams.add("symbol", symbol);
+    queryParams.add("token", token);
+    UriComponentsBuilder test = ApiUtil.uriBuilder(UriScheme.HTTPS, domain,
+        endpoint, queryParams, quotePathSegment);
+    System.out.println("test quote : " + test.toUriString());
+
+    return ApiUtil.uriBuilder(UriScheme.HTTPS, domain, endpoint, queryParams,
+        quotePathSegment);
+
   }
 
 }
