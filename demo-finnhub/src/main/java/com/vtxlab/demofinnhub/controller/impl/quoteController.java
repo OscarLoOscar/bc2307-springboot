@@ -21,6 +21,7 @@ public class QuoteController implements QuoteOperation {
 
   @Override
   public ResponseEntity<ApiResponse<QuoteReqDto>> getCompanyPrice(String symbol) throws FinnhubException{
+
     QuoteReqDto convent = QuoteService.getCompanyPrice(symbol);
 
     ApiResponse<QuoteReqDto> response =

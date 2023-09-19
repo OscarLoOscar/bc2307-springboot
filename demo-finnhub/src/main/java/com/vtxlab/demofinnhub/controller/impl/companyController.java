@@ -35,15 +35,16 @@ public class CompanyController implements CompanyOperation {
 
   @Override
   public ResponseEntity<ApiResponse<CompanyReqDto>> getCompanyData(
-      String symbol) throws FinnhubException{
+      String symbol) throws FinnhubException {
+    // if (symbol.isBlank())
+    //   throw new IllegalArgumentException("Symbol cannot blank");
 
     CompanyReqDto convent = companyService.getCompanyData(symbol);
 
-    ApiResponse<CompanyReqDto> response =
-        ApiResponse.<CompanyReqDto>builder()//
-            .ok()//
-            .data(convent)//
-            .build();
+    ApiResponse<CompanyReqDto> response = ApiResponse.<CompanyReqDto>builder()//
+        .ok()//
+        .data(convent)//
+        .build();
 
     return ResponseEntity.ok().body(response);
   }

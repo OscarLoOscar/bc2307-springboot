@@ -11,7 +11,8 @@ public enum BizCode {
   REST_CLIENT_EXCEPTION(40003, false, "RestTemplate Api Call Fail"), //
   RESOURCE_ACCESS_EXCEPTION(40004, false, "Resource Access Exception"), //
   INVALID_INPUT(40005, false, "Not a invalid number : "), //
-  Url_NOT_FOUND(40006, false, "Url Not Found : "), //
+  EMPTY_INPUT(40006, false, "Input Symbol cannot blank"), //
+  Url_NOT_FOUND(40007, false, "Url Not Found : "), //
   DEFAULT(99999, false, "Unknown")//
   ;
 

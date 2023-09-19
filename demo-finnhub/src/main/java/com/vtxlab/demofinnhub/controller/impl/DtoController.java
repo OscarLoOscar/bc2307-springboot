@@ -28,6 +28,8 @@ public class DtoController implements DtoOperation {
   @Override
   public ResponseEntity<ApiResponse<totalRespSto>> getStock(String symbol)
       throws FinnhubException {
+    if (symbol.isBlank())
+      throw new IllegalArgumentException("Symbol cannot blank");
     CompanyReqDto conventCompany = CompanyService.getCompanyData(symbol);
     QuoteReqDto conventQuote = quoteService.getCompanyPrice(symbol);
 

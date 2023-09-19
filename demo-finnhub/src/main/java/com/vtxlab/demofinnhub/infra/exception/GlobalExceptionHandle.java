@@ -39,4 +39,13 @@ public class GlobalExceptionHandle {
     return ResponseEntity.badRequest().body(response);
   }
 
+  @ExceptionHandler(value = IllegalArgumentException.class) // 全局攔截，早過Controller get 野，有error先check，exception 存在優先check
+  public ResponseEntity<ApiResponse<Void>> IllegalArgumentException() {
+
+    ApiResponse<Void> response = ApiResponse.<Void>builder()//
+        .status(BizCode.EMPTY_INPUT)//
+        .data(null)//
+        .build();
+    return ResponseEntity.badRequest().body(response);
+  }
 }
