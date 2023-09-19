@@ -63,7 +63,7 @@ public class finnhubUriBuilderConfig {
   @Bean
   UriComponentsBuilder quoteUriConfig(String symbol) {
     MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-    queryParams.add("symbol", symbol);
+  //  queryParams.add("symbol", symbol);
     queryParams.add("token", token);
     UriComponentsBuilder test = ApiUtil.uriBuilder(UriScheme.HTTPS, domain,
         endpoint, queryParams, quotePathSegment);

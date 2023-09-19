@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.vtxlab.demofinnhub.model.CompanyRequestDto;
 import com.vtxlab.demofinnhub.model.quoteReqDto;
 import com.vtxlab.demofinnhub.services.impl.quoteServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +21,11 @@ public class quoteService implements quoteServiceImpl {
   @Qualifier("quoteUriConfig") // public class finnhubUriBuilderConfig
   UriComponentsBuilder quoteUriConfig;
 
-  private quoteReqDto getPrice() {
-    return restTemplate.getForObject(quoteUriConfig.toUriString(),
+  private quoteReqDto getPrice(String symbol) {
+    UriComponentsBuilder builder = quoteUriConfig;
+    builder.queryParam("symbol", symbol);
+    log.info("quote uri : "+ builder.toUriString());
+    return restTemplate.getForObject(builder.toUriString(),
         quoteReqDto.class);// dont use array [] , ,since the json is open at {}
   }
 
@@ -31,7 +33,7 @@ public class quoteService implements quoteServiceImpl {
   @Override
   public List<quoteReqDto> getCompanyPrice(String symbol) {
 
-    quoteReqDto QuoteReqDto = getPrice();//
+    quoteReqDto QuoteReqDto = getPrice(symbol);//
     return Arrays.asList(QuoteReqDto);
   }
 }

@@ -35,7 +35,7 @@ public class companyService implements companyServiceImpl {
 
   private CompanyRequestDto getCompany(String symbol) {
     UriComponentsBuilder builder = profileUriConfig; // Get the base builder
-    builder.queryParam("symbol", symbol);
+    builder.queryParam("symbol", symbol);// controller input param 放入bean get 新link
     log.info("uri String : " + builder.toUriString());
     return restTemplate.getForObject(builder.toUriString(),
         CompanyRequestDto.class);// dont use array [] , ,since the json is open at {}
