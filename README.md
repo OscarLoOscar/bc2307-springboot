@@ -31,6 +31,12 @@ AppConfig 都係bean
 
 - @SpringBootTest (Complete SB environment, full context)
 
-- ResponseEntity because sometimes we have to return non-200 status)
+- ResponseEntity because sometimes we have to return non-200 status
 
 - GlobalExceptionHandler (ControllerAdvice)
+
+
+modelMapper 自動map 2 個class，唔洗自己寫，兩個class field 名一樣就自動map
+
+
+server out of memory : 有Bean 未處理好 -> restTemplate -> multy thread
