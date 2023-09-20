@@ -1,0 +1,42 @@
+server.port: 8085
+
+api:
+  finnhub:
+    token: 'cju3it9r01qr958213c0cju3it9r01qr958213cg'
+    domain: 'finnhub.io'
+    base-url: 'api/v1'
+    endpoints:
+      stock:
+        profile2: '/stock/profile2'
+        quote: '/quote'
+
+# JDBC連接
+# Data Source Settings
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/finnhub
+    Usersname: oscarlo
+    password: oscarVenturenixLab2023.
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+spring.jpa:
+  show-sql: true
+  properties: # optional to under "properties"
+    hibernate:
+      dialect: org.hibernate.dialect.MySQLDialect
+      # Either to use hibernate or spring.sql.init, otherwise it duplicated to create tables
+      ddl-auto: none # create, create-drop, update, none, validate
+      show-sql: true
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    sql:
+      init:
+       schema-locations: classpath:ddl/DROPTABLE.sql ,
+                         classpath:ddl/JSONUSERS.sql,
+                         classpath:ddl/JSONPOSTS.sql,
+                         classpath:ddl/JSONCOMMENTS.sql ,
+                         classpath:ddl/JSONALBUMS.sql ,
+                         classpath:ddl/JSONPHOTOS.sql 
+                         
+      mode: always # always
+    show-sql: true
+    hibernate.ddl-auto: create-drop # for development purpose
