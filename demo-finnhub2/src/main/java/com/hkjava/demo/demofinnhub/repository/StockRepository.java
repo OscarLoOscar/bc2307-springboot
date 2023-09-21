@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
-  // select * from table where company_name = "";
+  // 1.select * from table where company_name = "";
   List<Stock> findByCompanyName(String companyName);
 
   boolean existsById(Long id);
@@ -27,12 +27,13 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
   // replace JpaRepository findAllById
   // @Query("SELECT s FROM Stock s WHERE s.id = :id") -> get all column
+  // 2. Native Query
   @Query(
-      value = "SELECT s.id,s.country,s.company_name,s.ipo_date,s.logo,s.market_cap,s.currency FROM finnhub_stock s WHERE s.id = :id", //
+      value = "SELECT s.id,s.country,s.company_name,s.ipo_date,s.logo,s.market_cap,s.currency FROM FINNHUB_STOCK s WHERE s.id = :id", //
       nativeQuery = true) // JPQL
   List<Stock> findAllById2(@Param("id") Long id);
 
-  // JPQL , (Java Persistence quesy language)
+  // 3. JPQL , (Java Persistence quesy language)
   @Query(value = " SELECT s FROM Stock s where s.id = :id ")
   Stock findAllById3(@Param(value = "id") Long id);
 

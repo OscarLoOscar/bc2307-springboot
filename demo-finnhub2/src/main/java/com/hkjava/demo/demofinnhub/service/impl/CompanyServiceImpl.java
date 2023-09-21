@@ -78,8 +78,7 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
-  public CompanyProfile getCompanyProfile(String symbol)
-      throws FinnhubException {
+  public CompanyProfile getCompanyProfile(String symbol)  throws FinnhubException{
     String url = UriComponentsBuilder.newInstance() //
         .scheme(Protocol.HTTPS.name()) //
         .host(domain) //
@@ -90,11 +89,11 @@ public class CompanyServiceImpl implements CompanyService {
         .build() //
         .toUriString();
     System.out.println("url=" + url);
-    try {
-      return restTemplate.getForObject(url, CompanyProfile.class);
-    } catch (RestClientException e) {
-      throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
-    }
+    // try {
+    return restTemplate.getForObject(url, CompanyProfile.class);
+    // } catch (RestClientException e) {
+    // throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
+    // }
 
   }
 
