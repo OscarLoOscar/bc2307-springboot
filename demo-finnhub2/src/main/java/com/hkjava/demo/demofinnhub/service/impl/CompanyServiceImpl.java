@@ -1,5 +1,6 @@
 package com.hkjava.demo.demofinnhub.service.impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import com.hkjava.demo.demofinnhub.infra.Protocol;
 import com.hkjava.demo.demofinnhub.model.CompanyProfile;
 import com.hkjava.demo.demofinnhub.repository.StockRepository;
 import com.hkjava.demo.demofinnhub.service.CompanyService;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -36,6 +38,34 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Value(value = "${api.finnhub.endpoints.stock.profile2}")
   private String companyProfile2Endpoint;
+
+  @Override
+  public List<Stock> findAll() {
+    return stockRepository.findAll();
+  }
+
+  @Override
+  public void updateById(Long id, Stock newStock) {
+    Stock stock = stockRepository.findById(id) //
+        .orElseThrow(
+            () -> new EntityNotFoundException("Entity Stock ID not Found"));
+    stock.setCompanyName(newStock.getCompanyName());
+    stock.setCountry(newStock.getCountry());
+    stock.setIpoDate(newStock.getIpoDate());
+    stock.setMarketCap(newStock.getMarketCap());
+    stock.setCurrency(newStock.getCurrency());
+    stock.setLogo(newStock.getLogo());
+    stockRepository.save(stock);
+  }
+
+  @Override
+  public void updateCompanyNameById(Long id, String companyName) {
+    Stock stock = stockRepository.findById(id) //
+        .orElseThrow(
+            () -> new EntityNotFoundException("Entity Stock ID not Found"));
+    stock.setCompanyName(companyName);
+    stockRepository.save(stock);
+  }
 
   @Override
   public Stock save(Stock stock) {
@@ -68,6 +98,20 @@ public class CompanyServiceImpl implements CompanyService {
 
   }
 
+  @Override
+  public List<Stock> findByCountry(String country) {
+    return stockRepository.findByCountry(country);
+  }
+
+  @Override
+  public List<Stock> findAllById2(Long id) {
+    return stockRepository.findAllById2(id);
+  }
+
+  @Override
+  public Stock findAllById3(Long id) {
+    return stockRepository.findAllById3(id);
+  }
 
 
 }

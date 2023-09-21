@@ -1,15 +1,40 @@
 package com.hkjava.demo.demofinnhub.repository;
 
+import org.hibernate.annotations.NamedNativeQuery;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import java.util.List;
-
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
 
   // select * from table where company_name = "";
-  List<Stock> findByCompanyName(String companyName); 
-  
+  List<Stock> findByCompanyName(String companyName);
+
+  boolean existsById(Long id);
+
+  List<Stock> findByCountry(String country);
+
+  List<Stock> findByCountryAndMarketCapGreaterThan(String country,
+      double marketCap);
+
+  // update stock set field = x where field = ? (findById() -> save())
+  // solution : (Put/Patch) findById() -> set() ->save()
+  // void updateCountryAndid(Long id, String country);
+
+  // replace JpaRepository findAllById
+  // @Query("SELECT s FROM Stock s WHERE s.id = :id") -> get all column
+  @Query(
+      value = "SELECT s.id,s.country,s.company_name,s.ipo_date,s.logo,s.market_cap,s.currency FROM finnhub_stock s WHERE s.id = :id", //
+      nativeQuery = true) // JPQL
+  List<Stock> findAllById2(@Param("id") Long id);
+
+  // JPQL , (Java Persistence quesy language)
+  @Query(value = " SELECT s FROM Stock s where s.id = :id ")
+  Stock findAllById3(@Param(value = "id") Long id);
+
+  // 唔係primary key，就應該用list 接-> 會唔止一個
 }
