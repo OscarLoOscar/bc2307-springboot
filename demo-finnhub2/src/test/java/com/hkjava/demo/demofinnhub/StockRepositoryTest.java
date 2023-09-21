@@ -31,6 +31,17 @@ public class StockRepositoryTest {
   @Autowired
   private TestEntityManager entityManager;
 
+  /*
+   * [ERROR] Errors: [ERROR] StockRepositoryTest.testDeleteById:64 » SQLGrammar could not prepare statement [Table "FINNHUB_STOCK" not found (this database is empty); SQL statement: insert into
+   * finnhub_stock (company_name,country,currency,ipo_date,logo,market_cap) values (?,?,?,?,?,?) [42104-214]] [insert into finnhub_stock (company_name,country,currency,ipo_date,logo,market_cap) values
+   * (?,?,?,?,?,?)] [ERROR] StockRepositoryTest.testFindById:41 » SQLGrammar could not prepare statement [Table "FINNHUB_STOCK" not found (this database is empty); SQL statement: insert into
+   * finnhub_stock (company_name,country,currency,ipo_date,logo,market_cap) values (?,?,?,?,?,?) [42104-214]] [insert into finnhub_stock (company_name,country,currency,ipo_date,logo,market_cap) values
+   * (?,?,?,?,?,?)]
+   * 
+   * 因為.yml 炒左 : validate , update,
+   *  
+   * slove :  create-drop
+   */
   @Test
   void testFindById() {
     Stock entity = new Stock();
