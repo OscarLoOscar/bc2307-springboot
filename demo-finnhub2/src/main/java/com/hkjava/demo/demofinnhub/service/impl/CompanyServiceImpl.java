@@ -88,13 +88,12 @@ public class CompanyServiceImpl implements CompanyService {
         .queryParam("token", token) //
         .build() //
         .toUriString();
-    System.out.println("url=" + url);
+    System.out.println("url = " + url);
     // try {
     return restTemplate.getForObject(url, CompanyProfile.class);
     // } catch (RestClientException e) {
     // throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
     // }
-
   }
 
   @Override

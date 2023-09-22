@@ -22,6 +22,7 @@ import com.hkjava.demo.demofinnhub.service.CompanyService;
 public class CompanyServiceTest {
   // Hamcrest , hasItem() -> test Array
   // mock 走Jpa
+
   @MockBean // service autowird repository
   private StockRepository stockRepository;
 
@@ -32,7 +33,8 @@ public class CompanyServiceTest {
    * 
    * For example: when(mock.getArticles()).thenReturn(articles);
    */
-  @MockBean // 模擬RestTemplate.getForObject,是否最後thenReturn(mocekCompanyProfile)
+  @MockBean // 模擬RestTemplate.getForObject,
+  // 是否最後thenReturn(mocekCompanyProfile)
   private RestTemplate restTemplate;
 
   @Autowired // 拎真既野黎用
@@ -66,21 +68,22 @@ public class CompanyServiceTest {
 
   @Test
   void testRestTemplateUrl() throws FinnhubException {
-    // test 有冇砌問上去，有冇加"/""
+    // test 有冇砌?symbol=上去，有冇加"/""
     // we are checking this url
     String expectedUrl =
-        "HTTPS://finnhub.io/api/v1/stock/profile2?symbol=TSLA&token="// <- 我expect 啱既野
-            .concat(finnhubToken);
-    // 砌到先call到
+        "HTTPS://finnhub.io/api/v1/stock/profile2?symbol=TSLA&token="
+            .concat(finnhubToken);// <- 我expect 啱既野 , 砌到先call到
+
     CompanyProfile mockCompanyProfile = CompanyProfile.builder()//
         .country("HK")//
         .ipoDate(LocalDate.of(1988, 12, 31))//
         .build();// mocked CompanyProfile
-
+    System.out.println(mockCompanyProfile.toString());
     // Mock the RestTemplate to return the mockedCompanyProfile when called with the expected URL
     // test Mock link
     Mockito.when(restTemplate.getForObject(expectedUrl, CompanyProfile.class))//
-        .thenReturn(mockCompanyProfile);// 有人call呢個situation，return ： mockCompanyProfile
+        .thenReturn(mockCompanyProfile);
+    // 有人call呢個situation，return ： mockCompanyProfile
     // 得到我既mock result 自然match到assertThat
 
     // Call the service method to retrieve the CompanyProfile

@@ -24,13 +24,11 @@ public interface DataOperation {
 
   @GetMapping(value = "/data/stock/country/{country}")
   @ResponseStatus(value = HttpStatus.OK)
-  List<Stock> findByCountry(String country);
+  List<Stock> findByCountry(@PathVariable String country);
 
   @GetMapping(value = "/data/stock/id2/{id}")
   @ResponseStatus(value = HttpStatus.OK)
   List<Stock> findAllById2(@PathVariable String id);
-
-
 
   @GetMapping(value = "/data/stock/id3/{id}")
   @ResponseStatus(value = HttpStatus.OK)
