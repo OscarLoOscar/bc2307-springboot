@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hkjava.demo.demofinnhub.controller.DataOperation;
 import com.hkjava.demo.demofinnhub.entity.Stock;
-import com.hkjava.demo.demofinnhub.service.CompanyService;
+import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController

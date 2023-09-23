@@ -15,7 +15,7 @@ import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.model.CompanyProfile;
 import com.hkjava.demo.demofinnhub.repository.StockRepository;
-import com.hkjava.demo.demofinnhub.service.CompanyService;
+import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
 
 // 唔關心json，postman controller 對外
 @SpringBootTest

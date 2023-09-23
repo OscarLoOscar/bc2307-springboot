@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.service.impl;
+package com.hkjava.demo.demofinnhub.service.callAPI.impl;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,7 +15,7 @@ import com.hkjava.demo.demofinnhub.infra.Protocol;
 import com.hkjava.demo.demofinnhub.model.Symbol;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.repository.SymbolRepository;
-import com.hkjava.demo.demofinnhub.service.StockSymbolService;
+import com.hkjava.demo.demofinnhub.service.callAPI.StockSymbolService;
 
 @Service
 public class StockSymbolServiceImpl implements StockSymbolService {

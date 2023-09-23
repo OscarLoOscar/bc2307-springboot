@@ -1,9 +1,9 @@
 package com.hkjava.demo.demofinnhub.config;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import com.hkjava.demo.demofinnhub.entity.Stock;
@@ -15,9 +15,9 @@ import com.hkjava.demo.demofinnhub.model.Symbol;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
 import com.hkjava.demo.demofinnhub.repository.StockRepository;
-import com.hkjava.demo.demofinnhub.service.CompanyService;
-import com.hkjava.demo.demofinnhub.service.StockService;
-import com.hkjava.demo.demofinnhub.service.StockSymbolService;
+import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
+import com.hkjava.demo.demofinnhub.service.callAPI.StockService;
+import com.hkjava.demo.demofinnhub.service.callAPI.StockSymbolService;
 import lombok.extern.slf4j.Slf4j;
 
 /*
@@ -38,6 +38,10 @@ import lombok.extern.slf4j.Slf4j;
 // 在應用程式啟動時將系統內常用的設定資料。 從資料庫載入到內存，
 // 以後使用該資料的時候只需要呼叫getSysConfigList方法，不需要每次使用該資料都去資料庫載入。
 // 節省系統資源、縮減資料載入時間。
+
+// @Profile("!test"): This annotation ensures that this component is only active when the Spring profile is not set to "test."
+// Profiles are used to configure different behavior for different
+// environments (e.g., development, production, testing).
 @Component
 @Slf4j
 @Profile("!test")
@@ -69,15 +73,21 @@ public class AppStartRunner implements CommandLineRunner {
     // https://finnhub.io/api/v1/stock/symbol?exchange=US&token=cju3it9r01qr958213c0cju3it9r01qr958213cg 0. Creat one more Entity StockSymbol 1.Get Company Profile 2 and insert into database 2.Get Stock
     // 0. Create one more Entity StockSymbol
     // Clear the tables
-    stockPriceRepository.deleteAll();;
+    stockPriceRepository.deleteAll(); // ddl-update
     companyService.deleteAll();
     stockSymbolService.deleteAll();
     // Call API to get all symbols
-    List<Symbol> symbols = stockSymbolService.getStockSymbol();
-    System.out.println("All Symbols are inserted.");
+    // List<Symbol> symbols = stockSymbolService.getStockSymbol();
+    // System.out.println("All Symbols are inserted.");
     // 1.Save all symbols
+    // Limit first symbols only
+    List<Symbol> symbols = stockSymbolService.getStockSymbol().stream()//
+        .limit(10L)//
+        .collect(Collectors.toList());
+    System.out.println("First " + symbols.size() + "  Symbols are inserted.");
+
     stockSymbolService.save(symbols).stream()//
-        .limit(20L)//
+        .limit(10L)//
         .forEach(symbol -> {
           try {
             CompanyProfile companyProfile =
@@ -86,7 +96,6 @@ public class AppStartRunner implements CommandLineRunner {
             stock.setStockSymbol(symbol);
             Stock storedStock = stockRepository.save(stock);
             log.info("completed symbol = " + symbol.getSymbol());
-
             // 3.Get Stock Price and insert into database
             Quote quote = stockService.getQuote(symbol.getSymbol());
             StockPrice stockPrice = finnhubMapper.map(quote);
@@ -97,7 +106,7 @@ public class AppStartRunner implements CommandLineRunner {
             log.info("RestClientException: Symbol" + symbol.getSymbol());
           }
         });
-    log.info("20 stock are inserted");
+    log.info("10 stock are inserted");
     log.info("CommandLineRunner Completed");
 
   }

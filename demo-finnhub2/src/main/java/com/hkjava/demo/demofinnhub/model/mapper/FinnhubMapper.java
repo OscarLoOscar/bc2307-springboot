@@ -1,5 +1,7 @@
 package com.hkjava.demo.demofinnhub.model.mapper;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,12 +13,14 @@ import com.hkjava.demo.demofinnhub.model.Quote;
 import com.hkjava.demo.demofinnhub.model.Symbol;
 import com.hkjava.demo.demofinnhub.model.dto.CompanyProfileDTO;
 import com.hkjava.demo.demofinnhub.model.dto.StockDTO;
+import com.hkjava.demo.demofinnhub.model.dto.StockGetFromDBDTO;
 
 @Component
 public class FinnhubMapper {
 
   @Autowired
   private ModelMapper modelMapper;
+
 
   public StockDTO map(CompanyProfile companyProfile, Quote quote) {
     return StockDTO.builder() //
@@ -29,6 +33,7 @@ public class FinnhubMapper {
         .prevDayClose(quote.getPrevDayClose()) //
         .build();
   }
+
 
   public StockSymbol map(Symbol symbol) {
     return StockSymbol.builder()//
@@ -57,5 +62,20 @@ public class FinnhubMapper {
         .build();
   }
 
+  public List<StockGetFromDBDTO> map(List<Stock> stocks,
+      List<StockPrice> stockPrices) {
+    List<StockGetFromDBDTO> result = new ArrayList<>();
+    for (int i = 0; i < stocks.size(); i++) {
+      StockGetFromDBDTO dto = new StockGetFromDBDTO();
+      dto.setStock(stocks.get(i));//
+      dto.setStockPrice(stockPrices.get(i));
+      result.add(dto);
+    }
+    return result;
+    // StockGetFromDBDTO[].builder()//
+    // .stock(modelMapper.map(stockPrices, Stock[].class))//
+    // .stockPrice(modelMapper.map(stockPrices, StockPrice[].class))//
+    // .build();
+  }
 
 }

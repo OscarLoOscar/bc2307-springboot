@@ -8,7 +8,7 @@ import com.hkjava.demo.demofinnhub.controller.SymbolOperation;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.ApiResponse;
 import com.hkjava.demo.demofinnhub.model.Symbol;
-import com.hkjava.demo.demofinnhub.service.StockSymbolService;
+import com.hkjava.demo.demofinnhub.service.callAPI.StockSymbolService;
 
 @RestController
 @RequestMapping(value = "/api/v1")

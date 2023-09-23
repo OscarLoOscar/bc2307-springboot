@@ -1,20 +1,20 @@
-package com.hkjava.demo.demofinnhub.service.impl;
+package com.hkjava.demo.demofinnhub.service.callAPI.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.infra.Code;
 import com.hkjava.demo.demofinnhub.infra.Protocol;
 import com.hkjava.demo.demofinnhub.model.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
+import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
 import com.hkjava.demo.demofinnhub.repository.StockRepository;
-import com.hkjava.demo.demofinnhub.service.CompanyService;
+import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -25,6 +25,12 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Autowired
   StockRepository stockRepository;
+
+  @Autowired
+  StockPriceRepository stockPriceRepository;
+
+  @Autowired
+  FinnhubMapper finnhubMapper;
 
   @Autowired
   @Qualifier(value = "finnhubToken")
@@ -116,6 +122,7 @@ public class CompanyServiceImpl implements CompanyService {
   public void deleteAll() {
     stockRepository.deleteAll();
   }
+
 
 
 }

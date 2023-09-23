@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "FINNHUB_STOCK_PRICE")
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
+@ToString
 public class StockPrice implements Serializable {
 
   @Id

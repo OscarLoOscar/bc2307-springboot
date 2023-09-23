@@ -1,5 +1,6 @@
-package com.hkjava.demo.demofinnhub.service.impl;
+package com.hkjava.demo.demofinnhub.service.callAPI.impl;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,17 +8,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.Code;
 import com.hkjava.demo.demofinnhub.infra.Protocol;
 import com.hkjava.demo.demofinnhub.model.Quote;
-import com.hkjava.demo.demofinnhub.service.StockService;
+import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
+import com.hkjava.demo.demofinnhub.repository.StockRepository;
+import com.hkjava.demo.demofinnhub.service.callAPI.StockService;
 
 @Service
 public class StockServiceImpl implements StockService {
 
   @Autowired
   private RestTemplate restTemplate;
+
+  @Autowired
+  private StockRepository stockRepository;
 
   @Autowired
   @Qualifier(value = "finnhubToken")
@@ -51,4 +59,11 @@ public class StockServiceImpl implements StockService {
     }
   }
 
+  public Stock getStockById(Long id) {
+    return stockRepository.findById(id).orElse(null);
+  }
+
+  public List<Stock> getStock() {
+    return stockRepository.findAll();
+  }
 }

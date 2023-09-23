@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.hkjava.demo.demofinnhub.controller.impl.StockController;
 import com.hkjava.demo.demofinnhub.model.dto.CompanyProfileDTO;
 import com.hkjava.demo.demofinnhub.model.dto.StockDTO;
-import com.hkjava.demo.demofinnhub.service.WebStockService;
+import com.hkjava.demo.demofinnhub.service.callAPI.WebStockService;
 
 @WebMvcTest(StockController.class)
 public class StockControllerTest {

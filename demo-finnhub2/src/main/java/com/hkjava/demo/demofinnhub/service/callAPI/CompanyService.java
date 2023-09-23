@@ -1,10 +1,12 @@
-package com.hkjava.demo.demofinnhub.service;
+package com.hkjava.demo.demofinnhub.service.callAPI;
 
 import java.util.List;
 import org.springframework.data.repository.query.Param;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.model.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.Symbol;
+import com.hkjava.demo.demofinnhub.model.dto.StockDTO;
 
 public interface CompanyService {
 
