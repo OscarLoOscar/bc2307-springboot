@@ -1,4 +1,6 @@
 package com.hkjava.demo.demofinnhub.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,13 +10,15 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class StockSymbol {
   public String currency;
-  public String description;
+  @JsonProperty("description")
+  public String desc;
   public String displaySymbol;
   public String figi;
   public String isin;

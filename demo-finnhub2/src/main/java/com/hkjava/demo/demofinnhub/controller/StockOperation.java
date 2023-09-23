@@ -16,4 +16,10 @@ public interface StockOperation {
   ApiResponse<StockDTO> stockInfo(@RequestParam("symbol") String symbol)
       throws FinnhubException;
 
+
+  @GetMapping(value = "/stockfromdb")
+  @ResponseStatus(value = HttpStatus.OK)
+  ApiResponse<StockDTO> stockInfoFromDb(@RequestParam("symbol") String symbol)
+      throws FinnhubException;
+
 }
