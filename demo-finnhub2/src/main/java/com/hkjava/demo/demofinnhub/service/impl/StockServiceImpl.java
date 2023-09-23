@@ -43,7 +43,7 @@ public class StockServiceImpl implements StockService {
         .queryParam("token", token) //
         .build() //
         .toUriString();
-    System.out.println("url=" + url);
+    System.out.println("url = " + url);
     try {
       return restTemplate.getForObject(url, Quote.class);
     } catch (RestClientException e) {

@@ -1,8 +1,10 @@
 package com.hkjava.demo.demofinnhub.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.hkjava.demo.demofinnhub.entity.StockSymbolEntity;
+import org.springframework.stereotype.Repository;
+import com.hkjava.demo.demofinnhub.entity.StockSymbol;
 
-public interface SymbolRepository extends JpaRepository<StockSymbolEntity,Long>{
+@Repository
+public interface SymbolRepository extends JpaRepository<StockSymbol,Long>{
   
 }

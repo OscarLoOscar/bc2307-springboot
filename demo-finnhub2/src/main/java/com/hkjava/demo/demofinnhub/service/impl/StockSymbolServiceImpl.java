@@ -9,16 +9,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.hkjava.demo.demofinnhub.entity.StockSymbolEntity;
+import com.hkjava.demo.demofinnhub.entity.StockSymbol;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.Protocol;
-import com.hkjava.demo.demofinnhub.model.StockSymbol;
+import com.hkjava.demo.demofinnhub.model.Symbol;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.repository.SymbolRepository;
-import com.hkjava.demo.demofinnhub.service.SymbolService;
+import com.hkjava.demo.demofinnhub.service.StockSymbolService;
 
 @Service
-public class SymbolServiceImpl implements SymbolService {
+public class StockSymbolServiceImpl implements StockSymbolService {
 
   @Autowired
   private RestTemplate restTemplate;
@@ -48,22 +48,20 @@ public class SymbolServiceImpl implements SymbolService {
   // SymbolRepository symbolRepository;
 
   @Override
-  public List<StockSymbol> getStockSymbol(String exchange)
-      throws FinnhubException {
+  public List<Symbol> getStockSymbol() throws FinnhubException {
 
     String url = UriComponentsBuilder.newInstance() //
         .scheme(Protocol.HTTPS.name()) //
         .host(domain) //
         .pathSegment(baseUrl) //
         .path(stocksymbolEndpoint) //
-        // .path(exchange)
-        .queryParam("exchange", exchange) //
+        .queryParam("exchange", "US") //
         .queryParam("token", token) //
         .build() //
         .toUriString();
     System.out.println("StockSymbol url = " + url);
     // try {
-    return Arrays.asList(restTemplate.getForObject(url, StockSymbol[].class));
+    return Arrays.asList(restTemplate.getForObject(url, Symbol[].class));
 
     // } catch (RestClientException e) {
     // throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
@@ -72,8 +70,8 @@ public class SymbolServiceImpl implements SymbolService {
 
 
   @Override
-  public List<StockSymbolEntity> save(List<StockSymbol> symbols) {
-    List<StockSymbolEntity> stockSymbols = symbols.stream()//
+  public List<StockSymbol> save(List<Symbol> symbols) {
+    List<StockSymbol> stockSymbols = symbols.stream()//
         .filter(s -> "Common Stock".equals(s.getType())) //
         .map(s -> finnhubMapper.map(s))// convert to Entity
         .collect(Collectors.toList());

@@ -26,4 +26,6 @@ public interface CompanyService {
 
   Stock findAllById3(Long id);
 
+  void deleteAll();
+
 }

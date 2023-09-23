@@ -19,8 +19,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name = "stock_symbol_entity")
-public class StockSymbolEntity {
+@Table(name = "finnhub_stock_symbol")
+public class StockSymbol {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;

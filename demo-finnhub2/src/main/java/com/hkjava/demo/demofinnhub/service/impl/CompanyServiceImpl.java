@@ -78,7 +78,8 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
-  public CompanyProfile getCompanyProfile(String symbol)  throws FinnhubException{
+  public CompanyProfile getCompanyProfile(String symbol)
+      throws FinnhubException {
     String url = UriComponentsBuilder.newInstance() //
         .scheme(Protocol.HTTPS.name()) //
         .host(domain) //
@@ -109,6 +110,11 @@ public class CompanyServiceImpl implements CompanyService {
   @Override
   public Stock findAllById3(Long id) {
     return stockRepository.findAllById3(id);
+  }
+
+  @Override
+  public void deleteAll() {
+    stockRepository.deleteAll();
   }
 
 

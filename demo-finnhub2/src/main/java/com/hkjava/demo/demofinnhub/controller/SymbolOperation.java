@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.ApiResponse;
-import com.hkjava.demo.demofinnhub.model.StockSymbol;
+import com.hkjava.demo.demofinnhub.model.Symbol;
 
 public interface SymbolOperation {
   @GetMapping(value = "/stockSymbol")
   @ResponseStatus(value = HttpStatus.OK)
-  ApiResponse<List<StockSymbol>> getStockSymbol(
-      @RequestParam("exchange") String exchange) throws FinnhubException;
+  ApiResponse<List<Symbol>> getStockSymbol() throws FinnhubException;
 
 }

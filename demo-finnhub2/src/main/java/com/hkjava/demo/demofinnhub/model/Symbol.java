@@ -15,7 +15,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Builder
-public class StockSymbol {
+public class Symbol {
   public String currency;
   @JsonProperty("description")
   public String desc;
