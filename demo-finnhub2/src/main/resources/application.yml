@@ -20,7 +20,7 @@ spring.datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
 spring.jpa:
   show-sql: true
-  hibernate.ddl-auto:  create-drop # create, create-drop, update, none, validate
+  hibernate.ddl-auto:  update # create, create-drop, update, none, validate
 
    # optional to under "properties"
  # properties:hibernate.dialect: org.hibernate.dialect.MySQLDialect
