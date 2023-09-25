@@ -17,16 +17,15 @@ public class ScheduleTaskConfig {
   @Scheduled(fixedRate = 10000) // 10sec
   public void fixedRateTask() throws InterruptedException {
     if (start) {
-      System.out.println("FixedRate Task - " + System.currentTimeMillis());
-      Thread.sleep(15000L);// doing task ... 5 seconds
-
+      System.out.println("Fixed  Rate Task - " + System.currentTimeMillis());
+      Thread.sleep(15000L);// doing task ... 15 seconds
     }
   }
 
-  @Scheduled(fixedRate = 4000) // 4sec
+  @Scheduled(fixedDelay = 4000) // 4sec
   public void fixedDelayTask() throws InterruptedException {
     if (start) {
-      System.out.println("FixedDelay Task - " + System.currentTimeMillis());
+      System.out.println("Fixed Delay Task - " + System.currentTimeMillis());
       Thread.sleep(5000L);// doing task ... 5 seconds
     }
   }
@@ -35,7 +34,7 @@ public class ScheduleTaskConfig {
   @Scheduled(cron = " 0/30 * 9-23 * * MON-FRI") // set this String to yml
   public void fixedTimeTask() throws InterruptedException {
     if (start) {
-      System.out.println("FixedTime Task - " + System.currentTimeMillis());
+      System.out.println("Fixed  Time Task - " + System.currentTimeMillis());
       Thread.sleep(5000L);// doing task ... 5 seconds
 
     }

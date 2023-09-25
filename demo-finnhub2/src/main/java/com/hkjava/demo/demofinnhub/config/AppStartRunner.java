@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.entity.StockPrice;
@@ -45,13 +44,13 @@ import lombok.extern.slf4j.Slf4j;
 // environments (e.g., development, production, testing).
 @Component
 @Slf4j
-@Profile("!test")
+@Profile("!test")//目的：防止database 有野，要確保isEmpty
 public class AppStartRunner implements CommandLineRunner {
   // 公司做報價既setUp，唔係人比乜用乜，自己set up List 做buffer -> 人地增加你唔一定增加
   // if唔final，自己寫api，自己call自己Api update條list，server唔洗restart
   // final -> 唔比任何人改，除非重新compile jar
   public static final List<String> stocksInventory =
-      List.of("AAPL", "MSFT", "TELA");
+      List.of("AAPL", "MSFT", "TSLA");
 
   @Autowired
   StockService stockService;
@@ -103,22 +102,22 @@ public class AppStartRunner implements CommandLineRunner {
 
     System.out.println("First " + symbols.size() + "  Symbols are inserted.");
 
-    stockSymbolService.save(symbols).stream()//
+    stockSymbolService.save(newSymbolsList).stream()//
         .limit(10L)//
         .forEach(symbol -> {
           try {
-            CompanyProfile companyProfile =
+            CompanyProfile companyProfile = //最raw , API DATA
                 companyService.getCompanyProfile(symbol.getSymbol());
-           
-                Stock stock = finnhubMapper.map(companyProfile);
+
+            Stock stock = finnhubMapper.map(companyProfile);
             stock.setStockSymbol(symbol);
 
-            Stock storedStock = stockRepository.save(stock);//落database
+            Stock storedStock = stockRepository.save(stock);// 落database
             log.info("completed symbol = " + symbol.getSymbol());
             // 3.Get Stock Price and insert into database
-           
+
             Quote quote = stockService.getQuote(symbol.getSymbol());
-           
+
             StockPrice stockPrice = finnhubMapper.map(quote);
             stockPrice.setStock(storedStock);
             stockPriceRepository.save(stockPrice);

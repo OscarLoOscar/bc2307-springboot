@@ -9,7 +9,7 @@ public interface CompanyService {
 
   CompanyProfile getCompanyProfile(String symbol) throws FinnhubException;
 
-  CompanyProfile refreshCompanyProfile(String symbol) throws FinnhubException;
+  void refresh() throws FinnhubException;
   // return CompanyProfile又得，void 又得 , seems like PutMapping
 
   void updateById(Long id, Stock stock);

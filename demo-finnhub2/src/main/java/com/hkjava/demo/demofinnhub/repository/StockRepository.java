@@ -6,7 +6,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.entity.StockSymbol;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface StockRepository extends JpaRepository<Stock, Long> {
@@ -38,4 +40,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
   Stock findAllById3(@Param(value = "id") Long id);
 
   // 唔係primary key，就應該用list 接-> 會唔止一個
+
+
+  Optional<Stock> findByStockSymbol(StockSymbol stockSymbol);
 }

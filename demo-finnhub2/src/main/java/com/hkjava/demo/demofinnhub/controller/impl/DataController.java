@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hkjava.demo.demofinnhub.controller.DataOperation;
 import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.exception.FinnhubException;
+import com.hkjava.demo.demofinnhub.model.CompanyProfile;
 import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -57,5 +59,10 @@ public class DataController implements DataOperation {
   public Stock findAllById3(String id) {
     long conventId = (long) Integer.parseInt(id);
     return companyService.findAllById3(conventId);
+  }
+
+  @Override
+  public void refreshCompanyProfile() throws FinnhubException {
+    companyService.refresh();
   }
 }

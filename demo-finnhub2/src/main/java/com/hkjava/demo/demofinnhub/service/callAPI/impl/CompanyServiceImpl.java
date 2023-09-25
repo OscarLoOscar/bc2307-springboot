@@ -1,6 +1,7 @@
 package com.hkjava.demo.demofinnhub.service.callAPI.impl;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,15 +9,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.Protocol;
 import com.hkjava.demo.demofinnhub.model.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.Quote;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
 import com.hkjava.demo.demofinnhub.repository.StockRepository;
+import com.hkjava.demo.demofinnhub.repository.SymbolRepository;
+import com.hkjava.demo.demofinnhub.service.StockPriceService;
 import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
+import com.hkjava.demo.demofinnhub.service.callAPI.StockService;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
@@ -28,6 +36,15 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Autowired
   StockPriceRepository stockPriceRepository;
+
+  @Autowired
+  SymbolRepository symbolRepository;
+
+  @Autowired
+  StockService stockService;
+
+  @Autowired
+  StockPriceService stockPriceService;
 
   @Autowired
   FinnhubMapper finnhubMapper;
@@ -62,15 +79,6 @@ public class CompanyServiceImpl implements CompanyService {
     stock.setCurrency(newStock.getCurrency());
     stock.setLogo(newStock.getLogo());
     stockRepository.save(stock);
-  }
-
-  @Override
-  public CompanyProfile refreshCompanyProfile(String symbol)
-      throws FinnhubException {
-    // Target : 
-    // getCompanyProfile(Stroing symbol)
-    // if normal response , findBySymbol
-
   }
 
   @Override
@@ -110,6 +118,57 @@ public class CompanyServiceImpl implements CompanyService {
     // } catch (RestClientException e) {
     // throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
     // }
+  }
+
+  @Override
+  public void refresh() throws FinnhubException {
+    // Target :
+    // getCompanyProfile(String symbol)
+    symbolRepository.findAll().stream()//
+        .forEach(symbol -> {
+          try {
+            // Get Company Profile 2 (New) and insert into database
+            CompanyProfile newProfile =
+                this.getCompanyProfile(symbol.getSymbol());
+            // Old Stock
+            Optional<Stock> oldStock = stockRepository.findByStockSymbol(symbol);
+            // id & symbol no change
+            if (oldStock.isPresent()) {
+              Stock stock = oldStock.get();
+              stock.setCountry(newProfile.getCountry());
+              stock.setCompanyName(newProfile.getCompanyName());
+              stock.setCurrency(newProfile.getCurrency());
+              stock.setMarketCap(newProfile.getMarketCap());
+              stock.setLogo(newProfile.getLogo());
+
+              if (newProfile != null
+                  && newProfile.getTicker().equals(symbol.getSymbol())) {
+                stock.setStockStatus('A');
+              } else {
+                stock.setStockStatus('I');
+              }
+              stockRepository.save(stock);
+              log.info("complete symbol = " + symbol.getSymbol());
+              // Get stock price and save a new record of price in to DB
+              Quote quote = stockService.getQuote(symbol.getSymbol());
+              StockPrice stockPrice = finnhubMapper.map(quote);
+              stockPrice.setStock(stock);
+              stockPriceRepository.save(stockPrice);
+              log.info("complete symbol = " + symbol.getSymbol());
+            } else {
+              System.out.println(symbol.getSymbol() + "is NOT FOUND");
+            }
+          } catch (FinnhubException e) {
+            log.info("RestClientException : Symbol " + symbol.getSymbol());
+          }
+        });
+    // if normal response , findBySymbol
+    // if abnormal response , patch Entity status to 'I'
+    // CompanyProfile conventData = this.getCompanyProfile(symbol);
+    // if (!conventData.getTicker().equals(symbol))
+    // return null;
+    // return conventData;
+
   }
 
   @Override

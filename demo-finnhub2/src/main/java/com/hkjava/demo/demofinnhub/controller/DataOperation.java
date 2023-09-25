@@ -11,40 +11,48 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.exception.FinnhubException;
+import com.hkjava.demo.demofinnhub.model.CompanyProfile;
 
 public interface DataOperation {
 
-  @PostMapping(value = "/data/stock")
-  @ResponseStatus(value = HttpStatus.OK)
-  Stock save(@RequestBody Stock stock);
+    @PostMapping(value = "/data/stock")
+    @ResponseStatus(value = HttpStatus.OK)
+    Stock save(@RequestBody Stock stock);
 
-  @GetMapping(value = "/data/stocks")
-  @ResponseStatus(value = HttpStatus.OK)
-  List<Stock> findAll();
+    @GetMapping(value = "/data/stocks")
+    @ResponseStatus(value = HttpStatus.OK)
+    List<Stock> findAll();
 
-  @GetMapping(value = "/data/stock/country/{country}")
-  @ResponseStatus(value = HttpStatus.OK)
-  List<Stock> findByCountry(@PathVariable String country);
+    @GetMapping(value = "/data/stock/country/{country}")
+    @ResponseStatus(value = HttpStatus.OK)
+    List<Stock> findByCountry(@PathVariable String country);
 
-  @GetMapping(value = "/data/stock/id2/{id}")
-  @ResponseStatus(value = HttpStatus.OK)
-  List<Stock> findAllById2(@PathVariable String id);
+    //
+    @GetMapping(value = "/data/refresh/stock")
+    @ResponseStatus(value = HttpStatus.OK)
+    void refreshCompanyProfile() throws FinnhubException;
+    //
 
-  @GetMapping(value = "/data/stock/id3/{id}")
-  @ResponseStatus(value = HttpStatus.OK)
-  Stock findAllById3(@PathVariable String id);
+    @GetMapping(value = "/data/stock/id2/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    List<Stock> findAllById2(@PathVariable String id);
 
-  @DeleteMapping(value = "/data/stock/{id}")
-  @ResponseStatus(value = HttpStatus.OK)
-  void deleteById(@PathVariable Long id);
+    @GetMapping(value = "/data/stock/id3/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    Stock findAllById3(@PathVariable String id);
 
-  @PutMapping(value = "/data/stock/{id}")
-  @ResponseStatus(value = HttpStatus.OK)
-  void updateById(@PathVariable Long id, @RequestBody Stock stock);
+    @DeleteMapping(value = "/data/stock/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    void deleteById(@PathVariable Long id);
 
-  @PatchMapping(value = "/data/stock/id/{id}/companyname/{companyName}")
-  @ResponseStatus(value = HttpStatus.OK)
-  void updateCompanyNameById(@PathVariable Long id,
-      @PathVariable String companyName);
+    @PutMapping(value = "/data/stock/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    void updateById(@PathVariable Long id, @RequestBody Stock stock);
+
+    @PatchMapping(value = "/data/stock/id/{id}/companyname/{companyName}")
+    @ResponseStatus(value = HttpStatus.OK)
+    void updateCompanyNameById(@PathVariable Long id,
+            @PathVariable String companyName);
 
 }
