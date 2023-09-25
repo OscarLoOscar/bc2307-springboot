@@ -65,6 +65,15 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
+  public CompanyProfile refreshCompanyProfile(String symbol)
+      throws FinnhubException {
+    // Target : 
+    // getCompanyProfile(Stroing symbol)
+    // if normal response , findBySymbol
+
+  }
+
+  @Override
   public void updateCompanyNameById(Long id, String companyName) {
     Stock stock = stockRepository.findById(id) //
         .orElseThrow(

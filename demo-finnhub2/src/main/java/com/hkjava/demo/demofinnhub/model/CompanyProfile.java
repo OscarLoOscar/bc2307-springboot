@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+// 數據提供方，受影響應該係DTO＋mapper，not entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,7 +17,7 @@ import lombok.ToString;
 @ToString
 @Builder
 public class CompanyProfile {
-  
+
   private String country;
 
   private String currency;
@@ -46,6 +47,6 @@ public class CompanyProfile {
 
   private String weburl;
 
-  
+
 
 }

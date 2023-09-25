@@ -1,16 +1,16 @@
 package com.hkjava.demo.demofinnhub.service.callAPI;
 
 import java.util.List;
-import org.springframework.data.repository.query.Param;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.model.CompanyProfile;
-import com.hkjava.demo.demofinnhub.model.Symbol;
-import com.hkjava.demo.demofinnhub.model.dto.StockDTO;
 
 public interface CompanyService {
 
   CompanyProfile getCompanyProfile(String symbol) throws FinnhubException;
+
+  CompanyProfile refreshCompanyProfile(String symbol) throws FinnhubException;
+  // return CompanyProfile又得，void 又得 , seems like PutMapping
 
   void updateById(Long id, Stock stock);
 

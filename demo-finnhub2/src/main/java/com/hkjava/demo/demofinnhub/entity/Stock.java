@@ -44,10 +44,14 @@ public class Stock implements Serializable {
   @Column(name = "market_cap", columnDefinition = "NUMERIC(15,2)")
   private double marketCap;
 
-  //@Column(name = "currency")
+  // @Column(name = "currency")
   private String currency;
 
+  @Column(name = "status", columnDefinition = "VARCHAR(1)") // "A","I"
+  private Character status;
+
   @OneToOne
-  @JoinColumn(name = "symbol_id",nullable = false)
+  @JoinColumn(name = "symbol_id", nullable = false) // FK
   private StockSymbol stockSymbol;
+
 }
