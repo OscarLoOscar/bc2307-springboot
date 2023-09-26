@@ -1,21 +1,41 @@
 package com.hkjava.demo.demofinnhub.config;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import com.hkjava.demo.demofinnhub.exception.FinnhubException;
+import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @EnableScheduling
+@Slf4j
 // @Transactional(propagation = Propagation.REQUIRED, readOnly = false, rollbackFor = Exception.class)
 public class ScheduleTaskConfig {
+
+  @Autowired
+  CompanyService companyService;
   // fixed rate 係base on task 行幾耐既話，就應該係隔 10S , 依家隔15s
   public static boolean start = false;
 
+  @Scheduled(fixedRate = 60000) // 60 sec
+  public void fixedRateTask() throws InterruptedException, FinnhubException {
+    if (start) {
+      // System.out.println("FixedRate Task - " + System.currentTimeMillis());
+      // Thread.sleep(15000L); // doing task ... 15 seconds
+      log.info("Refresh times : " + LocalDateTime.now());
+      companyService.refresh();
+    }
+  }
+
   @Scheduled(fixedRate = 10000) // 10sec
-  public void fixedRateTask() throws InterruptedException {
+  public void fixedRateTask2() throws InterruptedException {
     if (start) {
       System.out.println("Fixed  Rate Task - " + System.currentTimeMillis());
       Thread.sleep(15000L);// doing task ... 15 seconds

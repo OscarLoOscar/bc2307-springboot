@@ -143,6 +143,7 @@ public class CompanyServiceImpl implements CompanyService {
 
               if (newProfile != null
                   && newProfile.getTicker().equals(symbol.getSymbol())) {
+                    log.info("newProfile.getTicker() : " + newProfile.getTicker());
                 stock.setStockStatus('A');
               } else {
                 stock.setStockStatus('I');

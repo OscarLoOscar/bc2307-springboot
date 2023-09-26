@@ -59,4 +59,10 @@ public class WebStockServiceImpl implements WebStockService {
     return finnhubMapper.map(stocks, stockPrices);
   }
 
+  @Override
+  public void addStock(Stock stock) throws FinnhubException {
+    stockRepository.save(stock);
+    log.info("Stock Add Success");
+  }
+
 }

@@ -1,6 +1,7 @@
 package com.hkjava.demo.demofinnhub.service.callAPI;
 
 import java.util.List;
+import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.model.dto.StockDTO;
 import com.hkjava.demo.demofinnhub.model.dto.StockGetFromDBDTO;
@@ -11,4 +12,5 @@ public interface WebStockService {
 
   List<StockGetFromDBDTO> stockInfo() throws FinnhubException;
 
+  void addStock(Stock stock) throws FinnhubException;
 }

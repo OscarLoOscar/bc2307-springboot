@@ -2,14 +2,16 @@ package com.hkjava.demo.demofinnhub.controller.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hkjava.demo.demofinnhub.controller.StockOperation;
+import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.ApiResponse;
 import com.hkjava.demo.demofinnhub.model.dto.StockDTO;
 import com.hkjava.demo.demofinnhub.model.dto.StockGetFromDBDTO;
-import com.hkjava.demo.demofinnhub.repository.StockRepository;
 import com.hkjava.demo.demofinnhub.service.callAPI.WebStockService;
 import com.hkjava.demo.demofinnhub.service.callAPI.impl.StockServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -45,5 +47,11 @@ public class StockController implements StockOperation {
         .ok()//
         .data(webStockService.stockInfo())//
         .build();
+  }
+
+  @Override
+  public ResponseEntity<Void> addStock(Stock stock) throws FinnhubException {
+    webStockService.addStock(stock);
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 }
