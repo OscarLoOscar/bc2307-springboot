@@ -1,7 +1,7 @@
-package com.hkjava.demo.demofinnhub.service;
+package com.hkjava.demo.demofinnhub.service.callAPI;
 
 import java.util.List;
-import com.hkjava.demo.demofinnhub.entity.StockPrice;
+import com.hkjava.demo.demofinnhub.controller.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.model.Quote;
 
 public interface StockPriceService {

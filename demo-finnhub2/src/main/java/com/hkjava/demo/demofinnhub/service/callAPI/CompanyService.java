@@ -1,7 +1,7 @@
 package com.hkjava.demo.demofinnhub.service.callAPI;
 
 import java.util.List;
-import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.controller.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.model.CompanyProfile;
 

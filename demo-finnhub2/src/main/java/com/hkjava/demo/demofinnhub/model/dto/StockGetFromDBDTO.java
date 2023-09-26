@@ -1,7 +1,7 @@
 package com.hkjava.demo.demofinnhub.model.dto;
 
-import com.hkjava.demo.demofinnhub.entity.Stock;
-import com.hkjava.demo.demofinnhub.entity.StockPrice;
+import com.hkjava.demo.demofinnhub.controller.entity.Stock;
+import com.hkjava.demo.demofinnhub.controller.entity.StockPrice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

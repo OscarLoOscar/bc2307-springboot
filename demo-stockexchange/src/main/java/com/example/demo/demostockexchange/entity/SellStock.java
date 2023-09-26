@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.entity;
+package com.example.demo.demostockexchange.entity;
 
 import java.io.Serializable;
 import java.sql.Time;

@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.entity;
+package com.hkjava.demo.demofinnhub.controller.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

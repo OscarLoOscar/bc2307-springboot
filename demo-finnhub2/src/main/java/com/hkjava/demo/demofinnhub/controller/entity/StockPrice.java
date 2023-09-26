@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.entity;
+package com.hkjava.demo.demofinnhub.controller.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

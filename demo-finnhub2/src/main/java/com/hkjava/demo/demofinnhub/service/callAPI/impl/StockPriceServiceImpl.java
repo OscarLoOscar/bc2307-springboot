@@ -1,14 +1,14 @@
-package com.hkjava.demo.demofinnhub.service.impl;
+package com.hkjava.demo.demofinnhub.service.callAPI.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.hkjava.demo.demofinnhub.entity.StockPrice;
+import com.hkjava.demo.demofinnhub.controller.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.infra.Protocol;
 import com.hkjava.demo.demofinnhub.model.Quote;
 import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
-import com.hkjava.demo.demofinnhub.service.StockPriceService;
+import com.hkjava.demo.demofinnhub.service.callAPI.StockPriceService;
 
 @Service
 public class StockPriceServiceImpl implements StockPriceService {

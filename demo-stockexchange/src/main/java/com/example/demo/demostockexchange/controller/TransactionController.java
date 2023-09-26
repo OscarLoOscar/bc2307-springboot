@@ -1,21 +1,26 @@
 package com.hkjava.demo.demofinnhub.controller.impl;
 
+import java.lang.module.FindException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.hkjava.demo.demofinnhub.controller.TransactionOperation;
 import com.hkjava.demo.demofinnhub.entity.BuyStock;
 import com.hkjava.demo.demofinnhub.entity.SellStock;
+import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.ApiResponse;
+import com.hkjava.demo.demofinnhub.model.MakeTradeManager;
 import com.hkjava.demo.demofinnhub.model.OrderBook;
+import com.hkjava.demo.demofinnhub.service.OrderBookService;
 
 @RestController
 @RequestMapping("/transactions")
 public class TransactionController implements TransactionOperation {
   @Autowired
   private OrderBook orderBook;
+
+  @Autowired
+  private OrderBookService orderBookService;
 
   @Override
   public ApiResponse<Void> buyStock(BuyStock buyStock) {
@@ -34,6 +39,22 @@ public class TransactionController implements TransactionOperation {
         .ok()//
         .concatMessageIfPresent("Sell Order Done") //
         .build();
+  }
+
+  @Override
+  public ApiResponse<MakeTradeManager> checkStock(String symbol)
+      throws FinnhubException {
+    if (symbol == null)
+      throw new FindException("Input cannot be null");
+
+    MakeTradeManager response = orderBookService.getBidAskPriceBySymbol(symbol);
+
+    return ApiResponse.<MakeTradeManager>builder()//
+        .ok()//
+        .data(response)//
+        .build();
+
+
   }
 
 }
