@@ -12,8 +12,8 @@ import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.ApiResponse;
 import com.hkjava.demo.demofinnhub.model.dto.StockDTO;
 import com.hkjava.demo.demofinnhub.model.dto.StockGetFromDBDTO;
-import com.hkjava.demo.demofinnhub.service.callAPI.WebStockService;
-import com.hkjava.demo.demofinnhub.service.callAPI.impl.StockServiceImpl;
+import com.hkjava.demo.demofinnhub.service.WebStockService;
+import com.hkjava.demo.demofinnhub.service.impl.StockServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController

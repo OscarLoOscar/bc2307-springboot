@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.demostockexchange.entity.BuyStock;
+import com.example.demo.demostockexchange.entity.Customer;
 import com.example.demo.demostockexchange.entity.SellStock;
 import com.example.demo.demostockexchange.model.MakeTradeManager;
 import com.example.demo.demostockexchange.model.OrderBook;
@@ -30,7 +30,7 @@ public class OrderBookServiceImpl implements OrderBookService {
   SymbolRepository symbolRepository;
 
   @Autowired
-  Queue<BuyStock> buyOrders;
+  Queue<Customer> buyOrders;
 
   @Autowired
   Queue<SellStock> sellOrders;
@@ -46,7 +46,7 @@ public class OrderBookServiceImpl implements OrderBookService {
     if (symbol.isEmpty())
       return null;
 
-    for (BuyStock i : buyStockRepository.findAll()) {
+    for (Customer i : buyStockRepository.findAll()) {
       buyOrders.add(i);
     }
     for (SellStock i : sellStockRepository.findAll()) {
@@ -64,7 +64,7 @@ public class OrderBookServiceImpl implements OrderBookService {
 
 
   @Override
-  public void addBuyOrder(Queue<BuyStock> buyOrder) {
+  public void addBuyOrder(Queue<Customer> buyOrder) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'addBuyOrder'");
   }
@@ -78,7 +78,7 @@ public class OrderBookServiceImpl implements OrderBookService {
 
 
   @Override
-  public void addBuyOrder(BuyStock buyOrder) {
+  public void addBuyOrder(Customer buyOrder) {
     // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'addBuyOrder'");
   }

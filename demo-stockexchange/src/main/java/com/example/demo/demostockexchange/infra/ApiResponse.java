@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.infra;
+package com.example.demo.demostockexchange.infra;
 
 public class ApiResponse<T> {
   // attribute name by default same as JSON field name after serialziation
@@ -51,8 +51,19 @@ public class ApiResponse<T> {
       return this;
     }
 
+    public ApiResponseBuilder<T> error() {
+      this.code = Code.NOTFOUND.getCode();
+      this.message = Code.NOTFOUND.getDesc();
+      return this;
+    }
+
     public ApiResponseBuilder<T> data(T data) {
       this.data = data;
+      return this;
+    }
+
+ public ApiResponseBuilder<T> message(String message) {
+      this.message = message;
       return this;
     }
 

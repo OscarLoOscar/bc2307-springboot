@@ -1,11 +1,11 @@
-package com.hkjava.demo.demofinnhub.exception;
+package com.example.demo.demostockexchange.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.hkjava.demo.demofinnhub.infra.ApiResponse;
-import com.hkjava.demo.demofinnhub.infra.Code;
+import com.example.demo.demostockexchange.infra.ApiResponse;
+import com.example.demo.demostockexchange.infra.Code;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,8 +24,7 @@ public class GlobalExceptionHandler {
   public ApiResponse<Void> runtimeExceptionHandler(RuntimeException e) {
     return ApiResponse.<Void>builder() //
         .status(getRespCode(e)) //
-        .concatMessageIfPresent(e.getMessage())
-        .data(null) //
+        .concatMessageIfPresent(e.getMessage()).data(null) //
         .build();
   }
 
@@ -34,8 +33,7 @@ public class GlobalExceptionHandler {
   public ApiResponse<Void> exceptionHandler(Exception e) {
     return ApiResponse.<Void>builder() //
         .status(getRespCode(e)) //
-        .concatMessageIfPresent(e.getMessage())
-        .data(null) //
+        .concatMessageIfPresent(e.getMessage()).data(null) //
         .build();
   }
 

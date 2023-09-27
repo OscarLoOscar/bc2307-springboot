@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
+import com.hkjava.demo.demofinnhub.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
 
 @Component

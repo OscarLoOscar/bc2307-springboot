@@ -5,7 +5,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.example.demo.demostockexchange.entity.BuyStock;
+import com.example.demo.demostockexchange.entity.Customer;
 import com.example.demo.demostockexchange.entity.SellStock;
 import com.hkjava.demo.demofinnhub.repository.BuyStockRepository;
 import com.hkjava.demo.demofinnhub.repository.SellStockRepository;
@@ -32,7 +32,7 @@ public class OrderBook {
   // private Queue<SellStock> sellOrders = new PriorityQueue<>(
   // (s1, s2) -> Float.compare(s1.getPrice(), s2.getPrice())); // Ascending order by price
 
-  public void addBuyOrder(Queue<BuyStock> buyOrder) {
+  public void addBuyOrder(Queue<Customer> buyOrder) {
     orderBookService.addBuyOrder(buyOrder);
   }
 
@@ -40,7 +40,7 @@ public class OrderBook {
     orderBookService.addSellOrder(sellOrder);
   }
 
-  public void addBuyOrder(BuyStock buyOrder) {
+  public void addBuyOrder(Customer buyOrder) {
     orderBookService.addBuyOrder(buyOrder);
   }
 

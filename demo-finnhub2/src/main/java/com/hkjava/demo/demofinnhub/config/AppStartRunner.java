@@ -15,9 +15,9 @@ import com.hkjava.demo.demofinnhub.model.Symbol;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
 import com.hkjava.demo.demofinnhub.repository.StockRepository;
-import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
-import com.hkjava.demo.demofinnhub.service.callAPI.StockService;
-import com.hkjava.demo.demofinnhub.service.callAPI.StockSymbolService;
+import com.hkjava.demo.demofinnhub.service.CompanyService;
+import com.hkjava.demo.demofinnhub.service.StockService;
+import com.hkjava.demo.demofinnhub.service.StockSymbolService;
 import lombok.extern.slf4j.Slf4j;
 
 /*

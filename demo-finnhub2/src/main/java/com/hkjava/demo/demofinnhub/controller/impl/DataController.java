@@ -8,7 +8,7 @@ import com.hkjava.demo.demofinnhub.controller.DataOperation;
 import com.hkjava.demo.demofinnhub.controller.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.model.CompanyProfile;
-import com.hkjava.demo.demofinnhub.service.callAPI.CompanyService;
+import com.hkjava.demo.demofinnhub.service.CompanyService;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController

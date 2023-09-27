@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.infra;
+package com.example.demo.demostockexchange.infra;
 
 public enum Protocol {
   HTTPS, //
