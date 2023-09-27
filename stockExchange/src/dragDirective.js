@@ -1,6 +1,4 @@
-// Create a file named "dragDirective.js" or any name you prefer.
-import Vue from 'vue';
-
+// import Vue from 'vue';
 const dragDirective = {
   bind(el) {
     el.style.cursor = 'move';
@@ -40,4 +38,5 @@ const dragDirective = {
   },
 };
 
-Vue.directive('drag', dragDirective);
+export default dragDirective;
+// Vue.directive('drag', dragDirective);

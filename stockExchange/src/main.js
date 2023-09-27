@@ -1,11 +1,12 @@
-import './assets/main.css'
+import './assets/main.css';
+import { createApp } from 'vue'; // Import createApp from Vue 3
+import App from './App.vue';
+import dragDirective from './dragDirective';
+import router from './router';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
+const app = createApp(App);
+app.config.productionTip = false;
+app.directive('drag', dragDirective);
+app.use(router); // Use the Vue Router
 
-const app = createApp(App)
-
-app.use(router)
-
-app.mount('#app')
+app.mount('#app');
