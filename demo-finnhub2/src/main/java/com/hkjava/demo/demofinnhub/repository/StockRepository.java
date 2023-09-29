@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import com.hkjava.demo.demofinnhub.controller.entity.Stock;
-import com.hkjava.demo.demofinnhub.controller.entity.StockSymbol;
+import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.entity.StockSymbol;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +20,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
   List<Stock> findByCountry(String country);
 
-  List<Stock> findByCountryAndMarketCapGreaterThan(String country,
+  Stock findByCountryAndMarketCapGreaterThan(String country,
       double marketCap);
 
   // update stock set field = x where field = ? (findById() -> save())
@@ -43,4 +43,8 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 
 
   Optional<Stock> findByStockSymbol(StockSymbol stockSymbol);
+
+  // select * from stocks where country = ? and market_cap > ?;
+  List<Stock> findFirst3ByCountryAndMarketCapGreaterThanEqualOrderByIdDesc(
+      String country, double marketCap);
 }

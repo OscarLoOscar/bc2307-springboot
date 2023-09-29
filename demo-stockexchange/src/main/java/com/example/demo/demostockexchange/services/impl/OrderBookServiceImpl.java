@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.service.impl;
+package com.example.demo.demostockexchange.services.impl;
 
 import java.util.List;
 import java.util.PriorityQueue;
@@ -6,14 +6,12 @@ import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo.demostockexchange.entity.Customer;
-import com.example.demo.demostockexchange.entity.SellStock;
-import com.example.demo.demostockexchange.model.MakeTradeManager;
-import com.example.demo.demostockexchange.model.OrderBook;
-import com.example.demo.demostockexchange.repository.BuyStockRepository;
-import com.example.demo.demostockexchange.repository.SellStockRepository;
+import com.example.demo.demostockexchange.entity.Orders;
+import com.example.demo.demostockexchange.exception.FinnhubException;
+import com.example.demo.demostockexchange.model.OrderRequest;
+import com.example.demo.demostockexchange.model.mapper.FinnhubMapper;
+import com.example.demo.demostockexchange.repository.StockRepository;
 import com.example.demo.demostockexchange.services.OrderBookService;
-import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.repository.SymbolRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -21,88 +19,99 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderBookServiceImpl implements OrderBookService {
 
   @Autowired
-  BuyStockRepository buyStockRepository;
+  FinnhubMapper finnhubMapper;
 
   @Autowired
-  SellStockRepository sellStockRepository;
-
-  @Autowired
-  SymbolRepository symbolRepository;
-
-  @Autowired
-  Queue<Customer> buyOrders;
-
-  @Autowired
-  Queue<SellStock> sellOrders;
-  // private Queue<BuyStock> buyOrders = new PriorityQueue<>(
-  // (b1, b2) -> Float.compare(b2.getPrice(), b1.getPrice())); // Descending order by price
-  // private Queue<SellStock> sellOrders = new PriorityQueue<>(
-  // (s1, s2) -> Float.compare(s1.getPrice(), s2.getPrice())); // Ascending order by price
-
+  StockRepository stockRepository;
 
   @Override
-  public MakeTradeManager getBidAskPriceBySymbol(String symbol)
-      throws FinnhubException {
-    if (symbol.isEmpty())
-      return null;
-
-    for (Customer i : buyStockRepository.findAll()) {
-      buyOrders.add(i);
-    }
-    for (SellStock i : sellStockRepository.findAll()) {
-      sellOrders.add(i);
-    }
-
-    OrderBook orderBook = new OrderBook();
-    orderBook.addBuyOrder(buyOrders);
-    log.info("service orderBook BUY : " + orderBook);
-    orderBook.addSellOrder(sellOrders);
-    log.info("service orderBook SELL : " + orderBook);
-
-    return new MakeTradeManager(symbol, orderBook);
+  public List<Orders> getOrderBook() {
+    return stockRepository.findAll();
   }
 
+  @Override
+  public void addOrder(OrderRequest makeOrder) {
+    Orders response = finnhubMapper.requestToOrdersEntity(makeOrder);
+    stockRepository.save(response);
+  }
 
   @Override
-  public void addBuyOrder(Queue<Customer> buyOrder) {
+  public void processBuyStopOrder(OrderRequest orderRequest) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'addBuyOrder'");
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'createBuyStopOrder'");
   }
-
 
   @Override
-  public void addSellOrder(Queue<SellStock> sellOrder) {
+  public void processSellStopOrder(OrderRequest orderRequest) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'addSellOrder'");
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'processSellStopOrder'");
   }
-
 
   @Override
-  public void addBuyOrder(Customer buyOrder) {
+  public void processBuyLimitOrder(OrderRequest orderRequest) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'addBuyOrder'");
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'processBuyLimitOrder'");
   }
-
 
   @Override
-  public void addSellOrder(SellStock sellOrder) {
+  public void processSellLimitOrder(OrderRequest orderRequest) {
     // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'addSellOrder'");
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'processSellLimitOrder'");
+  }
+
+  @Override
+  public void processAskOrder(OrderRequest orderRequest) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'processAskOrder'");
+  }
+
+  @Override
+  public void processBidOrder(OrderRequest orderRequest) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException(
+        "Unimplemented method 'processBidOrder'");
   }
 
 
-  // @Override
-  // public void addBuyOrder(Queue<BuyStock> buyOrder) {
-  // buyOrders.add(buyOrder);
-  // buyStockRepository.save(buyOrder);
-  // }
 
+  // private Queue<OrderRequest> buyOrders = new PriorityQueue<>(
+  // (b1, b2) -> Double.compare(b2.getPrice(), b1.getPrice())); // Descending order by price
+  // private Queue<OrderRequest> sellOrders = new PriorityQueue<>(
+  // (s1, s2) -> Double.compare(s1.getPrice(), s2.getPrice())); // Ascending order by price
 
-  // @Override
-  // public void addSellOrder(Queue<SellStock> sellOrder) {
-  // sellOrders.add(sellOrder);
-  // sellStockRepository.save(sellOrder);
-  // }
+  @Override
+  public OrderRequest getBuyOrder() {
+    Orders data = stockRepository.getBuyOrder("BUY");
+    return finnhubMapper.mapSingleOrder(data);
 
-
+  }
 }
+
+
+// @Override
+// public MakeTradeManager getBidAskPriceBySymbol(String symbol)
+// throws FinnhubException {
+// if (symbol.isEmpty())
+// return null;
+
+// for (Customer i : buyStockRepository.findAll()) {
+// buyOrders.add(i);
+// }
+// for (SellStock i : sellStockRepository.findAll()) {
+// sellOrders.add(i);
+// }
+
+// OrderBook orderBook = new OrderBook();
+// orderBook.addBuyOrder(buyOrders);
+// log.info("service orderBook BUY : " + orderBook);
+// orderBook.addSellOrder(sellOrders);
+// log.info("service orderBook SELL : " + orderBook);
+
+// return new MakeTradeManager(symbol, orderBook);
+// }
+

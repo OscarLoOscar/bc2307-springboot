@@ -1,5 +1,5 @@
 <template>
-  <div class="testing">
+  <div class="testing" drag>
     <h1>Stock Exchange System</h1>
     <!-- Order Form -->
     <form @submit.prevent="placeOrder">
@@ -43,7 +43,11 @@
 </template>
 
 <script>
+import dragDirective from './dragDirective'; // Import the dragDirective
 export default {
+  directives: {
+    drag: dragDirective, // Register the drag directive
+  },
   data() {
     return {
       orderRequest: {

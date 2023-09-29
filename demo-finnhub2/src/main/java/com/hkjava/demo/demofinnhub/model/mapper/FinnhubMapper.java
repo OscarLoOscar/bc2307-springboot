@@ -5,15 +5,15 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.hkjava.demo.demofinnhub.controller.entity.Stock;
-import com.hkjava.demo.demofinnhub.controller.entity.StockPrice;
-import com.hkjava.demo.demofinnhub.controller.entity.StockSymbol;
-import com.hkjava.demo.demofinnhub.model.CompanyProfile;
-import com.hkjava.demo.demofinnhub.model.Quote;
-import com.hkjava.demo.demofinnhub.model.Symbol;
-import com.hkjava.demo.demofinnhub.model.dto.CompanyProfileDTO;
-import com.hkjava.demo.demofinnhub.model.dto.StockDTO;
-import com.hkjava.demo.demofinnhub.model.dto.StockGetFromDBDTO;
+import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.entity.StockPrice;
+import com.hkjava.demo.demofinnhub.entity.StockSymbol;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.Quote;
+import com.hkjava.demo.demofinnhub.model.APImodel.Symbol;
+import com.hkjava.demo.demofinnhub.model.dto.Response.CompanyProfileDTO;
+import com.hkjava.demo.demofinnhub.model.dto.Response.StockDTO;
+import com.hkjava.demo.demofinnhub.model.dto.Response.StockGetFromDBDTO;
 
 @Component
 public class FinnhubMapper {

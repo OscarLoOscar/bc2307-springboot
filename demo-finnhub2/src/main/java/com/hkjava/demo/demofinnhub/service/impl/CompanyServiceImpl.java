@@ -8,19 +8,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.hkjava.demo.demofinnhub.controller.entity.Stock;
-import com.hkjava.demo.demofinnhub.controller.entity.StockPrice;
+import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.Protocol;
-import com.hkjava.demo.demofinnhub.model.CompanyProfile;
-import com.hkjava.demo.demofinnhub.model.Quote;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.Quote;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
 import com.hkjava.demo.demofinnhub.repository.StockRepository;
 import com.hkjava.demo.demofinnhub.repository.SymbolRepository;
 import com.hkjava.demo.demofinnhub.service.CompanyService;
 import com.hkjava.demo.demofinnhub.service.StockPriceService;
-import com.hkjava.demo.demofinnhub.service.StockService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,9 +38,6 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Autowired
   SymbolRepository symbolRepository;
-
-  @Autowired
-  StockService stockService;
 
   @Autowired
   StockPriceService stockPriceService;
@@ -131,7 +127,8 @@ public class CompanyServiceImpl implements CompanyService {
             CompanyProfile newProfile =
                 this.getCompanyProfile(symbol.getSymbol());
             // Old Stock
-            Optional<Stock> oldStock = stockRepository.findByStockSymbol(symbol);
+            Optional<Stock> oldStock =
+                stockRepository.findByStockSymbol(symbol);
             // id & symbol no change
             if (oldStock.isPresent()) {
               Stock stock = oldStock.get();
@@ -143,7 +140,7 @@ public class CompanyServiceImpl implements CompanyService {
 
               if (newProfile != null
                   && newProfile.getTicker().equals(symbol.getSymbol())) {
-                    log.info("newProfile.getTicker() : " + newProfile.getTicker());
+                log.info("newProfile.getTicker() : " + newProfile.getTicker());
                 stock.setStockStatus('A');
               } else {
                 stock.setStockStatus('I');
@@ -151,7 +148,7 @@ public class CompanyServiceImpl implements CompanyService {
               stockRepository.save(stock);
               log.info("complete symbol = " + symbol.getSymbol());
               // Get stock price and save a new record of price in to DB
-              Quote quote = stockService.getQuote(symbol.getSymbol());
+              Quote quote = stockPriceService.getQuote(symbol.getSymbol());
               StockPrice stockPrice = finnhubMapper.map(quote);
               stockPrice.setStock(stock);
               stockPriceRepository.save(stockPrice);
@@ -192,6 +189,13 @@ public class CompanyServiceImpl implements CompanyService {
     stockRepository.deleteAll();
   }
 
+  @Override
+  public List<Stock> findByCountryAndMarketCap(String country,
+      double marketCap) {
+    return stockRepository
+        .findFirst3ByCountryAndMarketCapGreaterThanEqualOrderByIdDesc(country,
+            marketCap);
+  }
 
 
 }

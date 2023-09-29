@@ -1,29 +1,28 @@
 package com.example.demo.demostockexchange.controller;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Queue;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import com.example.demo.demostockexchange.entity.Customer;
-import com.example.demo.demostockexchange.entity.Orders;
-import com.example.demo.demostockexchange.infra.ApiResponse;
+import com.example.demo.demostockexchange.exception.ApiResponse;
+import com.example.demo.demostockexchange.model.OrderRequest;
 
 public interface WebSocketOperation {
     @GetMapping("/updateOrderBook")
     @ResponseStatus(value = HttpStatus.OK)
-    public ApiResponse<List<Orders>> updateOrderBook();
+    public ApiResponse<List<OrderRequest>> updateOrderBook();
 
     // target :
     @PostMapping("/{orderType}")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<Void> placeOrder(@PathVariable String orderType,
-            @RequestBody OrderRequest orderRequest);
+    public ApiResponse<Void> placeOrder(@RequestBody OrderRequest orderRequest);
 
+    @GetMapping("/buyQueue")
+    @ResponseStatus(value = HttpStatus.OK)
+    public ApiResponse<Queue<OrderRequest>> buyOrdersQueue();
 
     // @PostMapping("/buy-stop")
     // @ResponseStatus(HttpStatus.OK)

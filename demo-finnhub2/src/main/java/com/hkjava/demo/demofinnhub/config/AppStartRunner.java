@@ -1,22 +1,23 @@
 package com.hkjava.demo.demofinnhub.config;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import com.hkjava.demo.demofinnhub.controller.entity.Stock;
-import com.hkjava.demo.demofinnhub.controller.entity.StockPrice;
+import com.hkjava.demo.demofinnhub.entity.Stock;
+import com.hkjava.demo.demofinnhub.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.model.CompanyProfile;
-import com.hkjava.demo.demofinnhub.model.Quote;
-import com.hkjava.demo.demofinnhub.model.Symbol;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.Quote;
+import com.hkjava.demo.demofinnhub.model.APImodel.Symbol;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
 import com.hkjava.demo.demofinnhub.repository.StockRepository;
 import com.hkjava.demo.demofinnhub.service.CompanyService;
-import com.hkjava.demo.demofinnhub.service.StockService;
+import com.hkjava.demo.demofinnhub.service.StockPriceService;
 import com.hkjava.demo.demofinnhub.service.StockSymbolService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -44,7 +45,7 @@ import lombok.extern.slf4j.Slf4j;
 // environments (e.g., development, production, testing).
 @Component
 @Slf4j
-@Profile("!test")//目的：防止database 有野，要確保isEmpty
+@Profile("!test") // 目的：防止database 有野，要確保isEmpty
 public class AppStartRunner implements CommandLineRunner {
   // 公司做報價既setUp，唔係人比乜用乜，自己set up List 做buffer -> 人地增加你唔一定增加
   // if唔final，自己寫api，自己call自己Api update條list，server唔洗restart
@@ -52,14 +53,15 @@ public class AppStartRunner implements CommandLineRunner {
   public static final List<String> stocksInventory =
       List.of("AAPL", "MSFT", "TSLA");
 
+  public static List<String> availableStockList = new ArrayList<>();
   @Autowired
-  StockService stockService;
+  StockSymbolService stockSymbolService;
+
+  @Autowired
+  StockPriceService stockPriceService;
 
   @Autowired
   CompanyService companyService;
-
-  @Autowired
-  StockSymbolService stockSymbolService;
 
   @Autowired
   StockRepository stockRepository;
@@ -78,9 +80,9 @@ public class AppStartRunner implements CommandLineRunner {
     // https://finnhub.io/api/v1/stock/symbol?exchange=US&token=cju3it9r01qr958213c0cju3it9r01qr958213cg 0. Creat one more Entity StockSymbol 1.Get Company Profile 2 and insert into database 2.Get Stock
     // 0. Create one more Entity StockSymbol
     // Clear the tables
-    stockPriceRepository.deleteAll(); // ddl-update
-    companyService.deleteAll();
-    stockSymbolService.deleteAll();
+    // stockPriceRepository.deleteAll(); // ddl-update
+    // companyService.deleteAll();
+    // stockSymbolService.deleteAll();
     // Call API to get all symbols
     // List<Symbol> symbols = stockSymbolService.getStockSymbol();
     // System.out.println("All Symbols are inserted.");
@@ -106,7 +108,7 @@ public class AppStartRunner implements CommandLineRunner {
         .limit(10L)//
         .forEach(symbol -> {
           try {
-            CompanyProfile companyProfile = //最raw , API DATA
+            CompanyProfile companyProfile = // 最raw , API DATA
                 companyService.getCompanyProfile(symbol.getSymbol());
 
             Stock stock = finnhubMapper.map(companyProfile);
@@ -116,7 +118,7 @@ public class AppStartRunner implements CommandLineRunner {
             log.info("completed symbol = " + symbol.getSymbol());
             // 3.Get Stock Price and insert into database
 
-            Quote quote = stockService.getQuote(symbol.getSymbol());
+            Quote quote = stockPriceService.getQuote(symbol.getSymbol());
 
             StockPrice stockPrice = finnhubMapper.map(quote);
             stockPrice.setStock(storedStock);

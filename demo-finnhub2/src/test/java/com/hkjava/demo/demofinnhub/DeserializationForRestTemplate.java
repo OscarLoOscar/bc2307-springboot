@@ -13,8 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hkjava.demo.demofinnhub.model.CompanyProfile;
-
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
 import java.time.LocalDate;
 
 @SpringBootTest

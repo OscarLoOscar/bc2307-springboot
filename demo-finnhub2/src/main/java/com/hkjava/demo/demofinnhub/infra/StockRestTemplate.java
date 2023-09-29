@@ -2,7 +2,7 @@ package com.hkjava.demo.demofinnhub.infra;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.client.RestTemplate;
-import com.hkjava.demo.demofinnhub.model.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
 
 // simple java class , library , no state -> no Bean
 // 如果想寫成Service，需要 @Autowired RestTemplate restTemplate;

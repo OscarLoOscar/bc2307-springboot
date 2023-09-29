@@ -1,21 +1,32 @@
 package com.example.demo.demostockexchange.services;
 
+import java.util.List;
 import java.util.Queue;
+import org.springframework.data.jpa.repository.Query;
 import com.example.demo.demostockexchange.entity.Customer;
-import com.example.demo.demostockexchange.entity.SellStock;
-import com.example.demo.demostockexchange.model.MakeTradeManager;
-import com.hkjava.demo.demofinnhub.exception.FinnhubException;
+import com.example.demo.demostockexchange.entity.Orders;
+import com.example.demo.demostockexchange.exception.ApiResponse;
+import com.example.demo.demostockexchange.exception.FinnhubException;
+import com.example.demo.demostockexchange.model.OrderRequest;
 
 public interface OrderBookService {
-  MakeTradeManager getBidAskPriceBySymbol(String symbol)
-      throws FinnhubException;
 
-  public void addBuyOrder(Queue<Customer> buyOrder);
+  public OrderRequest getBuyOrder();
 
-  public void addSellOrder(Queue<SellStock> sellOrder);
+  public List<Orders> getOrderBook();
 
-  public void addBuyOrder(Customer buyOrder);
+  public void addOrder(OrderRequest makeOrder);
 
-  public void addSellOrder(SellStock sellOrder);
+  public void processBuyStopOrder(OrderRequest orderRequest);
+
+  public void processSellStopOrder(OrderRequest orderRequest);
+
+  public void processBuyLimitOrder(OrderRequest orderRequest);
+
+  public void processSellLimitOrder(OrderRequest orderRequest);
+
+  public void processAskOrder(OrderRequest orderRequest);
+
+  public void processBidOrder(OrderRequest orderRequest);
 }
 

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.hkjava.demo.demofinnhub.controller.SymbolOperation;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.ApiResponse;
-import com.hkjava.demo.demofinnhub.model.Symbol;
+import com.hkjava.demo.demofinnhub.model.APImodel.Symbol;
 import com.hkjava.demo.demofinnhub.service.StockSymbolService;
 
 @RestController

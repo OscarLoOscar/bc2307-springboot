@@ -10,7 +10,7 @@ import Testing2 from './components/Testing2.vue'
       <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
       <!-- Apply the v-drag directive to the "trading" div -->
      <div class="dragDirective" v-drag style="position: relative;">
-      <div class="trading" >      
+      <div class="trading"  >      
         <OneClickTrading msg="TESTing Trading class " />
         <Testing2 msg="Testing2" />
         </div>
@@ -26,7 +26,7 @@ import Testing2 from './components/Testing2.vue'
 </template>
 
 <style scoped>
-.dragDirective {
+.v-drag {
   width: auto;
   height: auto;
   margin: 80px;

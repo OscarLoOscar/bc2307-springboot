@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+@Table(name = "Ref")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
