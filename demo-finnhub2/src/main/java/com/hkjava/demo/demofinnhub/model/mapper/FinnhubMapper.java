@@ -1,5 +1,9 @@
 package com.hkjava.demo.demofinnhub.model.mapper;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import org.modelmapper.ModelMapper;
@@ -23,7 +27,11 @@ public class FinnhubMapper {
 
 
   public StockDTO map(CompanyProfile companyProfile, Quote quote) {
+  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+  LocalDateTime localDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);  
     return StockDTO.builder() //
+        .symbol(companyProfile.getTicker())//
+        .localdate(localDateTime.format(formatter))//
         .companyProfile(
             modelMapper.map(companyProfile, CompanyProfileDTO.class)) //
         .currentPrice(quote.getCurrentPrice()) //

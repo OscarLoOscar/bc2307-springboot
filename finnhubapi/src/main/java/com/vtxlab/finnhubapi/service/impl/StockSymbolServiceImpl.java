@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.hkjava.demo.demofinnhub.entity.StockSymbol;
-import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.infra.Protocol;
-import com.hkjava.demo.demofinnhub.model.Symbol;
-import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
-import com.hkjava.demo.demofinnhub.repository.SymbolRepository;
-import com.hkjava.demo.demofinnhub.service.StockSymbolService;
+import com.vtxlab.finnhubapi.exception.FinnhubException;
+import com.vtxlab.finnhubapi.infra.Protocol;
+import com.vtxlab.finnhubapi.model.Symbol;
+import com.vtxlab.finnhubapi.model.mapper.FinnhubMapper;
+import com.vtxlab.finnhubapi.service.StockSymbolService;
 
 @Service
 public class StockSymbolServiceImpl implements StockSymbolService {
@@ -26,8 +24,6 @@ public class StockSymbolServiceImpl implements StockSymbolService {
   @Autowired
   private FinnhubMapper finnhubMapper;
 
-  @Autowired
-  private SymbolRepository symbolRepository;
 
   @Autowired
   @Qualifier(value = "finnhubToken")
@@ -50,7 +46,7 @@ public class StockSymbolServiceImpl implements StockSymbolService {
   @Override
   public List<Symbol> getStockSymbol() throws FinnhubException {
 
-    String url = UriComponentsBuilder.newInstance() //
+    String symbolUrl = UriComponentsBuilder.newInstance() //
         .scheme(Protocol.HTTPS.name()) //
         .host(domain) //
         .pathSegment(baseUrl) //
@@ -59,30 +55,13 @@ public class StockSymbolServiceImpl implements StockSymbolService {
         .queryParam("token", token) //
         .build() //
         .toUriString();
-    System.out.println("StockSymbol url = " + url);
+    System.out.println("StockSymbol url = " + symbolUrl);
     // try {
-    return Arrays.asList(restTemplate.getForObject(url, Symbol[].class));
+    return Arrays.asList(restTemplate.getForObject(symbolUrl, Symbol[].class));
 
     // } catch (RestClientException e) {
     // throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
     // }
   }
 
-
-  @Override
-  public List<StockSymbol> save(List<Symbol> symbols) {
-    List<StockSymbol> stockSymbols = symbols.stream()//
-        .filter(s -> "Common Stock".equals(s.getType())) //
-        .map(s -> finnhubMapper.map(s))// convert to Entity
-        .collect(Collectors.toList());
-    // save to DB
-    return symbolRepository.saveAll(stockSymbols);
-  }
-
-
-  @Override
-  public void deleteAll() {
-    symbolRepository.deleteAll();
-  }
 }
-

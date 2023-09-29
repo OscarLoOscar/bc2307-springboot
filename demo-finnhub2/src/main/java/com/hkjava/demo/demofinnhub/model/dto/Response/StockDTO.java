@@ -1,5 +1,6 @@
 package com.hkjava.demo.demofinnhub.model.dto.Response;
 
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,17 +15,20 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class StockDTO {
-  
+  private String symbol;
+
+  private String localdate ;
+
   private CompanyProfileDTO companyProfile;
-  
+
   private double currentPrice;
-  
+
   private double dayHigh;
-  
+
   private double dayLow;
-  
+
   private double dayOpen;
-  
+
   private double prevDayClose;
 
 }

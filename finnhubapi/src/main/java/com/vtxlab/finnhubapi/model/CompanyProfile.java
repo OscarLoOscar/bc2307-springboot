@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.model;
+package com.vtxlab.finnhubapi.model;
 
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;

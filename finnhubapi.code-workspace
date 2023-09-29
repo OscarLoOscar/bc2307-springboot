@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "finnhubapi"
+		},
+		{
+			"name": "admin",
+			"path": "admin"
+		},
+		{
+			"path": "stockExchange"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}

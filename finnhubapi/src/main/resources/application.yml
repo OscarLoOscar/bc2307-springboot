@@ -1,1 +1,27 @@
 
+server.port: 8095
+
+api:
+  finnhub:
+    token: "cju3it9r01qr958213c0cju3it9r01qr958213cg"
+    domain: "finnhub.io"
+    base-url: "api/v1"
+    endpoints:
+      stock:
+        stocksymbol: /stock/symbol
+        profile2: "/stock/profile2"
+        quote: "/quote"
+
+spring.datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://localhost:3306/finnhub
+  usersname: oscarlo
+  password: oscarVenturenixLab2023.
+spring.jpa:
+  show-sql: true
+  hibernate.ddl-auto:
+    update # create, create-drop, update, none, validate
+
+spring.sql.init:
+  mode: always # always
+  platform: mysql

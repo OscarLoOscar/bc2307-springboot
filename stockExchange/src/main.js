@@ -5,6 +5,7 @@ import dragDirective from './components/dragDirective';
 import router from './router';
 
 const app = createApp(App);
+// const dragDirective = createApp(dragDirective);
 app.config.productionTip = false;
 app.directive('drag', dragDirective);
 app.use(router); // Use the Vue Router

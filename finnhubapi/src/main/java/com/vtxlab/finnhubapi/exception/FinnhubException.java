@@ -1,7 +1,7 @@
-package com.hkjava.demo.demofinnhub.exception;
+package com.vtxlab.finnhubapi.exception;
 
-import com.hkjava.demo.demofinnhub.infra.BusinessException;
-import com.hkjava.demo.demofinnhub.infra.Code;
+import com.vtxlab.finnhubapi.infra.BusinessException;
+import com.vtxlab.finnhubapi.infra.Code;
 
 public class FinnhubException extends BusinessException {
 

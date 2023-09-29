@@ -1,11 +1,11 @@
-package com.hkjava.demo.demofinnhub.exception;
+package com.vtxlab.finnhubapi.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.hkjava.demo.demofinnhub.infra.ApiResponse;
-import com.hkjava.demo.demofinnhub.infra.Code;
+import com.vtxlab.finnhubapi.infra.ApiResponse;
+import com.vtxlab.finnhubapi.infra.Code;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

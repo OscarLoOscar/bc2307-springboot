@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.model.dto;
+package com.vtxlab.finnhubapi.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,6 +14,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class StockDTO {
+  
+  private String symbol;
   
   private CompanyProfileDTO companyProfile;
   

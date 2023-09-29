@@ -63,8 +63,8 @@ public interface DataOperation {
     @ResponseStatus(value = HttpStatus.OK)
     StockPrice save(@PathVariable Long id, @RequestBody StockPrice stockPrice);
 
-    @GetMapping(value = "/data/stock/symbol/{symbol}")
-    @ResponseStatus(value = HttpStatus.OK)
-    List<StockPrice> getAllClosePrice(@PathVariable String symbol);
+    // @GetMapping(value = "/data/stock/symbol/{symbol}")
+    // @ResponseStatus(value = HttpStatus.OK)
+    // List<StockPrice> getAllClosePrice(@PathVariable String symbol);
 
 }

@@ -1,14 +1,11 @@
 package com.vtxlab.finnhubapi.service;
 
 import java.util.List;
-import com.hkjava.demo.demofinnhub.entity.StockSymbol;
-import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.model.Symbol;
+import com.vtxlab.finnhubapi.exception.FinnhubException;
+import com.vtxlab.finnhubapi.model.Symbol;
 
 public interface StockSymbolService {
   List<Symbol> getStockSymbol() throws FinnhubException;
 
-  List<StockSymbol> save(List<Symbol> symbols);
 
-  void deleteAll();
 }

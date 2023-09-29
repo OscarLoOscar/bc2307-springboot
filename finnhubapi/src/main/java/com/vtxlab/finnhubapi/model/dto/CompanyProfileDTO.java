@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.model.dto;
+package com.vtxlab.finnhubapi.model.dto;
 
 import java.time.LocalDate;
 import lombok.AllArgsConstructor;

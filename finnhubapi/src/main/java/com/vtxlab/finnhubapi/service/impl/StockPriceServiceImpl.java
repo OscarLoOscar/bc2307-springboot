@@ -8,15 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import com.hkjava.demo.demofinnhub.entity.Stock;
-import com.hkjava.demo.demofinnhub.entity.StockPrice;
-import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.infra.Code;
-import com.hkjava.demo.demofinnhub.infra.Protocol;
-import com.hkjava.demo.demofinnhub.model.Quote;
-import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
-import com.hkjava.demo.demofinnhub.repository.StockRepository;
-import com.hkjava.demo.demofinnhub.service.StockPriceService;
+import com.vtxlab.finnhubapi.exception.FinnhubException;
+import com.vtxlab.finnhubapi.infra.Code;
+import com.vtxlab.finnhubapi.infra.Protocol;
+import com.vtxlab.finnhubapi.model.Quote;
+import com.vtxlab.finnhubapi.service.StockPriceService;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
@@ -24,12 +20,6 @@ public class StockPriceServiceImpl implements StockPriceService {
 
   @Autowired
   private RestTemplate restTemplate;
-
-  @Autowired
-  private StockRepository stockRepository;
-
-  @Autowired
-  private StockPriceRepository stockPriceRepository;
 
   @Autowired
   @Qualifier(value = "finnhubToken")
@@ -46,7 +36,7 @@ public class StockPriceServiceImpl implements StockPriceService {
 
   @Override
   public Quote getQuote(String symbol) throws FinnhubException {
-    String url = UriComponentsBuilder.newInstance() //
+    String priceUrl = UriComponentsBuilder.newInstance() //
         .scheme(Protocol.HTTPS.name()) //
         .host(domain) //
         .pathSegment(baseUrl) //
@@ -55,25 +45,12 @@ public class StockPriceServiceImpl implements StockPriceService {
         .queryParam("token", token) //
         .build() //
         .toUriString();
-    System.out.println("url=" + url);
+    System.out.println("url=" + priceUrl);
     try {
-      return restTemplate.getForObject(url, Quote.class);
+      return restTemplate.getForObject(priceUrl, Quote.class);
     } catch (RestClientException e) {
       throw new FinnhubException(Code.FINNHUB_QUOTE_NOTFOUND);
     }
-  }
-
-  @Override
-  public StockPrice save(Long id, StockPrice stockPrice) {
-    Stock stock = stockRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Stock ID Not Found."));
-    stockPrice.setStock(stock);
-    return stockPriceRepository.save(stockPrice);
-  }
-
-  @Override
-  public List<StockPrice> getAllPrice(Long stockId) {
-    return stockPriceRepository.getAllClosePriceByStockId(stockId);
   }
 
 }

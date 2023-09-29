@@ -80,9 +80,11 @@ public class AppStartRunner implements CommandLineRunner {
     // https://finnhub.io/api/v1/stock/symbol?exchange=US&token=cju3it9r01qr958213c0cju3it9r01qr958213cg 0. Creat one more Entity StockSymbol 1.Get Company Profile 2 and insert into database 2.Get Stock
     // 0. Create one more Entity StockSymbol
     // Clear the tables
-    // stockPriceRepository.deleteAll(); // ddl-update
-    // companyService.deleteAll();
-    // stockSymbolService.deleteAll();
+
+    stockPriceRepository.deleteAll(); // ddl-update
+    companyService.deleteAll();
+    stockSymbolService.deleteAll();
+
     // Call API to get all symbols
     // List<Symbol> symbols = stockSymbolService.getStockSymbol();
     // System.out.println("All Symbols are inserted.");
