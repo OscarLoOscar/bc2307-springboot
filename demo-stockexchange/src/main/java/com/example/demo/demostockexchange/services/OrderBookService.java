@@ -1,6 +1,7 @@
 package com.example.demo.demostockexchange.services;
 
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +21,6 @@ public interface OrderBookService {
 
   public void addOrder(OrderRequest makeOrder);
 
+  public Map<String, PriorityQueue<OrderResp>> separateOrders(String stockId) ;
 }
 

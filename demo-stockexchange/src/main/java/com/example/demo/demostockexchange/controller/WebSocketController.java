@@ -1,6 +1,8 @@
 package com.example.demo.demostockexchange.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,6 @@ public class WebSocketController implements WebSocketOperation {
   @Autowired
   private FinnhubMapper finnhubMapper;
 
-  @Autowired
-  private StockRepository stockRepository;
-
   @Override
   public ApiResponse<List<OrderRequest>> updateOrderBook() {
     List<OrderRequest> response =
@@ -43,11 +42,13 @@ public class WebSocketController implements WebSocketOperation {
         .build();
   }
 
+  List<String> tradeStock = List.of("AAPL", "TSLA", "MSFT");
+
   @Override
   public ApiResponse<Orders> placeOrder(OrderRequest orderRequest)
       throws FinnhubException {
 
-    List<String> tradeStock = List.of("AAPL", "TSLA", "MSFT");
+    // List<String> tradeStock = List.of("AAPL", "TSLA", "MSFT");
     if (!tradeStock.contains(orderRequest.getStockId()))
       throw new FinnhubException(Code.FINNHUB_SYMBOL_NOTFOUND);
     if (tradeType.ASK.name().equals(orderRequest.getType().toUpperCase())
@@ -85,6 +86,16 @@ public class WebSocketController implements WebSocketOperation {
         .data(orderQueue)//
         .build();
   }
+
+  @Override
+  public Map<String, PriorityQueue<OrderResp>> separateOrders(String stockId)
+      throws FinnhubException {
+    if (!tradeStock.contains(stockId)) {
+      throw new FinnhubException(Code.NOTFOUND);
+    }
+    return orderBookService.separateOrders(stockId);
+  }
+
 
 }
 

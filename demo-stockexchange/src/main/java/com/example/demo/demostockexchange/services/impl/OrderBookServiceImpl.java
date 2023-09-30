@@ -1,7 +1,9 @@
 package com.example.demo.demostockexchange.services.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +39,6 @@ public class OrderBookServiceImpl implements OrderBookService {
     stockRepository.save(response);
   }
 
-  // private Queue<OrderRequest> buyOrders = new PriorityQueue<>(
-  // (b1, b2) -> Double.compare(b2.getPrice(), b1.getPrice())); // Descending order by price
-  // private Queue<OrderRequest> sellOrders = new PriorityQueue<>(
-  // (s1, s2) -> Double.compare(s1.getPrice(), s2.getPrice())); // Ascending order by price
-
   @Override
   public PriorityQueue<OrderResp> getBidQueue() {
     List<Orders> data = this.getOrderBook();
@@ -56,28 +53,31 @@ public class OrderBookServiceImpl implements OrderBookService {
     return finnhubMapper.convertListToQueue(response);
 
   }
+
+  @Override
+  public Map<String, PriorityQueue<OrderResp>> separateOrders(String stockId) {
+    Map<String, PriorityQueue<OrderResp>> separatedOrders = new HashMap<>();
+    PriorityQueue<OrderResp> newQueue = new PriorityQueue<>((o1, o2) -> {
+      int priceComparison = Double.compare(o2.getPrice(), o1.getPrice());
+      if (priceComparison != 0) {
+        // If prices are different, prioritize by price
+        return priceComparison;
+      } else {
+        // If prices are equal, prioritize by timestamp (tradeDateTime)
+        return o2.getQuantity().compareTo(o1.getQuantity());
+      }
+    });
+    for (OrderResp order : this.getBidQueue()) {
+      if (order.getStockId().equals(stockId)) {
+        newQueue.add(order);
+      }
+      log.info("service 2: " + newQueue);
+      separatedOrders.put(stockId, newQueue);
+      log.info("service 3: " + separatedOrders);
+
+    }
+    return separatedOrders;
+  }
 }
 
-
-// @Override
-// public MakeTradeManager getBidAskPriceBySymbol(String symbol)
-// throws FinnhubException {
-// if (symbol.isEmpty())
-// return null;
-
-// for (Customer i : buyStockRepository.findAll()) {
-// buyOrders.add(i);
-// }
-// for (SellStock i : sellStockRepository.findAll()) {
-// sellOrders.add(i);
-// }
-
-// OrderBook orderBook = new OrderBook();
-// orderBook.addBuyOrder(buyOrders);
-// log.info("service orderBook BUY : " + orderBook);
-// orderBook.addSellOrder(sellOrders);
-// log.info("service orderBook SELL : " + orderBook);
-
-// return new MakeTradeManager(symbol, orderBook);
-// }
 

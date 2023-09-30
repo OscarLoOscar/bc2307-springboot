@@ -38,8 +38,20 @@ public class FinnhubMapper {
   // ---------------
 
   public PriorityQueue<OrderResp> convertListToQueue(List<Orders> ordersList) {
-    PriorityQueue<OrderResp> orderRequestQueue = new PriorityQueue<>(
-        (o1, o2) -> Double.compare(o2.getPrice(), o1.getPrice()));
+    // PriorityQueue<OrderResp> orderRequestQueue = new PriorityQueue<>(
+    // (o1, o2) -> Double.compare(o2.getPrice(), o1.getPrice()));
+    PriorityQueue<OrderResp> orderRequestQueue =
+        new PriorityQueue<>((o1, o2) -> {
+          int priceComparison = Double.compare(o2.getPrice(), o1.getPrice());
+          if (priceComparison != 0) {
+            // If prices are different, prioritize by price
+            return priceComparison;
+          } else {
+            // If prices are equal, prioritize by timestamp (tradeDateTime)
+            return o1.getQuantity().compareTo(o2.getQuantity());
+          }
+        });
+
     for (Orders order : ordersList) {
       OrderResp output = this.mapSingleOrderToOrderResp(order);
       orderRequestQueue.add(output);
