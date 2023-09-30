@@ -11,11 +11,15 @@ public enum Code {
   FINNHUB_PROFILE2_NOTFOUND(40002,
       "Finnhub Company Profile2 RestClientException."), //
   FINNHUB_QUOTE_NOTFOUND(40003, "Finnhub Stock Quote RestClientException."), //
+  FINNHUB_SYMBOL_NOTFOUND(40004, "Finnhub Stock Symbol RestClientException."), //
   // Server
   SERVER_TIMEOUT(50000, "Server Timeout."), //
   THIRD_PARTY_SERVER_UNAVAILABLE(50001, "Third Party Service Unavailable."), //
+  REDIS_SERVER_UNAVAILABLE(50002, "Redis unavailable."),
   // RuntimeException: 90000 - 99999
   IAE_EXCEPTION(90000, "Illegal Argument Exception."), //
+  ENTITY_NOT_FOUND(90001, "Entity Not Found."), //
+  VALIDATOR_FAIL(90002, "Validator Fail.")
   ;
 
   private int code;

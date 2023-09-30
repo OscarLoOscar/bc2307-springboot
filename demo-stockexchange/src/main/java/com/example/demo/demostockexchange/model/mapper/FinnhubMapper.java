@@ -1,5 +1,7 @@
 package com.example.demo.demostockexchange.model.mapper;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,7 +48,7 @@ public class FinnhubMapper {
   public Orders requestToOrdersEntity(OrderRequest ordersRequest) {
     return Orders.builder() //
         .type(ordersRequest.getType())//
-        // .tradeDate(ordersRequest.getTradeDate())//
+        .tradeDateTime(LocalDateTime.now())//
         .stockId(ordersRequest.getStockId())//
         .price(ordersRequest.getPrice())//
         .quantity(ordersRequest.getQuantity())//

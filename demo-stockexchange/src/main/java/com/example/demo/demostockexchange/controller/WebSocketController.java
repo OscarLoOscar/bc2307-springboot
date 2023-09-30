@@ -6,13 +6,17 @@ import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.demostockexchange.entity.Orders;
 import com.example.demo.demostockexchange.exception.ApiResponse;
 import com.example.demo.demostockexchange.exception.FinnhubException;
+import com.example.demo.demostockexchange.infra.Code;
 import com.example.demo.demostockexchange.infra.tradeType;
 import com.example.demo.demostockexchange.model.OrderRequest;
 import com.example.demo.demostockexchange.model.mapper.FinnhubMapper;
 import com.example.demo.demostockexchange.services.OrderBookService;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/transactions")
 public class WebSocketController implements WebSocketOperation {
@@ -34,50 +38,30 @@ public class WebSocketController implements WebSocketOperation {
   }
 
   @Override
-  public ApiResponse<Void> placeOrder(OrderRequest orderRequest) {
-    // orderBookService.addOrder(orderRequest);
-    try {
-      if (tradeType.ASK.name().equals(orderRequest.getType().toUpperCase())) {
-        createAskOrder(orderRequest);
-      } else if (tradeType.BID.name()
-          .equals(orderRequest.getType().toUpperCase())) {
-        createBidOrder(orderRequest);
-      } else {
-        return ApiResponse.<Void>builder()//
-            .error()//
-            .message("Invalid order type: " + orderRequest)//
-            .build();
-      }
-      return ApiResponse.<Void>builder()//
-          .ok()//
-          .message(orderRequest.getType().toUpperCase()
-              + " Order placed successfully.")
-          .build();
-    } catch (RuntimeException e) {
-      // Handle exceptions
-      return ApiResponse.<Void>builder()//
-          .error()//
-          .message("Failed to place order: " + e.getMessage())//
-          .build();
+  public ApiResponse<Orders> placeOrder(OrderRequest orderRequest)
+      throws FinnhubException {
+    if (tradeType.ASK.name().equals(orderRequest.getType().toUpperCase())) {
+      createAskOrder(orderRequest);
+    } else if (tradeType.BID.name()
+        .equals(orderRequest.getType().toUpperCase())) {
+      createBidOrder(orderRequest);
     }
+    return ApiResponse.<Orders>builder()//
+        .ok()//
+        .message(orderRequest.getType().toUpperCase()
+            + " Order placed successfully.")//
+            .data(finnhubMapper.requestToOrdersEntity(orderRequest))//
+        .build();
   }
 
-  public ApiResponse<Void> createAskOrder(OrderRequest orderRequest) {
+  public void createAskOrder(OrderRequest orderRequest) {
     // Validate and process the Ask order request
-    orderBookService.processAskOrder(orderRequest);
-    return ApiResponse.<Void>builder()//
-        .ok()//
-        .message("Ask Order created successfully.")//
-        .build();
+    orderBookService.addOrder(orderRequest);
   }
 
-  public ApiResponse<Void> createBidOrder(OrderRequest orderRequest) {
+  public void createBidOrder(OrderRequest orderRequest) {
     // Validate and process the Bid order request
-    orderBookService.processBidOrder(orderRequest);
-    return ApiResponse.<Void>builder()//
-        .ok()//
-        .message("Bid Order created successfully.")//
-        .build();
+    orderBookService.addOrder(orderRequest);
   }
 
   @Override

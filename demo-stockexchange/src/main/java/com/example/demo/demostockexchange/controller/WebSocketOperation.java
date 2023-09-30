@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import com.example.demo.demostockexchange.annotation.SymbolCheck;
+import com.example.demo.demostockexchange.entity.Orders;
 import com.example.demo.demostockexchange.exception.ApiResponse;
+import com.example.demo.demostockexchange.exception.FinnhubException;
 import com.example.demo.demostockexchange.model.OrderRequest;
 
 public interface WebSocketOperation {
@@ -19,7 +21,7 @@ public interface WebSocketOperation {
     // target :
     @PostMapping("/trade")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<Void> placeOrder(@SymbolCheck @RequestBody OrderRequest orderRequest);
+    public ApiResponse<Orders> placeOrder(@SymbolCheck @RequestBody OrderRequest orderRequest) throws FinnhubException;
 
     @GetMapping("/buyQueue")
     @ResponseStatus(value = HttpStatus.OK)

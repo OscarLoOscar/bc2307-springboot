@@ -1,6 +1,7 @@
 package com.example.demo.demostockexchange.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -53,6 +54,7 @@ public class Orders {
       pattern = "yyyy-MM-dd HH:mm:ss")
   @DateTimeFormat
   @Column(name = "placedAt")
-  private LocalDate tradeDate;
+  private LocalDateTime tradeDateTime;
+
 
 }
