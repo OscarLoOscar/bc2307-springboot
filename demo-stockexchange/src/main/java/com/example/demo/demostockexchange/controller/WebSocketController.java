@@ -40,17 +40,22 @@ public class WebSocketController implements WebSocketOperation {
   @Override
   public ApiResponse<Orders> placeOrder(OrderRequest orderRequest)
       throws FinnhubException {
-    if (tradeType.ASK.name().equals(orderRequest.getType().toUpperCase())) {
+
+    List<String> tradeStock = List.of("AAPL", "TSLA", "MSFT");
+    if (!tradeStock.contains(orderRequest.getStockId()))
+      throw new FinnhubException(Code.FINNHUB_SYMBOL_NOTFOUND);
+    if (tradeType.ASK.name().equals(orderRequest.getType().toUpperCase())
+        && tradeStock.contains(orderRequest.getStockId())) {
       createAskOrder(orderRequest);
-    } else if (tradeType.BID.name()
-        .equals(orderRequest.getType().toUpperCase())) {
+    } else if (tradeType.BID.name().equals(orderRequest.getType().toUpperCase())
+        && tradeStock.contains(orderRequest.getStockId())) {
       createBidOrder(orderRequest);
     }
     return ApiResponse.<Orders>builder()//
         .ok()//
         .message(orderRequest.getType().toUpperCase()
             + " Order placed successfully.")//
-            .data(finnhubMapper.requestToOrdersEntity(orderRequest))//
+        .data(finnhubMapper.requestToOrdersEntity(orderRequest))//
         .build();
   }
 

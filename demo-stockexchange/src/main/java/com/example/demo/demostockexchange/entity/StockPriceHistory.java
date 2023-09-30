@@ -2,6 +2,7 @@ package com.example.demo.demostockexchange.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -28,13 +29,13 @@ import lombok.ToString;
 @ToString
 public class StockPriceHistory implements Serializable {
   @Id
-  private Long stockId;
+  private String stockId;
 
   @Id
   @JsonFormat(locale = "zh", timezone = "GMT+8",
       pattern = "yyyy-MM-dd HH:mm:ss")
   @DateTimeFormat
-  private Date updatedAt;
+  private LocalDateTime updatedAt;
 
   @Column(name = "dayhigh")
   // dayhigh

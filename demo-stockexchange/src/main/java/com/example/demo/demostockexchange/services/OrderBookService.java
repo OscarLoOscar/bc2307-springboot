@@ -17,14 +17,6 @@ public interface OrderBookService {
 
   public void addOrder(OrderRequest makeOrder);
 
-  // public void processBuyStopOrder(OrderRequest orderRequest);
-
-  // public void processSellStopOrder(OrderRequest orderRequest);
-
-  // public void processBuyLimitOrder(OrderRequest orderRequest);
-
-  // public void processSellLimitOrder(OrderRequest orderRequest);
-
   public void processAskOrder(OrderRequest orderRequest);
 
   public void processBidOrder(OrderRequest orderRequest);

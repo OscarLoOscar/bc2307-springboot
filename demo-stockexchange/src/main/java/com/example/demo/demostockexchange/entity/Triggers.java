@@ -34,7 +34,7 @@ public class Triggers implements Serializable {
   private Integer customerId;
 
   @Column(name = "stock_id")
-  private Long stockId;
+  private String stockId;
 
   @Column(name = "type")
   private String type;// 'Buy , Sell'

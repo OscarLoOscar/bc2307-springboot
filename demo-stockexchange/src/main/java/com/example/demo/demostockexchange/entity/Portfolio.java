@@ -32,7 +32,7 @@ public class Portfolio implements Serializable {
   private Long customerId;
 
   @Column(name = "stocks")
-  private Long stockId;
+  private String stockId;
   
   private Double quantity;
 

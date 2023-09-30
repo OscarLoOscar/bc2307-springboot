@@ -1,8 +1,6 @@
 package com.example.demo.demostockexchange.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
@@ -35,7 +33,7 @@ public class Orders {
   Long customerId;
 
   @NonNull
-  Long stockId;
+  String stockId;
 
   @NonNull
   String type; // 'BUY','SELL'

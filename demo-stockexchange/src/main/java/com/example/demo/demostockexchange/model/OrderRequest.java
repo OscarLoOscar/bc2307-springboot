@@ -28,7 +28,7 @@ public class OrderRequest {
   // @DateTimeFormat
   // @Column(name = "placedAt")
   // private LocalDate tradeDate = LocalDate.now();
-  Long stockId;
+  String stockId;
 
   Double price;
 
