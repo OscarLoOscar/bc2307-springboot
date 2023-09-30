@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.demostockexchange.exception.ApiResponse;
+import com.example.demo.demostockexchange.exception.FinnhubException;
+import com.example.demo.demostockexchange.infra.tradeType;
 import com.example.demo.demostockexchange.model.OrderRequest;
 import com.example.demo.demostockexchange.model.mapper.FinnhubMapper;
 import com.example.demo.demostockexchange.services.OrderBookService;
@@ -33,86 +35,39 @@ public class WebSocketController implements WebSocketOperation {
 
   @Override
   public ApiResponse<Void> placeOrder(OrderRequest orderRequest) {
-    orderBookService.addOrder(orderRequest);
+    // orderBookService.addOrder(orderRequest);
     try {
-      switch (orderRequest.getType()) {
-        case "buy-stop":
-          createBuyStopOrder(orderRequest);
-          break;
-        case "sell-stop":
-          createSellStopOrder(orderRequest);
-          break;
-        case "buy-limit":
-          createBuyLimitOrder(orderRequest);
-          break;
-        case "sell-limit":
-          createSellLimitOrder(orderRequest);
-          break;
-        case "ask":
-          createAskOrder(orderRequest);
-          break;
-        case "bid":
-          createBidOrder(orderRequest);
-          break;
-        default:
-          return ApiResponse.<Void>builder()//
-              .error()//
-              .message("Invalid order type: " + orderRequest).build();
+      if (tradeType.ASK.name().equals(orderRequest.getType().toUpperCase())) {
+        createAskOrder(orderRequest);
+      } else if (tradeType.BID.name()
+          .equals(orderRequest.getType().toUpperCase())) {
+        createBidOrder(orderRequest);
+      } else {
+        return ApiResponse.<Void>builder()//
+            .error()//
+            .message("Invalid order type: " + orderRequest)//
+            .build();
       }
       return ApiResponse.<Void>builder()//
           .ok()//
-          .message(orderRequest + " Order placed successfully.").build();
-    } catch (Exception e) {
+          .message(orderRequest.getType().toUpperCase()
+              + " Order placed successfully.")
+          .build();
+    } catch (RuntimeException e) {
       // Handle exceptions
       return ApiResponse.<Void>builder()//
           .error()//
-          .message("Failed to place order: " + e.getMessage()).build();
+          .message("Failed to place order: " + e.getMessage())//
+          .build();
     }
   }
-
-  public ApiResponse<Void> createBuyStopOrder(OrderRequest orderRequest) {
-    // Validate and process the Buy Stop order request
-    orderBookService.processBuyStopOrder(orderRequest);
-    return ApiResponse.<Void>builder()//
-        .ok()//
-        .concatMessageIfPresent("Buy Stop Order created successfully.")//
-        .build();
-  }
-
-  public ApiResponse<Void> createSellStopOrder(OrderRequest orderRequest) {
-    // Validate and process the Sell Stop order request
-    orderBookService.processSellStopOrder(orderRequest);
-    return ApiResponse.<Void>builder()//
-        .ok()//
-        .concatMessageIfPresent("Sell Stop Order created successfully.")//
-        .build();
-  }
-
-  public ApiResponse<Void> createBuyLimitOrder(OrderRequest orderRequest) {
-    // Validate and process the Buy Limit order request
-    orderBookService.processBuyLimitOrder(orderRequest);
-    return ApiResponse.<Void>builder()//
-        .ok()//
-        .concatMessageIfPresent("Buy Limit Order created successfully.")//
-        .build();
-  }
-
-  public ApiResponse<Void> createSellLimitOrder(OrderRequest orderRequest) {
-    // Validate and process the Sell Limit order request
-    orderBookService.processSellLimitOrder(orderRequest);
-    return ApiResponse.<Void>builder()//
-        .ok()//
-        .concatMessageIfPresent("Sell Limit Order created successfully.")//
-        .build();
-  }
-
 
   public ApiResponse<Void> createAskOrder(OrderRequest orderRequest) {
     // Validate and process the Ask order request
     orderBookService.processAskOrder(orderRequest);
     return ApiResponse.<Void>builder()//
         .ok()//
-        .concatMessageIfPresent("Ask Order created successfully.")//
+        .message("Ask Order created successfully.")//
         .build();
   }
 
@@ -121,16 +76,56 @@ public class WebSocketController implements WebSocketOperation {
     orderBookService.processBidOrder(orderRequest);
     return ApiResponse.<Void>builder()//
         .ok()//
-        .concatMessageIfPresent("Bid Order created successfully.")//
+        .message("Bid Order created successfully.")//
         .build();
   }
 
   @Override
   public ApiResponse<Queue<OrderRequest>> buyOrdersQueue() {
-    Queue<OrderRequest> buyOrders = new PriorityQueue<>(
-        (b1, b2) -> Double.compare(b2.getPrice(), b1.getPrice())); // Descending order by price
-
-    return orderBookService.getBuyOrder();
+    // Queue<OrderRequest> buyOrders = new PriorityQueue<>(
+    // (b1, b2) -> Double.compare(b2.getPrice(), b1.getPrice())); // Descending order by price
+    // buyOrders.add(orderBookService.getBuyOrder());
+    Queue<OrderRequest> buyOrders = orderBookService.getBuyOrder();
+    return ApiResponse.<Queue<OrderRequest>>builder()//
+        .ok()//
+        .data(buyOrders)//
+        .build();
   }
+
+  // public ApiResponse<Void> createBuyStopOrder(OrderRequest orderRequest) {
+  // // Validate and process the Buy Stop order request
+  // orderBookService.processBuyStopOrder(orderRequest);
+  // return ApiResponse.<Void>builder()//
+  // .ok()//
+  // .concatMessageIfPresent("Buy Stop Order created successfully.")//
+  // .build();
+  // }
+
+  // public ApiResponse<Void> createSellStopOrder(OrderRequest orderRequest) {
+  // // Validate and process the Sell Stop order request
+  // orderBookService.processSellStopOrder(orderRequest);
+  // return ApiResponse.<Void>builder()//
+  // .ok()//
+  // .concatMessageIfPresent("Sell Stop Order created successfully.")//
+  // .build();
+  // }
+
+  // public ApiResponse<Void> createBuyLimitOrder(OrderRequest orderRequest) {
+  // // Validate and process the Buy Limit order request
+  // orderBookService.processBuyLimitOrder(orderRequest);
+  // return ApiResponse.<Void>builder()//
+  // .ok()//
+  // .concatMessageIfPresent("Buy Limit Order created successfully.")//
+  // .build();
+  // }
+
+  // public ApiResponse<Void> createSellLimitOrder(OrderRequest orderRequest) {
+  // // Validate and process the Sell Limit order request
+  // orderBookService.processSellLimitOrder(orderRequest);
+  // return ApiResponse.<Void>builder()//
+  // .ok()//
+  // .concatMessageIfPresent("Sell Limit Order created successfully.")//
+  // .build();
+  // }
 }
 

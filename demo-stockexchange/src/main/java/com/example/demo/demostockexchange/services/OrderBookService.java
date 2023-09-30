@@ -11,19 +11,19 @@ import com.example.demo.demostockexchange.model.OrderRequest;
 
 public interface OrderBookService {
 
-  public OrderRequest getBuyOrder();
+  public Queue<OrderRequest> getBuyOrder();
 
   public List<Orders> getOrderBook();
 
   public void addOrder(OrderRequest makeOrder);
 
-  public void processBuyStopOrder(OrderRequest orderRequest);
+  // public void processBuyStopOrder(OrderRequest orderRequest);
 
-  public void processSellStopOrder(OrderRequest orderRequest);
+  // public void processSellStopOrder(OrderRequest orderRequest);
 
-  public void processBuyLimitOrder(OrderRequest orderRequest);
+  // public void processBuyLimitOrder(OrderRequest orderRequest);
 
-  public void processSellLimitOrder(OrderRequest orderRequest);
+  // public void processSellLimitOrder(OrderRequest orderRequest);
 
   public void processAskOrder(OrderRequest orderRequest);
 

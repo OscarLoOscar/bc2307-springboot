@@ -8,6 +8,7 @@ import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -17,16 +18,16 @@ import lombok.ToString;
 @Getter
 @ToString
 @Setter
-@Component
+
+// @Component
 public class OrderRequest {
-  String type; // 'BUY','SELL'
+  String type; // 'Bid','Ask'
 
-  @JsonFormat(locale = "zh", timezone = "GMT+8",
-      pattern = "yyyy-MM-dd HH:mm:ss")
-  @DateTimeFormat
-  @Column(name = "placedAt")
-  private LocalDate tradeDate = LocalDate.now();
-
+  // @JsonFormat(locale = "zh", timezone = "GMT+8",
+  // pattern = "yyyy-MM-dd HH:mm:ss")
+  // @DateTimeFormat
+  // @Column(name = "placedAt")
+  // private LocalDate tradeDate = LocalDate.now();
   Long stockId;
 
   Double price;

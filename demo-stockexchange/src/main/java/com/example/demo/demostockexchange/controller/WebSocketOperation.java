@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import com.example.demo.demostockexchange.annotation.SymbolCheck;
 import com.example.demo.demostockexchange.exception.ApiResponse;
 import com.example.demo.demostockexchange.model.OrderRequest;
 
@@ -16,9 +17,9 @@ public interface WebSocketOperation {
     public ApiResponse<List<OrderRequest>> updateOrderBook();
 
     // target :
-    @PostMapping("/{orderType}")
+    @PostMapping("/trade")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<Void> placeOrder(@RequestBody OrderRequest orderRequest);
+    public ApiResponse<Void> placeOrder(@SymbolCheck @RequestBody OrderRequest orderRequest);
 
     @GetMapping("/buyQueue")
     @ResponseStatus(value = HttpStatus.OK)

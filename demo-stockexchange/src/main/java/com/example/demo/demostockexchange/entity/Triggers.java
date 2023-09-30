@@ -45,7 +45,7 @@ public class Triggers implements Serializable {
   @Column(name = "threshold")
   private Double threshold;
 
-  @Column(name = "condition")
+  @Column(name = "\"condition\"") // Use double quotes to escape "condition"
   private String condition;
 
 }

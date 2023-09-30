@@ -53,6 +53,6 @@ public class Orders {
       pattern = "yyyy-MM-dd HH:mm:ss")
   @DateTimeFormat
   @Column(name = "placedAt")
-  private LocalDate tradeDate = LocalDate.now();
+  private LocalDate tradeDate;
 
 }

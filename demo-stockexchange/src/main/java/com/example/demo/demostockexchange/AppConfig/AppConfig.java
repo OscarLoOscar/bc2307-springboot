@@ -1,5 +1,6 @@
 package com.example.demo.demostockexchange.AppConfig;
 
+import java.time.LocalDate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,4 +20,13 @@ public class AppConfig {
     return new RestTemplate();
   }
 
+  @Bean
+  String string() {
+    return new String();
+  }
+
+  @Bean
+  public LocalDate localDate() {
+      return LocalDate.now();
+}
 }

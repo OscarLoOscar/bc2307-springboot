@@ -5,9 +5,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo.demostockexchange.entity.Customer;
 import com.example.demo.demostockexchange.entity.Orders;
-import com.example.demo.demostockexchange.exception.FinnhubException;
 import com.example.demo.demostockexchange.model.OrderRequest;
 import com.example.demo.demostockexchange.model.mapper.FinnhubMapper;
 import com.example.demo.demostockexchange.repository.StockRepository;
@@ -35,33 +33,6 @@ public class OrderBookServiceImpl implements OrderBookService {
     stockRepository.save(response);
   }
 
-  @Override
-  public void processBuyStopOrder(OrderRequest orderRequest) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException(
-        "Unimplemented method 'createBuyStopOrder'");
-  }
-
-  @Override
-  public void processSellStopOrder(OrderRequest orderRequest) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException(
-        "Unimplemented method 'processSellStopOrder'");
-  }
-
-  @Override
-  public void processBuyLimitOrder(OrderRequest orderRequest) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException(
-        "Unimplemented method 'processBuyLimitOrder'");
-  }
-
-  @Override
-  public void processSellLimitOrder(OrderRequest orderRequest) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException(
-        "Unimplemented method 'processSellLimitOrder'");
-  }
 
   @Override
   public void processAskOrder(OrderRequest orderRequest) {
@@ -85,9 +56,12 @@ public class OrderBookServiceImpl implements OrderBookService {
   // (s1, s2) -> Double.compare(s1.getPrice(), s2.getPrice())); // Ascending order by price
 
   @Override
-  public OrderRequest getBuyOrder() {
-    Orders data = stockRepository.getBuyOrder("BUY");
-    return finnhubMapper.mapSingleOrder(data);
+  public Queue<OrderRequest> getBuyOrder() {
+    List<Orders> data = stockRepository.getBuyOrder("BUY");
+    // Queue<OrderRequest> buyOrders = new PriorityQueue<>(
+    // (b1, b2) -> Double.compare(b2.getPrice(), b1.getPrice())); // Descending order by price
+
+    return finnhubMapper.convertListToQueue(data);
 
   }
 }

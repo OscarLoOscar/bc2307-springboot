@@ -1,7 +1,9 @@
 package com.example.demo.demostockexchange.model.mapper;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,19 @@ public class FinnhubMapper {
         .collect(Collectors.toList());
   }
 
+  public Queue<OrderRequest> convertListToQueue(List<Orders> ordersList) {
+    Queue<OrderRequest> orderRequestQueue = new LinkedList<>();
+    for (Orders order : ordersList) {
+      OrderRequest orderRequest = mapSingleOrder(order);
+      orderRequestQueue.add(orderRequest);
+    }
+    return orderRequestQueue;
+  }
+
   public OrderRequest mapSingleOrder(Orders orders) {
     return OrderRequest.builder() //
         .type(orders.getType())//
-        .tradeDate(orders.getTradeDate())//
+        // .tradeDate(orders.getTradeDate())//
         .stockId(orders.getStockId())//
         .price(orders.getPrice())//
         .quantity(orders.getQuantity())//
@@ -35,7 +46,7 @@ public class FinnhubMapper {
   public Orders requestToOrdersEntity(OrderRequest ordersRequest) {
     return Orders.builder() //
         .type(ordersRequest.getType())//
-        .tradeDate(ordersRequest.getTradeDate())//
+        // .tradeDate(ordersRequest.getTradeDate())//
         .stockId(ordersRequest.getStockId())//
         .price(ordersRequest.getPrice())//
         .quantity(ordersRequest.getQuantity())//
