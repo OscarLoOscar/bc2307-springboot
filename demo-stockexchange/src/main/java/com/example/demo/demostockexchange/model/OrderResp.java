@@ -12,14 +12,9 @@ import lombok.ToString;
 @Getter
 @ToString
 @Setter
-public class OrderRequest {
+public class OrderResp {
   String type; // 'Bid','Ask'
 
-  // @JsonFormat(locale = "zh", timezone = "GMT+8",
-  // pattern = "yyyy-MM-dd HH:mm:ss")
-  // @DateTimeFormat
-  // @Column(name = "placedAt")
-  // private LocalDate tradeDate = LocalDate.now();
   String stockId;
 
   Double price;

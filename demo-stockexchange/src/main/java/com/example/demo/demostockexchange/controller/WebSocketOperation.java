@@ -1,6 +1,7 @@
 package com.example.demo.demostockexchange.controller;
 
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,8 @@ import com.example.demo.demostockexchange.entity.Orders;
 import com.example.demo.demostockexchange.exception.ApiResponse;
 import com.example.demo.demostockexchange.exception.FinnhubException;
 import com.example.demo.demostockexchange.model.OrderRequest;
+import com.example.demo.demostockexchange.model.OrderResp;
+import com.example.demo.demostockexchange.model.StockExchange;
 
 public interface WebSocketOperation {
     @GetMapping("/updateOrderBook")
@@ -23,33 +26,10 @@ public interface WebSocketOperation {
     @ResponseStatus(HttpStatus.OK)
     public ApiResponse<Orders> placeOrder(@SymbolCheck @RequestBody OrderRequest orderRequest) throws FinnhubException;
 
-    @GetMapping("/buyQueue")
+    @GetMapping("/queue")
     @ResponseStatus(value = HttpStatus.OK)
-    public ApiResponse<Queue<OrderRequest>> buyOrdersQueue();
+    public ApiResponse<PriorityQueue<OrderResp>> OrdersQueue();
 
-    // @PostMapping("/buy-stop")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ApiResponse<Void> createBuyStopOrder(@RequestBody OrderRequest orderRequest) ;
-
-    // @PostMapping("/sell-stop")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ApiResponse<Void> createSellStopOrder(@RequestBody OrderRequest orderRequest) ;
-
-    // @PostMapping("/buy-limit")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ApiResponse<Void> createBuyLimitOrder(@RequestBody OrderRequest orderRequest) ;
-
-    // @PostMapping("/sell-limit")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ApiResponse<Void> createSellLimitOrder(@RequestBody OrderRequest orderRequest);
-
-    // @PostMapping("/ask")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ApiResponse<Void> createAskOrder(@RequestBody OrderRequest orderRequest) ;
-
-    // @PostMapping("/bid")
-    // @ResponseStatus(HttpStatus.OK)
-    // public ApiResponse<Void> createBidOrder(@RequestBody OrderRequest orderRequest) ;
 
 
 }

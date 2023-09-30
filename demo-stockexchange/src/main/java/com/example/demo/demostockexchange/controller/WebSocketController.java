@@ -12,7 +12,10 @@ import com.example.demo.demostockexchange.exception.FinnhubException;
 import com.example.demo.demostockexchange.infra.Code;
 import com.example.demo.demostockexchange.infra.tradeType;
 import com.example.demo.demostockexchange.model.OrderRequest;
+import com.example.demo.demostockexchange.model.OrderResp;
+import com.example.demo.demostockexchange.model.StockExchange;
 import com.example.demo.demostockexchange.model.mapper.FinnhubMapper;
+import com.example.demo.demostockexchange.repository.StockRepository;
 import com.example.demo.demostockexchange.services.OrderBookService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +29,9 @@ public class WebSocketController implements WebSocketOperation {
 
   @Autowired
   private FinnhubMapper finnhubMapper;
+
+  @Autowired
+  private StockRepository stockRepository;
 
   @Override
   public ApiResponse<List<OrderRequest>> updateOrderBook() {
@@ -70,51 +76,15 @@ public class WebSocketController implements WebSocketOperation {
   }
 
   @Override
-  public ApiResponse<Queue<OrderRequest>> buyOrdersQueue() {
-    // Queue<OrderRequest> buyOrders = new PriorityQueue<>(
-    // (b1, b2) -> Double.compare(b2.getPrice(), b1.getPrice())); // Descending order by price
-    // buyOrders.add(orderBookService.getBuyOrder());
-    Queue<OrderRequest> buyOrders = orderBookService.getBuyOrder();
-    return ApiResponse.<Queue<OrderRequest>>builder()//
+  public ApiResponse<PriorityQueue<OrderResp>> OrdersQueue() {
+    PriorityQueue<OrderResp> orderQueue = orderBookService.getBidQueue();
+    log.info("Queue<OrderResp> " + orderQueue.toString());
+
+    return ApiResponse.<PriorityQueue<OrderResp>>builder()//
         .ok()//
-        .data(buyOrders)//
+        .data(orderQueue)//
         .build();
   }
 
-  // public ApiResponse<Void> createBuyStopOrder(OrderRequest orderRequest) {
-  // // Validate and process the Buy Stop order request
-  // orderBookService.processBuyStopOrder(orderRequest);
-  // return ApiResponse.<Void>builder()//
-  // .ok()//
-  // .concatMessageIfPresent("Buy Stop Order created successfully.")//
-  // .build();
-  // }
-
-  // public ApiResponse<Void> createSellStopOrder(OrderRequest orderRequest) {
-  // // Validate and process the Sell Stop order request
-  // orderBookService.processSellStopOrder(orderRequest);
-  // return ApiResponse.<Void>builder()//
-  // .ok()//
-  // .concatMessageIfPresent("Sell Stop Order created successfully.")//
-  // .build();
-  // }
-
-  // public ApiResponse<Void> createBuyLimitOrder(OrderRequest orderRequest) {
-  // // Validate and process the Buy Limit order request
-  // orderBookService.processBuyLimitOrder(orderRequest);
-  // return ApiResponse.<Void>builder()//
-  // .ok()//
-  // .concatMessageIfPresent("Buy Limit Order created successfully.")//
-  // .build();
-  // }
-
-  // public ApiResponse<Void> createSellLimitOrder(OrderRequest orderRequest) {
-  // // Validate and process the Sell Limit order request
-  // orderBookService.processSellLimitOrder(orderRequest);
-  // return ApiResponse.<Void>builder()//
-  // .ok()//
-  // .concatMessageIfPresent("Sell Limit Order created successfully.")//
-  // .build();
-  // }
 }
 

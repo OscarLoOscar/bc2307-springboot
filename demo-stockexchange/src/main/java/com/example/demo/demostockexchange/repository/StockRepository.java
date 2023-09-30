@@ -6,8 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.demo.demostockexchange.entity.Orders;
 
 public interface StockRepository extends JpaRepository<Orders, Long> {
-  @Query("SELECT s.type from Orders s WHERE type = 'BUY' ")
-  List<Orders> getBuyOrder(String type);
+  // @Query("SELECT s.type from Orders s WHERE type = 'Bid'")
+  // List<Orders> getBidType();
+
+  // @Query("SELECT s.type from Orders s WHERE type = 'Ask'")
+  // List<Orders> getAskType();
+
 
 
 }
