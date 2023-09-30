@@ -1,13 +1,17 @@
 package com.example.demo.demostockexchange.controller;
 
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+import com.example.demo.demostockexchange.annotation.SymbolCheck;
 import com.example.demo.demostockexchange.entity.Orders;
 import com.example.demo.demostockexchange.exception.ApiResponse;
 import com.example.demo.demostockexchange.exception.FinnhubException;
@@ -17,11 +21,9 @@ import com.example.demo.demostockexchange.model.OrderRequest;
 import com.example.demo.demostockexchange.model.OrderResp;
 import com.example.demo.demostockexchange.model.StockExchange;
 import com.example.demo.demostockexchange.model.mapper.FinnhubMapper;
-import com.example.demo.demostockexchange.repository.StockRepository;
 import com.example.demo.demostockexchange.services.OrderBookService;
 import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequestMapping("/transactions")
 public class WebSocketController implements WebSocketOperation {
