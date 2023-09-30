@@ -71,10 +71,7 @@ public class OrderBookServiceImpl implements OrderBookService {
       if (order.getStockId().equals(stockId)) {
         newQueue.add(order);
       }
-      log.info("service 2: " + newQueue);
       separatedOrders.put(stockId, newQueue);
-      log.info("service 3: " + separatedOrders);
-
     }
     return separatedOrders;
   }
