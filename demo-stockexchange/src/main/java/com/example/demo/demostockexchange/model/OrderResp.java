@@ -13,9 +13,9 @@ import lombok.ToString;
 @ToString
 @Setter
 public class OrderResp {
-  String type; // 'Bid','Ask'
+  // String type; // 'Bid','Ask'
 
-  String stockId;
+  // String stockId;
 
   Double price;
 

@@ -31,13 +31,20 @@ public interface WebSocketOperation {
             @SymbolCheck @RequestBody OrderRequest orderRequest)
             throws FinnhubException;
 
-    @GetMapping("/queue")
+    @GetMapping("/bidQueue")
     @ResponseStatus(value = HttpStatus.OK)
-    public ApiResponse<PriorityQueue<OrderResp>> OrdersQueue();
+    public ApiResponse<PriorityQueue<OrderResp>> BidOrdersQueue(
+            @SymbolCheck @RequestParam("stockId") String stockId);
 
-    @GetMapping("/getQueueByStockId")
+    @GetMapping("/askQueue")
     @ResponseStatus(value = HttpStatus.OK)
-    public Map<String, PriorityQueue<OrderResp>> separateOrders(
+    public ApiResponse<PriorityQueue<OrderResp>> AskOrdersQueue(
+            @SymbolCheck @RequestParam("stockId") String stockId);
+
+
+    @GetMapping("/atAuctionOrders")
+    @ResponseStatus(value = HttpStatus.OK)
+    public Map<String, StockExchange> atAuctionOrders(
             @SymbolCheck @RequestParam("stockId") String stockId)
             throws FinnhubException;
 

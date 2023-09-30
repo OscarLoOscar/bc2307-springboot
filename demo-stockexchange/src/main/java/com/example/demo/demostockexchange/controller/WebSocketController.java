@@ -77,10 +77,8 @@ public class WebSocketController implements WebSocketOperation {
   }
 
   @Override
-  public ApiResponse<PriorityQueue<OrderResp>> OrdersQueue() {
-    PriorityQueue<OrderResp> orderQueue = orderBookService.getBidQueue();
-    log.info("Queue<OrderResp> " + orderQueue.toString());
-
+  public ApiResponse<PriorityQueue<OrderResp>> BidOrdersQueue(String stockId) {
+    PriorityQueue<OrderResp> orderQueue = orderBookService.getBidQueue(stockId);
     return ApiResponse.<PriorityQueue<OrderResp>>builder()//
         .ok()//
         .data(orderQueue)//
@@ -88,12 +86,21 @@ public class WebSocketController implements WebSocketOperation {
   }
 
   @Override
-  public Map<String, PriorityQueue<OrderResp>> separateOrders(String stockId)
+  public ApiResponse<PriorityQueue<OrderResp>> AskOrdersQueue(String stockId) {
+    PriorityQueue<OrderResp> orderQueue = orderBookService.getAskQueue(stockId);
+    return ApiResponse.<PriorityQueue<OrderResp>>builder()//
+        .ok()//
+        .data(orderQueue)//
+        .build();
+  }
+
+  @Override
+  public Map<String, StockExchange> atAuctionOrders(String stockId)
       throws FinnhubException {
     if (!tradeStock.contains(stockId)) {
       throw new FinnhubException(Code.NOTFOUND);
     }
-    return orderBookService.separateOrders(stockId);
+    return orderBookService.atAuctionOrders(stockId);
   }
 
 

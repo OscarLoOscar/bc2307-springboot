@@ -10,8 +10,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.example.demo.demostockexchange.entity.Orders;
+import com.example.demo.demostockexchange.infra.tradeType;
 import com.example.demo.demostockexchange.model.OrderRequest;
 import com.example.demo.demostockexchange.model.OrderResp;
+import com.example.demo.demostockexchange.model.StockExchange;
 
 @Component
 public class FinnhubMapper {
@@ -38,8 +40,6 @@ public class FinnhubMapper {
   // ---------------
 
   public PriorityQueue<OrderResp> convertListToQueue(List<Orders> ordersList) {
-    // PriorityQueue<OrderResp> orderRequestQueue = new PriorityQueue<>(
-    // (o1, o2) -> Double.compare(o2.getPrice(), o1.getPrice()));
     PriorityQueue<OrderResp> orderRequestQueue =
         new PriorityQueue<>((o1, o2) -> {
           int priceComparison = Double.compare(o2.getPrice(), o1.getPrice());
@@ -61,9 +61,9 @@ public class FinnhubMapper {
 
   public OrderResp mapSingleOrderToOrderResp(Orders orders) {
     return OrderResp.builder() //
-        .type(orders.getType())//
+        // .type(orders.getType())//
         // .tradeDate(orders.getTradeDate())//
-        .stockId(orders.getStockId())//
+        // .stockId(orders.getStockId())//
         .price(orders.getPrice())//
         .quantity(orders.getQuantity())//
         .build();
@@ -80,4 +80,12 @@ public class FinnhubMapper {
         .build();
   }
 
+  // --------
+  public StockExchange installBidQueueAndAskQueue(PriorityQueue<OrderResp> Bid,
+      PriorityQueue<OrderResp> Ask) {
+    return StockExchange.builder()//
+        .BidOrders(Bid)//
+        .AskOrders(Ask)//
+        .build();
+  }
 }

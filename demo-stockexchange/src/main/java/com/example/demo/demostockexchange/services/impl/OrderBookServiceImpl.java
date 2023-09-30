@@ -40,12 +40,13 @@ public class OrderBookServiceImpl implements OrderBookService {
   }
 
   @Override
-  public PriorityQueue<OrderResp> getBidQueue() {
+  public PriorityQueue<OrderResp> getBidQueue(String stockId) {
     List<Orders> data = this.getOrderBook();
     List<Orders> response = new ArrayList<>();
     for (Orders order : data) {
       if (tradeType.BID.name().toLowerCase()
-          .equals(order.getType().toLowerCase())) {
+          .equals(order.getType().toLowerCase())
+          && order.getStockId().equals(stockId)) {
         response.add(order);
       }
     } // Queue<OrderRequest> buyOrders = new PriorityQueue<>(
@@ -55,26 +56,46 @@ public class OrderBookServiceImpl implements OrderBookService {
   }
 
   @Override
-  public Map<String, PriorityQueue<OrderResp>> separateOrders(String stockId) {
-    Map<String, PriorityQueue<OrderResp>> separatedOrders = new HashMap<>();
-    PriorityQueue<OrderResp> newQueue = new PriorityQueue<>((o1, o2) -> {
-      int priceComparison = Double.compare(o2.getPrice(), o1.getPrice());
-      if (priceComparison != 0) {
-        // If prices are different, prioritize by price
-        return priceComparison;
-      } else {
-        // If prices are equal, prioritize by timestamp (tradeDateTime)
-        return o2.getQuantity().compareTo(o1.getQuantity());
+  public PriorityQueue<OrderResp> getAskQueue(String stockId) {
+    List<Orders> data = this.getOrderBook();
+    List<Orders> response = new ArrayList<>();
+    for (Orders order : data) {
+      if (tradeType.ASK.name().toLowerCase()
+          .equals(order.getType().toLowerCase())
+          && order.getStockId().equals(stockId)) {
+        response.add(order);
       }
-    });
-    for (OrderResp order : this.getBidQueue()) {
-      if (order.getStockId().equals(stockId)) {
-        newQueue.add(order);
-      }
-      separatedOrders.put(stockId, newQueue);
-    }
-    return separatedOrders;
+    } // Queue<OrderRequest> buyOrders = new PriorityQueue<>(
+      // (b1, b2) -> Double.compare(b2.getPrice(), b1.getPrice())); // Descending order by price
+    return finnhubMapper.convertListToQueue(response);
+
+  }
+
+
+  @Override
+  public Map<String, StockExchange> atAuctionOrders(String stockId) {
+    Map<String, StockExchange> response = new HashMap<>();
+
+    PriorityQueue<OrderResp> bidQueue = this.getBidQueue(stockId);
+    PriorityQueue<OrderResp> askQueue = this.getAskQueue(stockId);
+
+    response.put(stockId,
+        finnhubMapper.installBidQueueAndAskQueue(bidQueue, askQueue));
+    return response;
+
   }
 }
 
+
+
+// PriorityQueue<OrderResp> newQueue = new PriorityQueue<>((o1, o2) -> {
+// int priceComparison = Double.compare(o2.getPrice(), o1.getPrice());
+// if (priceComparison != 0) {
+// // If prices are different, prioritize by price
+// return priceComparison;
+// } else {
+// // If prices are equal, prioritize by timestamp (tradeDateTime)
+// return o2.getQuantity().compareTo(o1.getQuantity());
+// }
+// });
 
