@@ -10,8 +10,8 @@ import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  components: {//記住template 入面都要有
+    HelloWorld,
   }
 }
 </script>
