@@ -23,7 +23,7 @@ public class IndexController {
   @Autowired
   WebSocketController webSocketController;
 
-  @GetMapping(value = "/stock/{stock}" )//, produces = MediaType.APPLICATION_JSON_VALUE) 
+  @GetMapping(value = "/stock/{stock}" )
   public String index(@PathVariable("stock") String stockId,Model model) 
       throws FinnhubException {
     // ModelAndView modelAndView = new ModelAndView();
@@ -34,6 +34,8 @@ public class IndexController {
     // get data
     Map<String, StockExchange> response =
         webSocketController.atAuctionOrders(stockId);
+            log.info("model 3 : " + response);
+
     // add data to object
     // modelAndView.addObject("response", response);
     // log.info("modelAndView 3 : " + modelAndView.getModel());
@@ -46,18 +48,4 @@ public class IndexController {
     return "atAuctionOrders";
 
   }
-
-  @GetMapping("/test2")
-  public String index2(Model model) throws FinnhubException {
-    String stockId = "AAPL";
-    Map<String, StockExchange> response =
-        webSocketController.atAuctionOrders(stockId);
-    log.info(" before : " + response.toString());
-    // add data to object
-    model.addAttribute("response", response);
-    log.info(" after : " + model.toString());
-
-    return "k-line";
-  }
-
 }
