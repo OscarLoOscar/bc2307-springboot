@@ -1,7 +1,8 @@
 const draggable_list = document.getElementById('draggable-list');
 const check = document.getElementById('check');
+const askQueue = document.getElementById('draggable-list2');
 
-const AAPL = [
+const AAPLBid = [
   { price: 18.95, Qty : 50},
   { price: 19.00, Qty : 50},
   { price: 18.55, Qty : 40},
@@ -14,25 +15,35 @@ const AAPL = [
   // { price: 22.95, Qty : 60},
 ];
 
+const AAPLAsk = [
+  { price: 17.95, Qty : 100},
+  { price: 16.55, Qty : 30},
+  { price: 16.95, Qty : 20},
+  { price: 20.95, Qty : 40},
+  { price: 22.95, Qty : 60},
+];
+
+
 // Store listitems
 const listItems = [];
-// AAPL.sort((s1,s2)=>s1.price-s2.price);
-// console.table(AAPL);
+// AAPLBid.sort((s1,s2)=>s1.price-s2.price);
+// console.table(AAPLBid);
 
 let dragStartIndex;
 
 createList();
+AskList();
 
 // Insert list items into DOM
 function createList() {
-  // [...AAPL]
+  // [...AAPLBid]
   //   .map(a => ({ value: a, sort: Math.random() }))
   //   .sort((a, b) => a.sort - b.sort)
   //   .map(a => a.value)
   //   .forEach((person, index) => {
-     AAPL.sort((a, b) => b.price - a.price);
+     AAPLBid.sort((a, b) => b.price - a.price);
 
-    AAPL.forEach((stock, index) => {
+    AAPLBid.forEach((stock, index) => {
       const listItem = document.createElement('li');
 
       listItem.setAttribute('data-index', index);
@@ -52,6 +63,33 @@ function createList() {
 
   addEventListeners();
 }
+
+function AskList() {
+  // [...AAPLBid]
+  //   .map(a => ({ value: a, sort: Math.random() }))
+  //   .sort((a, b) => a.sort - b.sort)
+  //   .map(a => a.value)
+  //   .forEach((person, index) => {
+     AAPLAsk.sort((a, b) => a.price - b.price);
+
+     AAPLAsk.forEach((stock, index) => {
+      const listItem = document.createElement('li');
+
+      listItem.setAttribute('data-index', index);
+      listItem.innerHTML = `
+        <span class="number">${index +1}</span>
+        <div class="draggable" draggable="true">
+        <p class="stock-name">Price: $${stock.price.toFixed(2)} | Qty: ${stock.Qty}</p> 
+        <i class="fas fa-grip-lines"></i>
+        </div>
+      `;
+
+      listItems.push(listItem);
+
+      askQueue.appendChild(listItem);
+    });
+}
+
 
 function dragStart() {
   // console.log('Event: ', 'dragstart');
@@ -90,9 +128,9 @@ function dragDrop() {
 //   listItems[toIndex].appendChild(itemOne);
 // }
 function swapItems(fromIndex, toIndex) {
-  const itemOne = AAPL[fromIndex];
-  AAPL[fromIndex] = AAPL[toIndex];
-  AAPL[toIndex] = itemOne;
+  const itemOne = AAPLBid[fromIndex];
+  AAPLBid[fromIndex] = AAPLBid[toIndex];
+  AAPLBid[toIndex] = itemOne;
 }
 
 // Check the order of list items
@@ -100,7 +138,7 @@ function swapItems(fromIndex, toIndex) {
 //   listItems.forEach((listItem, index) => {
 //     const personName = listItem.querySelector('.draggable').innerText.trim();
 
-//     if (personName !== AAPL[index]) {
+//     if (personName !== AAPLBid[index]) {
 //       listItem.classList.add('wrong');
 //     } else {
 //       listItem.classList.remove('wrong');
@@ -110,7 +148,7 @@ function swapItems(fromIndex, toIndex) {
 // }
 function checkOrder() {
   listItems.forEach((listItem, index) => {
-    const item = AAPL[index];
+    const item = AAPLBid[index];
     const priceElem = listItem.querySelector('.price');
     const qtyElem = listItem.querySelector('.qty');
     const price = parseFloat(priceElem.innerText.split(': ')[1]);
