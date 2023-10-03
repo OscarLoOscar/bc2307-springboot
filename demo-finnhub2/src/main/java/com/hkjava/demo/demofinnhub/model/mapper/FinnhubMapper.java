@@ -27,8 +27,10 @@ public class FinnhubMapper {
 
 
   public StockDTO map(CompanyProfile companyProfile, Quote quote) {
-  DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-  LocalDateTime localDateTime = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);  
+    DateTimeFormatter formatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime localDateTime =
+        LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
     return StockDTO.builder() //
         .symbol(companyProfile.getTicker())//
         .localdate(localDateTime.format(formatter))//
@@ -61,6 +63,7 @@ public class FinnhubMapper {
 
   public StockPrice map(Quote quote) {
     return StockPrice.builder()//
+        .datetime(LocalDateTime.now())//
         .currentPrice(quote.getCurrentPrice())//
         .dayHigh(quote.getDayHigh())//
         .dayLow(quote.getDayLow())//

@@ -27,6 +27,7 @@ public class SourcePoint {
 
   private TranDayTime tranDayTime;
 
+  //當mapper用
   public Point toPoint() {
     return Point.builder() //
         .closePrice(this.closePrice) //

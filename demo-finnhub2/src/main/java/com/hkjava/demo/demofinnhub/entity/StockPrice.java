@@ -2,6 +2,8 @@ package com.hkjava.demo.demofinnhub.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +34,9 @@ public class StockPrice implements Serializable {//Candlestick
   private Long id;
 
   @Column(name = "datetime")
+  @JsonFormat(locale = "zh", timezone = "GMT+8",
+      pattern = "yyyy-MM-dd HH:mm:ss")
+  @DateTimeFormat
   private LocalDateTime datetime;
 
   @Column(name = "current_price", columnDefinition = "NUMERIC(15,2)")
