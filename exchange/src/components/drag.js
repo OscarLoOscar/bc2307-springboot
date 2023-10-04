@@ -8,11 +8,6 @@ const AAPLBid = [
   { price: 18.55, Qty : 40},
   { price: 18.85, Qty : 50},
   { price: 18.65, Qty : 10},
-  // { price: 17.95, Qty : 100},
-  // { price: 16.55, Qty : 30},
-  // { price: 16.95, Qty : 20},
-  // { price: 20.95, Qty : 40},
-  // { price: 22.95, Qty : 60},
 ];
 
 const AAPLAsk = [

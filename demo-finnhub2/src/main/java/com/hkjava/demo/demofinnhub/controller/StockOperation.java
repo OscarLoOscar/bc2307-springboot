@@ -8,16 +8,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hkjava.demo.demofinnhub.annotation.SymbolCheck;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.ApiResponse;
 import com.hkjava.demo.demofinnhub.model.dto.Request.SymbolReqDTO;
+import com.hkjava.demo.demofinnhub.model.dto.Response.CandleStickDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockGetFromDBDTO;
 
 public interface StockOperation {
-
         @GetMapping(value = "/stock")
         @ResponseStatus(value = HttpStatus.OK)
         ApiResponse<StockDTO> stockInfo(@RequestParam("symbol") String symbol)

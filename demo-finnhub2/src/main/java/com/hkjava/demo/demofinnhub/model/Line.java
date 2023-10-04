@@ -94,15 +94,5 @@ public class Line {
     return points;
   }
 
-  public static void main(String[] args) {
-    Line line = new Line("APAL", Interval.HOUR);
-    line.getClosePoints().add(//
-        List.of(//
-          new Point(BigDecimal.valueOf(18.93)), //
-            new Point(BigDecimal.valueOf(18.93))//
-        ));
-    System.out.println(line.movingAverage(10));
-    // line.getClosePoints;
-  }
 }
 

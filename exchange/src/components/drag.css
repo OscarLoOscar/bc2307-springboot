@@ -30,7 +30,7 @@ body {
 }
 /* 外框 */
 .draggable-list li {
-  background-color: lightsalmon;
+  background-color: #ffa07ab0;
   height: 40px ;
   display: flex;
   flex: 1;
@@ -104,7 +104,7 @@ body {
 }
 /* 外框 */
 .draggable-list2 li {
-  background-color: lightskyblue;
+  background-color: #87cefa86;
   height: 40px ;
   display: flex;
   flex: 1;

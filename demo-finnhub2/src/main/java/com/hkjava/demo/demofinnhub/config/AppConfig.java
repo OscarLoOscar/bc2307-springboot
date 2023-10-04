@@ -23,6 +23,11 @@ public class AppConfig {
   }
 
   @Bean
+  ObjectMapper objectMapper() {
+    return new ObjectMapper();
+  }
+
+  @Bean
   String finnhubToken() {
     return token;
   }

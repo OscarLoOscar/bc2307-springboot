@@ -15,6 +15,7 @@ import com.hkjava.demo.demofinnhub.entity.StockSymbol;
 import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
 import com.hkjava.demo.demofinnhub.model.APImodel.Quote;
 import com.hkjava.demo.demofinnhub.model.APImodel.Symbol;
+import com.hkjava.demo.demofinnhub.model.dto.Response.CandleStickDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.CompanyProfileDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockGetFromDBDTO;
@@ -25,6 +26,24 @@ public class FinnhubMapper {
   @Autowired
   private ModelMapper modelMapper;
 
+  public CandleStickDTO map(StockDTO stockDTO) {
+    DateTimeFormatter formatter =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    LocalDateTime localDateTime =
+        LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+    return CandleStickDTO.builder() //
+        .localDateTime(LocalDateTime.now())//
+        .open(stockDTO.getDayOpen())//
+        .close(stockDTO.getPrevDayClose())//
+        .min(stockDTO.getDayLow())//
+        .max(stockDTO.getDayHigh())//
+        .vol(1.0)//
+        .tag(1.0)//
+        .macd(1.0)//
+        .dif(1.0)//
+        .dea(1.0)//
+        .build();
+  }
 
   public StockDTO map(CompanyProfile companyProfile, Quote quote) {
     DateTimeFormatter formatter =

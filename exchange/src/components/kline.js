@@ -1,69 +1,31 @@
-//<script type="text/javascript">
-    // 基于准备好的dom，初始化echarts实例
-    var myChart = echarts.init(document.getElementById('main'));
+// Initialize ECharts instance
+var myChart = echarts.init(document.getElementById('main'));
 
-    //数据模型 : [time0 ,open1, close2, min3, max4 ,vol5,tag6 ,macd7,dif8 ,dea9]
-    //['2015-10-19',18.56,18.25,18.19,18.56,55.00,0,-0.00,0.08,0.09] 
-    var data0 = splitData(
-      fetch ('http://localhost:8081/api/v1/stock?symbol=AAPL')//
-      .then(response => response.json())//
-      .then(data=>{
-        var  processedData = processFetchedData(data);
+// Define Finnhub client and API key
+const apiKey = "cju3it9r01qr958213c0cju3it9r01qr958213cg"; // Replace with your Finnhub API key
+const symbol = "AAPL";
+const from = 1490988249;
+const to = 1591852249;
 
-        // Now, you can set your ECharts options with the processed data
-        option.series[0].data = processedData.values;
-        option.xAxis[0].data = processedData.categoryData;
+const apiUrl = `https://finnhub.io/api/v1/stock/candle?symbol=${symbol}&resolution=D&from=${from}&to=${to}&token=${apiKey}`;
 
-        // Update the chart with the new data
-        myChart.setOption(option);
-    })
-    .catch(error => {
-        console.error('Error fetching data:', error);
-    }));
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => {
+    // Handle the data here
+    console.log(data);
 
-    function splitData(rawData) {
-      var categoryData = [];
-      var values = [];
-      var vols = [];
-      var macds = [];
-      var difs = [];
-      var deas = [];
-      for (var i = 0; i < rawData.length; i++) {
-        categoryData.push(rawData[i].splice(0, 1)[0]);
-        values.push(rawData[i])
-        vols.push(rawData[i][4]);
-        macds.push(rawData[i][6]);
-        difs.push(rawData[i][7]);
-        deas.push(rawData[i][8]);
-      }
-      return {
-        categoryData: categoryData,
-        values: values,
-        vols: vols,
-        macds: macds,
-        difs: difs,
-        deas: deas
-      };
-    }
+    // Extract data
+    var categoryData = data.t.map(timestamp => new Date(timestamp * 1000).toLocaleDateString()); // Convert timestamps to date strings
+    var values = data.c.map((close, index) => [data.o[index], close, data.l[index], data.h[index]]);
+    var vols = data.v;
 
-    function calculateMA(dayCount) {
-      var result = [];
-      for (var i = 0, len = data0.values.length; i < len; i++) {
-        if (i < dayCount) {
-          result.push('-');
-          continue;
-        }
-        var sum = 0;
-        for (var j = 0; j < dayCount; j++) {
-          sum += data0.values[i - j][1];
-        }
-        result.push(sum / dayCount);
-      }
-      return result;
-    }
+    var ma5 = calculateMA(5, data);
+    var ma10 = calculateMA(10, data);
+    var ma20 = calculateMA(20, data);
+    var ma30 = calculateMA(30, data);
 
-
-
+    // ECharts option
     var option = {
       tooltip: {
         trigger: 'axis',
@@ -88,7 +50,7 @@
       }],
       xAxis: [{
         type: 'category',
-        data: data0.categoryData,
+        data: categoryData,
         scale: true,
         boundaryGap: false,
         axisLine: {
@@ -104,19 +66,17 @@
       }, {
         type: 'category',
         gridIndex: 1,
-        data: data0.categoryData,
+        data: categoryData,
         axisLabel: {
           show: false
         },
-
       }, {
         type: 'category',
         gridIndex: 2,
-        data: data0.categoryData,
+        data: categoryData,
         axisLabel: {
           show: false
         },
-
       }],
       yAxis: [{
         scale: true,
@@ -136,7 +96,6 @@
           onZero: false,
           lineStyle: {
             color: 'red'
-
           }
         },
         axisTick: {
@@ -156,7 +115,6 @@
           onZero: false,
           lineStyle: {
             color: 'red'
-
           }
         },
         axisTick: {
@@ -189,9 +147,9 @@
         end: 100
       }],
       series: [{
-        name: '555',
+        name: 'Candlestick',
         type: 'candlestick',
-        data: data0.values,
+        data: values,
         markPoint: {
           data: [{
             name: 'XX标点'
@@ -206,7 +164,7 @@
       }, {
         name: 'MA5',
         type: 'line',
-        data: calculateMA(5),
+        data: ma5,
         smooth: true,
         lineStyle: {
           normal: {
@@ -216,7 +174,7 @@
       }, {
         name: 'MA10',
         type: 'line',
-        data: calculateMA(10),
+        data: ma10,
         smooth: true,
         lineStyle: {
           normal: {
@@ -226,7 +184,7 @@
       }, {
         name: 'MA20',
         type: 'line',
-        data: calculateMA(20),
+        data: ma20,
         smooth: true,
         lineStyle: {
           normal: {
@@ -236,7 +194,7 @@
       }, {
         name: 'MA30',
         type: 'line',
-        data: calculateMA(30),
+        data: ma30,
         smooth: true,
         lineStyle: {
           normal: {
@@ -244,16 +202,16 @@
           }
         }
       }, {
-        name: 'Volumn',
+        name: 'Volume',
         type: 'bar',
         xAxisIndex: 1,
         yAxisIndex: 1,
-        data: data0.vols,
+        data: vols,
         itemStyle: {
           normal: {
             color: function (params) {
               var colorList;
-              if (data0.values[params.dataIndex][1] > data0.values[params.dataIndex][0]) {
+              if (values[params.dataIndex][1] > values[params.dataIndex][0]) {
                 colorList = '#ef232a';
               } else {
                 colorList = '#14b143';
@@ -262,39 +220,30 @@
             },
           }
         }
-      }, {
-        name: 'MACD',
-        type: 'bar',
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        data: data0.macds,
-        itemStyle: {
-          normal: {
-            color: function (params) {
-              var colorList;
-              if (params.data >= 0) {
-                colorList = '#ef232a';
-              } else {
-                colorList = '#14b143';
-              }
-              return colorList;
-            },
-          }
-        }
-      }, {
-        name: 'DIF',
-        type: 'line',
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        data: data0.difs
-      }, {
-        name: 'DEA',
-        type: 'line',
-        xAxisIndex: 2,
-        yAxisIndex: 2,
-        data: data0.deas
       }]
     };
-    // 使用刚指定的配置项和数据显示图表。
+
+    // Set the option and render the chart
     myChart.setOption(option);
-  //</script>
+  })
+  .catch(error => {
+    console.error('Error fetching data:', error);
+  });
+
+
+// Define calculateMA function
+function calculateMA(dayCount, data) {
+  var result = [];
+  for (var i = 0, len = data.c.length; i < len; i++) {
+    if (i < dayCount) {
+      result.push('-');
+      continue;
+    }
+    var sum = 0;
+    for (var j = 0; j < dayCount; j++) {
+      sum += data.c[i - j];
+    }
+    result.push((sum / dayCount).toFixed(2)); // Rounded to 2 decimal places
+  }
+  return result;
+}

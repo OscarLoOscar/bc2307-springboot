@@ -6,13 +6,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hkjava.demo.demofinnhub.controller.StockOperation;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.ApiResponse;
 import com.hkjava.demo.demofinnhub.model.dto.Request.SymbolReqDTO;
+import com.hkjava.demo.demofinnhub.model.dto.Response.CandleStickDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockGetFromDBDTO;
+import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.service.WebStockService;
 import com.hkjava.demo.demofinnhub.service.impl.StockPriceServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping(value = "/api/v1")
 @Slf4j
 public class StockController implements StockOperation {
+
+  @Autowired
+  FinnhubMapper finnhubMapper;
 
   @Autowired
   WebStockService webStockService;
@@ -64,4 +71,5 @@ public class StockController implements StockOperation {
         .data(webStockService.stockInfo(symbol.getSymbol())) //
         .build();
   }
+
 }
