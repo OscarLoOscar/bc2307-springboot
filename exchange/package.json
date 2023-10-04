@@ -10,7 +10,10 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.8.3",
+    "echarts": "^5.4.3",
     "Echarts": "^5.4.3",
+    "express": "^4.18.2",
+    "http-proxy": "^1.18.1",
     "vue": "^3.2.13",
     "vue3-apexcharts": "^1.4.4"
   },
@@ -20,7 +23,7 @@
     "@vue/cli": "^5.0.8",
     "@vue/cli-plugin-babel": "~5.0.0",
     "@vue/cli-plugin-eslint": "~5.0.0",
-    "@vue/cli-service": "~5.0.0",
+    "@vue/cli-service": "^3.3.1",
     "eslint": "^7.32.0",
     "eslint-plugin-vue": "^8.0.3"
   },

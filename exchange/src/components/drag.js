@@ -1,10 +1,10 @@
-const draggable_list = document.getElementById('draggable-list');
+const draggable_list = document.getElementById('BidList');
 const check = document.getElementById('check');
-const askQueue = document.getElementById('draggable-list2');
+const askQueue = document.getElementById('AskList');
 
 // Set up a timer to call fetchData every, for example, 5 seconds (5000 milliseconds)
-const interval = 10000; // 10 seconds
-setInterval(fetchData, interval);
+// const interval = 10000; // 10 seconds
+// setInterval(fetchData, interval);
 
 
 const AAPLBid = [
@@ -166,7 +166,7 @@ function checkOrder() {
 
 function addEventListeners() {
   const draggables = document.querySelectorAll('.draggable');
-  const dragListItems = document.querySelectorAll('.draggable-list li');
+  const dragListItems = document.querySelectorAll('.BidList li');
 
   draggables.forEach(draggable => {
     draggable.addEventListener('dragstart', dragStart);
