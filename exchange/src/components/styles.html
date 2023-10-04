@@ -17,26 +17,62 @@
             <h1>Finnhub Kline</h1>
             <div id="main"></div>
         </div>
-        <div class="centre-sidebar">
-            <div id="mainTrade"></div>
         <div class="right-sidebar">
-            <h2>AAPL Stock Queue</h2>
-            <div>
-                <ul class="BidList" id="BidList"></ul>
+            <div class="trade-section">
+                <h2>Trade Form</h2>
+                <form id="trade-form">
+                    <div>
+                        <label for="trade-type">Trade Type:</label>
+                        <select id="trade-type" name="trade-type">
+                            <option value="Bid">Bid</option>
+                            <option value="Ask">Ask</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="stock-code">Stock Code:</label>
+                        <select id="stock-code" name="stock-code">
+                            <option value="AAPL">AAPL</option>
+                            <option value="TSLA">TSLA</option>
+                            <option value="MSFT">MSFT</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="price">Price:</label>
+                        <button type="button" id="decrease-price">-</button>
+                        <input type="number" id="price" name="price" value="100" readonly>
+                        <button type="button" id="increase-price">+</button>
+                    </div>
+                    <div>
+                        <label for="quantity">Quantity:</label>
+                        <button type="button" id="decrease-quantity">-</button>
+                        <input type="number" id="quantity" name="quantity" value="100">
+                        <button type="button" id="increase-quantity">+</button>
+                    </div>
+                    <div>
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
             </div>
-            <div>
-                <ul class="AskList" id="AskList"></ul>
+        </div>
+        <div class="right-sidebar">
+            <div class="list-section">
+                <h2>AAPL Stock Queue</h2>
+                <div>
+                    <ul class="BidList" id="BidList"></ul>
+                </div>
+                <div>
+                    <ul class="AskList" id="AskList"></ul>
+                </div>
+                <button class="check-btn" id="check">
+                    Check Order
+                    <i class="fas fa-paper-plane"></i>
+                </button>
             </div>
-            <button class="check-btn" id="check">
-                Check Order
-                <i class="fas fa-paper-plane"></i>
-            </button>
         </div>
         <button class="check-btn" id="check">
             test 1
             <i class="fas fa-paper-plane"></i>
         </button>
-
     </div>
     <script src="drag.js"></script>
     <script src="kline.js"></script>

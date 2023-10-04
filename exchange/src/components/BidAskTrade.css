@@ -16,6 +16,12 @@ h2 {
   margin: 20px 0;
 }
 
+button[type="submit"] {
+  font-size: 18px; /* Adjust the font size as needed */
+  padding: 10px 20px; /* Adjust the padding as needed */
+}
+
+
 form {
   border: 1px solid #ccc;
   padding: 20px;
