@@ -27,10 +27,10 @@ fetch(apiUrl)
     var values = data.c.map((close, index) => [data.o[index], close, data.l[index], data.h[index]]);
     var vols = data.v;
 
-    var ma5 = calculateMA(5, data);
     var ma10 = calculateMA(10, data);
-    var ma20 = calculateMA(20, data);
-    var ma30 = calculateMA(30, data);
+    var ma50 = calculateMA(50, data);
+    var ma100 = calculateMA(100, data);
+    var ma250 = calculateMA(250, data);
 
     // ECharts option
     var option = {
@@ -169,16 +169,6 @@ fetch(apiUrl)
           }]
         }
       }, {
-        name: 'MA5',
-        type: 'line',
-        data: ma5,
-        smooth: true,
-        lineStyle: {
-          normal: {
-            opacity: 0.5
-          }
-        }
-      }, {
         name: 'MA10',
         type: 'line',
         data: ma10,
@@ -189,9 +179,9 @@ fetch(apiUrl)
           }
         }
       }, {
-        name: 'MA20',
+        name: 'MA50',
         type: 'line',
-        data: ma20,
+        data: ma50,
         smooth: true,
         lineStyle: {
           normal: {
@@ -199,9 +189,19 @@ fetch(apiUrl)
           }
         }
       }, {
-        name: 'MA30',
+        name: 'MA100',
         type: 'line',
-        data: ma30,
+        data: ma100,
+        smooth: true,
+        lineStyle: {
+          normal: {
+            opacity: 0.5
+          }
+        }
+      }, {
+        name: 'MA250',
+        type: 'line',
+        data: ma250,
         smooth: true,
         lineStyle: {
           normal: {

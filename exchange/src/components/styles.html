@@ -7,12 +7,19 @@
     <!-- Include any other necessary stylesheets or scripts -->
     <link rel="stylesheet" href="kline.css" />
     <link rel="stylesheet" href="drag.css" />
+    <link rel="stylesheet" href="BidAskTrade.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.3.2/echarts.min.js"></script>
     <title>Stock Dashboard</title>
 </head>
 <body>
     <div class="container">
         <div class="left-sidebar">
+            <h1>Finnhub Kline</h1>
+            <div id="main"></div>
+        </div>
+        <div class="centre-sidebar">
+            <div id="mainTrade"></div>
+        <div class="right-sidebar">
             <h2>AAPL Stock Queue</h2>
             <div>
                 <ul class="BidList" id="BidList"></ul>
@@ -25,13 +32,15 @@
                 <i class="fas fa-paper-plane"></i>
             </button>
         </div>
-        <div class="right-sidebar">
-            <h1>Finnhub Kline</h1>
-            <div id="main"></div>
-        </div>
+        <button class="check-btn" id="check">
+            test 1
+            <i class="fas fa-paper-plane"></i>
+        </button>
+
     </div>
     <script src="drag.js"></script>
     <script src="kline.js"></script>
+    <script src="BidAskTrade.js"></script>
     <!-- Include any other necessary scripts -->
 </body>
 </html>

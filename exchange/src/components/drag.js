@@ -1,4 +1,4 @@
-const draggable_list = document.getElementById('BidList');
+const bidQueue = document.getElementById('BidList');
 const check = document.getElementById('check');
 const askQueue = document.getElementById('AskList');
 
@@ -58,7 +58,7 @@ function createList() {
 
       listItems.push(listItem);
 
-      draggable_list.appendChild(listItem);
+      bidQueue.appendChild(listItem);
     });
 
   addEventListeners();
