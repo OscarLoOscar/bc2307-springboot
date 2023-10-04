@@ -2,6 +2,11 @@ const draggable_list = document.getElementById('draggable-list');
 const check = document.getElementById('check');
 const askQueue = document.getElementById('draggable-list2');
 
+// Set up a timer to call fetchData every, for example, 5 seconds (5000 milliseconds)
+const interval = 10000; // 10 seconds
+setInterval(fetchData, interval);
+
+
 const AAPLBid = [
   { price: 18.95, Qty : 50},
   { price: 19.00, Qty : 50},
