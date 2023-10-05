@@ -7,6 +7,7 @@ import com.example.demo.demostockexchange.entity.Orders;
 import com.example.demo.demostockexchange.model.OrderRequest;
 import com.example.demo.demostockexchange.model.OrderResp;
 import com.example.demo.demostockexchange.model.StockExchange;
+import com.example.demo.demostockexchange.model.BuyerVsSeller.BuyerSellerData;
 
 public interface OrderBookService {
 
@@ -19,5 +20,7 @@ public interface OrderBookService {
   public void addOrder(OrderRequest makeOrder);
 
   public Map<String, StockExchange> atAuctionOrders(String stockId);
+
+  public BuyerSellerData calculateBuyerSellerIndicator();
 }
 

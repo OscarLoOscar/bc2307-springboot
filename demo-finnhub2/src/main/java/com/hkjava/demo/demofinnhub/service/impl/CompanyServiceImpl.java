@@ -1,18 +1,23 @@
 package com.hkjava.demo.demofinnhub.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
+import com.hkjava.demo.demofinnhub.infra.Code;
 import com.hkjava.demo.demofinnhub.infra.Protocol;
-import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.infra.RedisHelper;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile2DTO;
 import com.hkjava.demo.demofinnhub.model.APImodel.Quote;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
 import com.hkjava.demo.demofinnhub.repository.StockPriceRepository;
@@ -46,6 +51,13 @@ public class CompanyServiceImpl implements CompanyService {
   FinnhubMapper finnhubMapper;
 
   @Autowired
+  private RedisHelper redisHelper;
+
+  @Autowired
+  private ObjectMapper redisObjectMapper;
+
+
+  @Autowired
   @Qualifier(value = "finnhubToken")
   private String token;
 
@@ -57,6 +69,9 @@ public class CompanyServiceImpl implements CompanyService {
 
   @Value(value = "${api.finnhub.endpoints.stock.profile2}")
   private String companyProfile2Endpoint;
+
+  @Value(value = "${redis-key.company-profile2}")
+  private String redisKeyForProfile2;
 
   @Override
   public List<Stock> findAll() {
@@ -97,7 +112,7 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   @Override
-  public CompanyProfile getCompanyProfile(String symbol)
+  public CompanyProfile2DTO getCompanyProfile(String symbol)
       throws FinnhubException {
     String url = UriComponentsBuilder.newInstance() //
         .scheme(Protocol.HTTPS.name()) //
@@ -110,7 +125,7 @@ public class CompanyServiceImpl implements CompanyService {
         .toUriString();
     System.out.println("url = " + url);
     // try {
-    return restTemplate.getForObject(url, CompanyProfile.class);
+    return restTemplate.getForObject(url, CompanyProfile2DTO.class);
     // } catch (RestClientException e) {
     // throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
     // }
@@ -124,7 +139,7 @@ public class CompanyServiceImpl implements CompanyService {
         .forEach(symbol -> {
           try {
             // Get Company Profile 2 (New) and insert into database
-            CompanyProfile newProfile =
+            CompanyProfile2DTO newProfile =
                 this.getCompanyProfile(symbol.getSymbol());
             // Old Stock
             Optional<Stock> oldStock =
@@ -198,4 +213,36 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
 
+  @Override
+  public CompanyProfile2DTO getCompanyProfileSaveInRedis(String symbol) throws FinnhubException{
+String url = UriComponentsBuilder.newInstance()//
+.scheme(Protocol.HTTPS.name().toLowerCase())//
+.host(domain)//
+.pathSegment(baseUrl)//
+.path(companyProfile2Endpoint)//
+.queryParam("symbol", symbol)//
+.queryParam("token", token)//
+.build()//
+.toUriString();
+String key = RedisHelper.formatKey(redisKeyForProfile2, symbol);
+
+//Invoke company Profile2 with Rredis Handling
+try{
+  CompanyProfile2DTO profile = 
+  restTemplate.getForObject(url, CompanyProfile2DTO.class);//mocked
+  if(Objects.nonNull(profile)){//success
+redisHelper.set(key, profile, 600000000);
+  }else{//fail , get from redis
+profile = (CompanyProfile2DTO)redisHelper.get(key);
+if(profile ==null)
+throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
+  }
+  return profile;
+}catch (RestClientException e){
+  CompanyProfile2DTO profileFromRedis = (CompanyProfile2DTO)redisHelper.get(key);
+  if(profileFromRedis == null)
+  throw new FinnhubException(Code.FINNHUB_PROFILE2_NOTFOUND);
+  return profileFromRedis;
+}
+  }
 }

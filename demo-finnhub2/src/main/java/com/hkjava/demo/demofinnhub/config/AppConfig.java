@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hkjava.demo.demofinnhub.infra.AppleRestClient;
 import com.hkjava.demo.demofinnhub.infra.RedisHelper;
 import com.hkjava.demo.demofinnhub.infra.RedisObjectMapper;
 import com.hkjava.demo.demofinnhub.infra.StockRestTemplate;
@@ -18,6 +19,11 @@ public class AppConfig {
   private String token;
 
   @Bean
+  String finnhubToken() {
+    return token;
+  }
+
+  @Bean
   ModelMapper modelMapper() {
     return new ModelMapper();
   }
@@ -27,9 +33,10 @@ public class AppConfig {
     return new ObjectMapper();
   }
 
+
   @Bean
-  String finnhubToken() {
-    return token;
+  AppleRestClient stockService(RestTemplate restTemplate) {
+    return new AppleRestClient();
   }
 
   @Bean

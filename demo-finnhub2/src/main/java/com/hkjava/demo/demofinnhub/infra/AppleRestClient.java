@@ -1,7 +1,7 @@
 package com.hkjava.demo.demofinnhub.infra;
 
 import org.springframework.web.client.RestTemplate;
-import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile2DTO;
 
 // @Service // Bean
 public class AppleRestClient { // Service
@@ -21,21 +21,17 @@ public class AppleRestClient { // Service
     this.restTemplate = restTemplate;
   }
 
-  public CompanyProfile invokeForCompanyProfile(String url) {
-    return restTemplate.getForObject(url, CompanyProfile.class);
+  public CompanyProfile2DTO invokeForCompanyProfile(String url) {
+    return restTemplate.getForObject(url, CompanyProfile2DTO.class);
   }
 
-  public CompanyProfile[] invokeForCompanyProfileList(String url) {
-    return restTemplate.getForObject(url, CompanyProfile[].class);
+  public CompanyProfile2DTO[] invokeForCompanyProfileList(String url) {
+    return restTemplate.getForObject(url, CompanyProfile2DTO[].class);
   }
 
-  public CompanyProfile getProfile(String symbol) {
+  public CompanyProfile2DTO getProfile(String symbol) {
     // String url = "xxxx";
-    return restTemplate.getForObject(url, CompanyProfile.class);
+    return restTemplate.getForObject(url, CompanyProfile2DTO.class);
   }
 
-  public static void main(String[] args) {
-    AppleRestClient restClient = new AppleRestClient(new RestTemplate());
-    CompanyProfile profile = restClient.invokeForCompanyProfile(url);
-  }
 }

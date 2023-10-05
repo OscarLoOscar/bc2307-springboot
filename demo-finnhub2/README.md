@@ -38,7 +38,7 @@
   - implements run method
   - this method will be executed during server start
   - Server start will fail if the run method fail
-11. ApiResponse<T> 
+11. ApiResp<T> 
   - generics of data
 12. Custom Exception class (extends Exception.class)
   - BusinesException

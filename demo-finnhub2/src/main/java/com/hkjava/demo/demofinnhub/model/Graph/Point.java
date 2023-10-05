@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.model;
+package com.hkjava.demo.demofinnhub.model.Graph;
 
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
@@ -8,13 +8,17 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 // 畫上去個點
 public class Point {
 
   public Point(BigDecimal movingAverage) {
-    
+
+  }
+
+  public Point(double closePrice, TranDayTime tranDayTime) {
+    this.closePrice = new Price(closePrice);
+    this.tranDateTime = tranDayTime;
   }
 
   private Price closePrice;

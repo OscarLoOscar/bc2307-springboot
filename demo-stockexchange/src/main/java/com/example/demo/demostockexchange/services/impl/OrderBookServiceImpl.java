@@ -8,11 +8,13 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.demostockexchange.entity.Orders;
 import com.example.demo.demostockexchange.infra.tradeType;
 import com.example.demo.demostockexchange.model.OrderRequest;
 import com.example.demo.demostockexchange.model.OrderResp;
 import com.example.demo.demostockexchange.model.StockExchange;
+import com.example.demo.demostockexchange.model.BuyerVsSeller.BuyerSellerData;
 import com.example.demo.demostockexchange.model.mapper.FinnhubMapper;
 import com.example.demo.demostockexchange.repository.StockRepository;
 import com.example.demo.demostockexchange.services.OrderBookService;
@@ -83,6 +85,24 @@ public class OrderBookServiceImpl implements OrderBookService {
         finnhubMapper.installBidQueueAndAskQueue(bidQueue, askQueue));
     return response;
 
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  public BuyerSellerData calculateBuyerSellerIndicator() {
+    List<Orders> allTrades = stockRepository.findAll();
+    int buyerVolume = 0;
+    int sellerVolume = 0;
+
+    for (Orders trade : allTrades) {
+      if (trade.getQuantity() > 0 && ("bid".equals(trade.getType()))) {
+        buyerVolume += trade.getQuantity();
+      } else {
+        sellerVolume += Math.abs(trade.getQuantity());
+      }
+    }
+
+    return new BuyerSellerData(buyerVolume, sellerVolume);
   }
 }
 

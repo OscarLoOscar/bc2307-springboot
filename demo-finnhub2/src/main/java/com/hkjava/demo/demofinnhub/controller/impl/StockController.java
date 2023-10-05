@@ -6,14 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hkjava.demo.demofinnhub.controller.StockOperation;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.infra.ApiResponse;
+import com.hkjava.demo.demofinnhub.infra.ApiResp;
 import com.hkjava.demo.demofinnhub.model.dto.Request.SymbolReqDTO;
-import com.hkjava.demo.demofinnhub.model.dto.Response.CandleStickDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockGetFromDBDTO;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
@@ -36,22 +33,22 @@ public class StockController implements StockOperation {
   StockPriceServiceImpl stockServiceImpl;
 
   @Override
-  public ApiResponse<StockDTO> stockInfo(String symbol) // ""
+  public ApiResp<StockDTO> stockInfo(String symbol) // ""
       throws FinnhubException {
     if (symbol.isBlank())
       throw new IllegalArgumentException("Parameter Symbol is blank");
 
-    return ApiResponse.<StockDTO>builder() //
+    return ApiResp.<StockDTO>builder() //
         .ok() //
         .data(webStockService.stockInfo(symbol)) //
         .build();
   }
 
   @Override
-  public ApiResponse<List<StockGetFromDBDTO>> stockInfoFromDb()
+  public ApiResp<List<StockGetFromDBDTO>> stockInfoFromDb()
       throws FinnhubException {
     log.info("stockInfoFromDb : " + webStockService.stockInfo().toString());
-    return ApiResponse.<List<StockGetFromDBDTO>>builder()//
+    return ApiResp.<List<StockGetFromDBDTO>>builder()//
         .ok()//
         .data(webStockService.stockInfo())//
         .build();
@@ -64,9 +61,9 @@ public class StockController implements StockOperation {
   }
 
   @Override
-  public ApiResponse<StockDTO> stockInfo2(SymbolReqDTO symbol)
+  public ApiResp<StockDTO> stockInfo2(SymbolReqDTO symbol)
       throws FinnhubException {
-    return ApiResponse.<StockDTO>builder() //
+    return ApiResp.<StockDTO>builder() //
         .ok() //
         .data(webStockService.stockInfo(symbol.getSymbol())) //
         .build();

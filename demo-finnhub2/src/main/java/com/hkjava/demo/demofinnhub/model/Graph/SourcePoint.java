@@ -1,11 +1,11 @@
-package com.hkjava.demo.demofinnhub.model;
+package com.hkjava.demo.demofinnhub.model.Graph;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.hkjava.demo.demofinnhub.infra.Interval;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +15,6 @@ import lombok.Setter;
 // -> Stock Price per day per stock (Project)
 @Getter
 @Setter
-@AllArgsConstructor
 public class SourcePoint {
 
   public static Map<String, List<SourcePoint>> sourceMap = new HashMap<>();
@@ -27,7 +26,22 @@ public class SourcePoint {
 
   private TranDayTime tranDayTime;
 
-  //當mapper用
+  public SourcePoint(double closePoint, TranDayTime tranDayTime) {
+    this.closePrice = closePrice;
+    this.tranDayTime = tranDayTime;
+  }
+
+  public SourcePoint(double closePoint, LocalDateTime localDateTime) {
+    this.closePrice = new Price(closePoint);
+    this.tranDayTime = new TranDayTime(localDateTime);
+  }
+
+  public SourcePoint(double closePoint, LocalDate localDate) {
+    this.closePrice = new Price(closePoint);
+    this.tranDayTime = new TranDayTime(localDate.atStartOfDay());
+  }
+
+  // 當mapper用
   public Point toPoint() {
     return Point.builder() //
         .closePrice(this.closePrice) //
@@ -35,4 +49,7 @@ public class SourcePoint {
         .build();
   }
 
+  public static Map<String, List<SourcePoint>> getSourceMap() {
+    return sourceMap;
+  }
 }

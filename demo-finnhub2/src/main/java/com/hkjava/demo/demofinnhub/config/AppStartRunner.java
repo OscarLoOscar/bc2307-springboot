@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.infra.RedisHelper;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile2DTO;
 import com.hkjava.demo.demofinnhub.model.APImodel.Quote;
 import com.hkjava.demo.demofinnhub.model.APImodel.Symbol;
 import com.hkjava.demo.demofinnhub.model.mapper.FinnhubMapper;
@@ -72,6 +73,9 @@ public class AppStartRunner implements CommandLineRunner {
   @Autowired
   FinnhubMapper finnhubMapper;
 
+  @Autowired
+  RedisHelper redisHelper;
+
   @Override
   public void run(String... args) throws FinnhubException {// 啟動時由database
 
@@ -110,7 +114,7 @@ public class AppStartRunner implements CommandLineRunner {
         .limit(10L)//
         .forEach(symbol -> {
           try {
-            CompanyProfile companyProfile = // 最raw , API DATA
+            CompanyProfile2DTO companyProfile = // 最raw , API DATA
                 companyService.getCompanyProfile(symbol.getSymbol());
 
             Stock stock = finnhubMapper.map(companyProfile);

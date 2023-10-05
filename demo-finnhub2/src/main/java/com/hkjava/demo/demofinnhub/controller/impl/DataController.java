@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping(value = "/api/v1")
-@Slf4j
 public class DataController implements DataOperation {
 
   @Autowired
@@ -82,6 +81,11 @@ public class DataController implements DataOperation {
   public StockPrice save(Long id, StockPrice stockPrice) {
     return stockPriceService.save(id, stockPrice);
   }
+
+  @Override
+  public List<Stock> findByCountryAndMarketCap(String country,
+      double marketCap) {
+        return companyService.findByCountryAndMarketCap(country, marketCap);  }
 
 //   @Override
 //   public List<StockPrice> getAllClosePrice(String symbol) {

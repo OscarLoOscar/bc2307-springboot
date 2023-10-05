@@ -1,9 +1,16 @@
 package com.hkjava.demo.demofinnhub.infra;
 
-public class ApiResponse<T> {
+import io.swagger.v3.oas.annotations.media.Schema;
+
+public class ApiResp<T> {
   // attribute name by default same as JSON field name after serialziation
+  @Schema(description = "Code For System  Response Cat")
   private int code;
+
+  @Schema(description = "Message to indicate error")
   private String message;
+
+  @Schema(description = "Response Data Body")
   private T data;
 
   public int getCode() {
@@ -18,48 +25,48 @@ public class ApiResponse<T> {
     return this.data;
   }
 
-  public static <T> ApiResponseBuilder<T> builder() {
-    return new ApiResponseBuilder<>();
+  public static <T> ApiRespBuilder<T> builder() {
+    return new ApiRespBuilder<>();
   }
 
-  private ApiResponse(ApiResponseBuilder<T> builder) {
+  private ApiResp(ApiRespBuilder<T> builder) {
     this.code = builder.code;
     this.message = builder.message;
     this.data = builder.data;
   }
 
-  public static class ApiResponseBuilder<T> {
+  public static class ApiRespBuilder<T> {
     private int code;
     private String message;
     private T data;
 
-    public ApiResponseBuilder<T> status(Code code) {
+    public ApiRespBuilder<T> status(Code code) {
       this.code = code.getCode();
       this.message = code.getDesc();
       return this;
     }
 
-    public ApiResponseBuilder<T> concatMessageIfPresent(String str) {
+    public ApiRespBuilder<T> concatMessageIfPresent(String str) {
       if (this.message != null && str != null)
         this.message += " " + str;
       return this;
     }
 
-    public ApiResponseBuilder<T> ok() {
+    public ApiRespBuilder<T> ok() {
       this.code = Code.OK.getCode();
       this.message = Code.OK.getDesc();
       return this;
     }
 
-    public ApiResponseBuilder<T> data(T data) {
+    public ApiRespBuilder<T> data(T data) {
       this.data = data;
       return this;
     }
 
-    public ApiResponse<T> build() {
+    public ApiResp<T> build() {
       if (this.code == 0 || this.message == null)
         throw new RuntimeException();
-      return new ApiResponse<>(this);
+      return new ApiResp<>(this);
     }
 
   }

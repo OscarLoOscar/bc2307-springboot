@@ -3,11 +3,9 @@ package com.example.demo.demostockexchange.controller;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Queue;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +17,7 @@ import com.example.demo.demostockexchange.exception.FinnhubException;
 import com.example.demo.demostockexchange.model.OrderRequest;
 import com.example.demo.demostockexchange.model.OrderResp;
 import com.example.demo.demostockexchange.model.StockExchange;
+import com.example.demo.demostockexchange.model.BuyerVsSeller.BuyerSellerData;
 
 public interface WebSocketOperation {
 
@@ -43,12 +42,16 @@ public interface WebSocketOperation {
         public ApiResponse<PriorityQueue<OrderResp>> AskOrdersQueue(
                         @SymbolCheck @RequestParam("stockId") String stockId);
 
-
+        @CrossOrigin(origins = "http://127.0.0.1:5500")
         @GetMapping("/atAuctionOrders")
         @ResponseStatus(value = HttpStatus.OK)
         public Map<String, StockExchange> atAuctionOrders(
                         @SymbolCheck @RequestParam("stockId") String stockId)
                         throws FinnhubException;
 
+        //
+        @CrossOrigin(origins = "http://127.0.0.1:5500")
+        @GetMapping("/indicator")
+        public BuyerSellerData getBuyerSellerIndicator();
 
 }

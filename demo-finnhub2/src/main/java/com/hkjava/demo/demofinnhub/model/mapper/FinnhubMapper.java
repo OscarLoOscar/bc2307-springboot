@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.entity.StockSymbol;
-import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile2DTO;
 import com.hkjava.demo.demofinnhub.model.APImodel.Quote;
 import com.hkjava.demo.demofinnhub.model.APImodel.Symbol;
 import com.hkjava.demo.demofinnhub.model.dto.Response.CandleStickDTO;
@@ -45,7 +45,7 @@ public class FinnhubMapper {
         .build();
   }
 
-  public StockDTO map(CompanyProfile companyProfile, Quote quote) {
+  public StockDTO map(CompanyProfile2DTO companyProfile, Quote quote) {
     DateTimeFormatter formatter =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     LocalDateTime localDateTime =
@@ -70,7 +70,7 @@ public class FinnhubMapper {
         .build();
   }
 
-  public Stock map(CompanyProfile companyProfile) {
+  public Stock map(CompanyProfile2DTO companyProfile) {
     return Stock.builder()//
         .country(companyProfile.getCountry())//
         .companyName(companyProfile.getCompanyName())//

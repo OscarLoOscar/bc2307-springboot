@@ -3,11 +3,13 @@ package com.hkjava.demo.demofinnhub.service;
 import java.util.List;
 import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
-import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile2DTO;
 
 public interface CompanyService {
 
-  CompanyProfile getCompanyProfile(String symbol) throws FinnhubException;
+  CompanyProfile2DTO getCompanyProfile(String symbol) throws FinnhubException;
+
+  public CompanyProfile2DTO getCompanyProfileSaveInRedis(String symbol) throws FinnhubException;
 
   void refresh() throws FinnhubException;
   // return CompanyProfile又得，void 又得 , seems like PutMapping

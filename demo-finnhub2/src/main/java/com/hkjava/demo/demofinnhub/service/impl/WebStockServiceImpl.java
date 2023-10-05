@@ -7,7 +7,7 @@ import com.hkjava.demo.demofinnhub.entity.Stock;
 import com.hkjava.demo.demofinnhub.entity.StockPrice;
 import com.hkjava.demo.demofinnhub.exception.FinnhubException;
 import com.hkjava.demo.demofinnhub.infra.Code;
-import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile2DTO;
 import com.hkjava.demo.demofinnhub.model.APImodel.Quote;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockDTO;
 import com.hkjava.demo.demofinnhub.model.dto.Response.StockGetFromDBDTO;
@@ -40,7 +40,7 @@ public class WebStockServiceImpl implements WebStockService {
 
   @Override
   public StockDTO stockInfo(String symbol) throws FinnhubException {
-    CompanyProfile profile = companyService.getCompanyProfile(symbol);
+    CompanyProfile2DTO profile = companyService.getCompanyProfile(symbol);
     Quote quote = stockPriceService.getQuote(symbol);
     if (profile == null && quote == null)
       throw new FinnhubException(Code.THIRD_PARTY_SERVER_UNAVAILABLE);

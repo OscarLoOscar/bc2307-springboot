@@ -1,5 +1,6 @@
 package com.hkjava.demo.demofinnhub.model.APImodel;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -16,7 +17,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @Builder
-public class CompanyProfile {
+public class CompanyProfile2DTO implements Serializable{
 
   private String country;
 

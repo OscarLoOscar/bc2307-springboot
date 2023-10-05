@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.model;
+package com.hkjava.demo.demofinnhub.model.Graph;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -8,7 +8,7 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import com.hkjava.demo.demofinnhub.infra.Interval;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.Builder;
 
 public class Line {
@@ -17,7 +17,7 @@ public class Line {
 
   private String symbol;
 
-  private Deque<Point> closePoints; // per month
+  private List<Point> closePoints; // per month , ,change from Deque to List
 
 
   public Line(String symbol, Interval interval) {// DAY, WEEK, MONTH
@@ -30,12 +30,12 @@ public class Line {
     if (sourcePoints != null) {
       Comparator<SourcePoint> reversed =
           (SourcePoint p1, SourcePoint p2) -> p1.getTranDayTime().getDatetime()
-              .isAfter(p2.getTranDayTime().getDatetime()) ? -1 : 1;
+              .isBefore(p2.getTranDayTime().getDatetime()) ? -1 : 1;
 
       SourcePoint.sourceMap.get(symbol).stream()//
-          .filter(s -> {
+          .filter(s -> {// s= SourcePoint
             if (interval == Interval.WEEK)
-              return s.getTranDayTime().isWeeklyClose();
+              return s.getTranDayTime().isWeeklyClose();// TranDayTime.class
             else if (interval == Interval.MONTH)
               return s.getTranDayTime().isMonthlyClose();
             else // day
@@ -48,8 +48,38 @@ public class Line {
     }
   }
 
+  // Code A.
   // instance method -> calculate
-  public List<Point> movingAverage(int noOfInterval) {
+  @Operation(summary = "滑动窗口的方法来计算移动平均线。它创建一个滑动窗口，该窗口包含前 noOfInterval 个数据点。" + //
+      "然后，它将滑动窗口中所有数据点的收盘价相加，并除以 noOfInterval 来计算移动平均线。")
+  public List<Point> movingAverageA(int noOfInterval) {
+    int idx = 0;
+    List<Point> moveAverages = new ArrayList<>();
+    BigDecimal val = BigDecimal.valueOf(0L);
+    Point head = new Point(new Price(0.0d), null); // dummy
+    int headIdx = -1;
+    while (idx < closePoints.size()) {
+      val = val.add(
+          BigDecimal.valueOf(closePoints.get(idx).getClosePrice().getPrice()));
+      if (idx + 1 >= noOfInterval) {
+        val = val.subtract(BigDecimal.valueOf(head.getClosePrice().getPrice())) //
+            .divide(BigDecimal.valueOf(noOfInterval));
+        // add to MA
+        moveAverages.add(new Point(val.doubleValue(),
+            closePoints.get(idx).getTranDateTime()));
+        // update the head
+        head = closePoints.get(++headIdx);
+      }
+      idx++;
+    }
+    return moveAverages;
+  }
+
+  // Code B.
+  // instance method -> calculate
+  @Operation(summary = "它遍历所有数据点，并计算每个数据点的移动平均线。" + //
+      "每个数据点的移动平均线是前 noOfInterval 个数据点的收盘价的平均值。")
+  public List<Point> movingAverageB(int noOfInterval) {
     List<Point> movingAveragePoints = new ArrayList<>();
     Iterator<Point> iterator = closePoints.iterator();
 

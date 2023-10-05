@@ -7,6 +7,10 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.web.client.ResourceAccessException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import io.swagger.v3.oas.annotations.Operation;
 
 public class RedisHelper {
 
@@ -18,15 +22,43 @@ public class RedisHelper {
     this.redisTemplate = redisTemplate;
   }
 
+  public RedisHelper(RedisConnectionFactory factory) {
+    ObjectMapper objectMapper = new ObjectMapper() //
+        .registerModule(new ParameterNamesModule())
+        .registerModule(new Jdk8Module()) //
+        .registerModule(new JavaTimeModule());
+    this.redisTemplate = template(factory, objectMapper);
+  }
+
   // takes a RedisConnectionFactory and an ObjectMapper as arguments.
   // The ObjectMapper is used to serialize and deserialize objects to and from JSON.
   public RedisHelper(RedisConnectionFactory factory,
       ObjectMapper redisObjectMapper) {
     this.redisTemplate = template(factory, redisObjectMapper);
   }
+  // old
+  // public static RedisTemplate<String, Object> template(
+  // RedisConnectionFactory factory, ObjectMapper redisObjectMapper) {
+  // RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+  // redisTemplate.setConnectionFactory(factory);
+  // redisTemplate.setKeySerializer(RedisSerializer.string());
+  // redisTemplate.setValueSerializer(RedisSerializer.json());
+  // // redisTemplate.setHashKeySerializer(RedisSerializer.string());
+  // // redisTemplate.setHashValueSerializer(RedisSerializer.json());
+  // redisTemplate.afterPropertiesSet();
+  // Jackson2JsonRedisSerializer<Object> serializer =
+  // new Jackson2JsonRedisSerializer<>(Object.class);
+  // serializer.setObjectMapper(redisObjectMapper);
+  // redisTemplate.setValueSerializer(serializer);
+  // return redisTemplate;
+  // }
 
+  @Operation(
+      summary = "The RedisConnectionFactory is used to create a connection to the Redis server."//
+          + "The ObjectMapper is used to serialize and deserialize objects to and from JSON."//
+          + "create a RedisTemplate object that is customized for your specific needs.")
   public static RedisTemplate<String, Object> template(
-      RedisConnectionFactory factory, ObjectMapper redisObjectMapper) {
+      RedisConnectionFactory factory, ObjectMapper redisObjectMapper) { // method name -> bean name
     RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(factory);
     redisTemplate.setKeySerializer(RedisSerializer.string());
@@ -35,8 +67,7 @@ public class RedisHelper {
     // redisTemplate.setHashValueSerializer(RedisSerializer.json());
     redisTemplate.afterPropertiesSet();
     Jackson2JsonRedisSerializer<Object> serializer =
-        new Jackson2JsonRedisSerializer<>(Object.class);
-    serializer.setObjectMapper(redisObjectMapper);
+        new Jackson2JsonRedisSerializer<>(redisObjectMapper, Object.class);
     redisTemplate.setValueSerializer(serializer);
     return redisTemplate;
   }
@@ -94,7 +125,7 @@ public class RedisHelper {
     }
   }
 
-  public static String key(String head, String source) {
+  public static String formatKey(String head, String source) {
     return head.concat(":").concat(source);
   }
 }
@@ -104,19 +135,15 @@ public class RedisHelper {
  * 
  * 以下是一些考慮因素：
  * 
- * 封裝與抽象：封裝可以隱藏內部實作細節，提供一個更簡單、更清晰的介面供外部使用。
- * 這可以幫助降低外部使用者的錯誤風險，同時也可以隨時更改內部實現，而不會影響外部程式碼。 
+ * 封裝與抽象：封裝可以隱藏內部實作細節，提供一個更簡單、更清晰的介面供外部使用。 這可以幫助降低外部使用者的錯誤風險，同時也可以隨時更改內部實現，而不會影響外部程式碼。
  * 
- * 安全性：如果你直接暴露 RedisTemplate，外部程式碼可以執行各種Redis操作，包括刪除鍵、修改值等。
- * 這可能導致不必要的風險，特別是在多人團隊中，某些操作可能被誤用或濫用。 
+ * 安全性：如果你直接暴露 RedisTemplate，外部程式碼可以執行各種Redis操作，包括刪除鍵、修改值等。 這可能導致不必要的風險，特別是在多人團隊中，某些操作可能被誤用或濫用。
  * 
- * 業務邏輯：RedisHelper
- * 可以包含更多的業務邏輯和錯誤處理，以確保Redis作業按照你的要求執行。
- * 例如，你可以在 set 方法中加入異常處理來處理Redis不可用的情況。 
+ * 業務邏輯：RedisHelper 可以包含更多的業務邏輯和錯誤處理，以確保Redis作業按照你的要求執行。 例如，你可以在 set 方法中加入異常處理來處理Redis不可用的情況。
  * 
- * 擴充性：如果以後需要更改底層Redis實現，你可以在 RedisHelper 中進行這些更改，而無需更改外部使用 RedisTemplate 的程式碼。 
+ * 擴充性：如果以後需要更改底層Redis實現，你可以在 RedisHelper 中進行這些更改，而無需更改外部使用 RedisTemplate 的程式碼。
  * 
- * 總之，使用 RedisTemplate
- * 直接暴露給外部是可能的，但在許多情況下，封裝它並提供一個更高層級的介面會更有利於程式碼的可維護性和安全性。
- * 選擇哪種方法取決於你的專案需求和偏好。
+ * 總之，使用 RedisTemplate 直接暴露給外部是可能的，但在許多情況下，封裝它並提供一個更高層級的介面會更有利於程式碼的可維護性和安全性。 選擇哪種方法取決於你的專案需求和偏好。
  */
+
+ 

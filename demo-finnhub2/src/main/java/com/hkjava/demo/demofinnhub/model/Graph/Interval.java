@@ -1,4 +1,4 @@
-package com.hkjava.demo.demofinnhub.infra;
+package com.hkjava.demo.demofinnhub.model.Graph;
 
 public enum Interval {
   MIN_1, //

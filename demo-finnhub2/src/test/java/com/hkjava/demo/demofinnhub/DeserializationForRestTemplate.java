@@ -13,7 +13,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile;
+import com.hkjava.demo.demofinnhub.model.APImodel.CompanyProfile2DTO;
 import java.time.LocalDate;
 
 @SpringBootTest
@@ -29,7 +29,7 @@ public class DeserializationForRestTemplate {
     @Test
     void testDeserializationForRestTemplate() throws JsonProcessingException {
         // JSON -> Object
-        CompanyProfile companyProfile = CompanyProfile.builder()//
+        CompanyProfile2DTO companyProfile = CompanyProfile2DTO.builder()//
                 .companyName("APPL Company")//
                 .country("US")//
                 .currency("USD")//
@@ -58,8 +58,8 @@ public class DeserializationForRestTemplate {
         assertThat(jsonNode.path("marketCapitalization").asDouble(),
                 is(3000.12));
         // test Deserilaizationn (main code -> automation)
-        CompanyProfile afterCompanyProfile = objectMapper
-                .readValue(mockedResponseInJson, CompanyProfile.class);
+        CompanyProfile2DTO afterCompanyProfile = objectMapper
+                .readValue(mockedResponseInJson, CompanyProfile2DTO.class);
         assertEquals(true, afterCompanyProfile.getIpoDate()
                 .equals(companyProfile.getIpoDate()));
         assertEquals(true, afterCompanyProfile.getMarketCap() == companyProfile
