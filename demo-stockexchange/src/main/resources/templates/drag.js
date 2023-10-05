@@ -13,6 +13,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to create list items and update chat content
   function updateChat(bidOrders, askOrders) {
+     // Sort bidOrders and askOrders by price in descending order
+    bidOrders.sort((a, b) => b.price - a.price);
+    askOrders.sort((a, b) => b.price - a.price);
     // Clear previous data
     bidQueue.innerHTML = "";
     askQueue.innerHTML = "";
@@ -26,17 +29,20 @@ document.addEventListener("DOMContentLoaded", function () {
     createList(askQueue, AAPLAsk);
 
     // Display data in the chat
-    const chat = document.getElementById("chat");
-    chat.innerHTML = `
-      <p>Buyer Volume: ${calculateVolume(bidOrders)}</p>
-      <p>Seller Volume: ${calculateVolume(askOrders)}</p>
-    `;
+    // const chat = document.getElementById("chat");
+    // chat.innerHTML = `
+    //   <p>Buyer Volume: ${calculateVolume(bidOrders)}</p>
+    //   <p>Seller Volume: ${calculateVolume(askOrders)}</p>
+    // `;
   }
 
   // Function to create list items
   function createList(queue, orders) {
     orders.sort((a, b) => b.price - a.price);
-    orders.forEach((stock, index) => {
+
+    const limitedOrders = orders.slice(0,5);
+
+    limitedOrders.forEach((stock, index) => {
       const listItem = document.createElement('li');
       
       listItem.innerHTML = `
@@ -51,11 +57,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Fetch and display data when the page loads
+// Set up a timer to call fetchData every, for example, 5 seconds (5000 milliseconds)
+const interval = 5000; // 5 seconds
+
+setInterval(function () {
+  // Fetch and display data here
   fetch("http://localhost:8081/transactions/atAuctionOrders?stockId=TSLA")
     .then(response => response.json())
     .then(data => {
-      // Extract data from the JSON response
       const bidOrders = data.TSLA.bidOrders;
       const askOrders = data.TSLA.askOrders;
 
@@ -65,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch(error => {
       console.error("Error fetching data:", error);
     });
+}, interval);
 
   // Rest of your code...
   // ...
