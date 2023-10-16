@@ -19,11 +19,14 @@ public class StudentService {
   StudentRepository studentRepository;
 
   public List<Student> findAll() {
+    // approach 1
     // List<Student> output = new ArrayList<>();
     // for (StudentEntity se : studentRepository.findAll()) {
     // output.add(StudentMapper.map(se));
     // }
     // return output;
+    
+    // approach 2
     return studentRepository.findAll().stream()//
         .map(e -> StudentMapper.map(e))//
         .collect(Collectors.toList());
