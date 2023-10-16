@@ -68,7 +68,6 @@ public class StockSymbolServiceImpl implements StockSymbolService {
     // }
   }
 
-
   @Override
   public List<StockSymbol> save(List<Symbol> symbols) {
     List<StockSymbol> stockSymbols = symbols.stream()//
@@ -78,7 +77,6 @@ public class StockSymbolServiceImpl implements StockSymbolService {
     // save to DB
     return symbolRepository.saveAll(stockSymbols);
   }
-
 
   @Override
   public void deleteAll() {
